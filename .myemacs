@@ -1,0 +1,17 @@
+(add-to-list 'load-path "~/.emacs.d")
+
+(require 'init-compat)
+(require 'init-utils)
+
+(load-library "init-other")
+(load-library "init-auto-complete")
+(load-library "init-yasnippet")
+(load-library "init-shortcut")
+(load-library "init-config")
+(load-library "init-c")
+(load-library "init-xcscope")
+(load-library "init-cedet")
+(load-library "init-org")
+(set-face-attribute 'default nil :height 200)
+;(load-library "init-ctags")
+;(load-library "init-ecb")
