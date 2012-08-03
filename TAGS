@@ -1,0 +1,33 @@
+
+ctutorial/p2.c,17
+main()main4,24
+
+ctutorial/p1.c,26
+void main() {   main1,0
+
+ctutorial/p4.c,46
+main()main6,48
+sum(int a, int b)sum16,138
+
+ctutorial/p5.s,32
+main:main8,97
+sum:sum41,633
+
+ctutorial/p3.c,17
+main()main4,24
+
+ctutorial/p4.s,32
+main:main8,97
+sum:sum41,633
+
+ctutorial/p5.c,46
+main()main6,48
+sum(int a, int b)sum16,138
+
+ctutorial/p2.s,18
+main:main10,143
+
+ctutorial/p6.c,57
+*TAB()TAB4,24
+Victim()Victim12,93
+main()main23,217
