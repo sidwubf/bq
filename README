@@ -1,1 +1,3 @@
 目标是一个高效率的轻型的快速的nosql
+sudo apt-get install linux-source
+sudo apt-get install linux-libc-dev
