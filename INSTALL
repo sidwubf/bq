@@ -1,2 +1,4 @@
 sudo apt-get install linux-source
 sudo apt-get install linux-libc-dev
+sudo apt-get install build-essential linux-headers-$(uname -r)
+apt-get source linux-image-...
