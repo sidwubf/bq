@@ -1,0 +1,2 @@
+sudo apt-get install linux-source
+sudo apt-get install linux-libc-dev
