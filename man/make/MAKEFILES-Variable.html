@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>MAKEFILES Variable - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="prev" href="Include.html#Include" title="Include">
+<link rel="next" href="Remaking-Makefiles.html#Remaking-Makefiles" title="Remaking Makefiles">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="MAKEFILES-Variable"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Include.html#Include">Include</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefiles.html#Makefiles">Makefiles</a>
+<hr>
+</div>
+
+<h3 class="section">3.4 The Variable <code>MAKEFILES</code></h3>
+
+<p><a name="index-makefile_002c-and-_0040code_007bMAKEFILES_007d-variable-88"></a><a name="index-including-_0028_0040code_007bMAKEFILES_007d-variable_0029-89"></a>
+<a name="index-MAKEFILES-90"></a>If the environment variable <code>MAKEFILES</code> is defined, <code>make</code>
+considers its value as a list of names (separated by whitespace) of
+additional makefiles to be read before the others.  This works much
+like the <code>include</code> directive: various directories are searched
+for those files (see <a href="Include.html#Include">Including Other Makefiles</a>).  In
+addition, the default goal is never taken from one of these makefiles
+(or any makefile included by them) and it is not an error if the files
+listed in <code>MAKEFILES</code> are not found.
+
+   <p><a name="index-recursion_002c-and-_0040code_007bMAKEFILES_007d-variable-91"></a>The main use of <code>MAKEFILES</code> is in communication between recursive
+invocations of <code>make</code> (see <a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>).  It usually is not desirable to set the environment
+variable before a top-level invocation of <code>make</code>, because it is
+usually better not to mess with a makefile from outside.  However, if
+you are running <code>make</code> without a specific makefile, a makefile in
+<code>MAKEFILES</code> can do useful things to help the built-in implicit
+rules work better, such as defining search paths (see <a href="Directory-Search.html#Directory-Search">Directory Search</a>).
+
+   <p>Some users are tempted to set <code>MAKEFILES</code> in the environment
+automatically on login, and program makefiles to expect this to be done. 
+This is a very bad idea, because such makefiles will fail to work if run by
+anyone else.  It is much better to write explicit <code>include</code> directives
+in the makefiles.  See <a href="Include.html#Include">Including Other Makefiles</a>.
+
+   </body></html>
+

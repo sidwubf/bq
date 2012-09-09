@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<title>MAKE Variable - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recursion.html#Recursion" title="Recursion">
+<link rel="prev" href="Recursion.html#Recursion" title="Recursion">
+<link rel="next" href="Variables_002fRecursion.html#Variables_002fRecursion" title="Variables/Recursion">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="MAKE-Variable"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Recursion.html#Recursion">Recursion</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recursion.html#Recursion">Recursion</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.7.1 How the <code>MAKE</code> Variable Works</h4>
+
+<p><a name="index-MAKE-380"></a><a name="index-recursion_002c-and-_0040code_007bMAKE_007d-variable-381"></a>
+Recursive <code>make</code> commands should always use the variable <code>MAKE</code>,
+not the explicit command name &lsquo;<samp><span class="samp">make</span></samp>&rsquo;, as shown here:
+
+<pre class="example">     subsystem:
+             cd subdir &amp;&amp; $(MAKE)
+</pre>
+   <p>The value of this variable is the file name with which <code>make</code> was
+invoked.  If this file name was <samp><span class="file">/bin/make</span></samp>, then the recipe executed
+is &lsquo;<samp><span class="samp">cd subdir &amp;&amp; /bin/make</span></samp>&rsquo;.  If you use a special version of
+<code>make</code> to run the top-level makefile, the same special version will be
+executed for recursive invocations. 
+<a name="index-g_t_0040code_007bcd_007d-_0028shell-command_0029-382"></a>
+<a name="index-g_t_002b_002c-and-recipes-383"></a>As a special feature, using the variable <code>MAKE</code> in the recipe of
+a rule alters the effects of the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; (&lsquo;<samp><span class="samp">--touch</span></samp>&rsquo;), &lsquo;<samp><span class="samp">-n</span></samp>&rsquo;
+(&lsquo;<samp><span class="samp">--just-print</span></samp>&rsquo;), or &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; (&lsquo;<samp><span class="samp">--question</span></samp>&rsquo;<!-- /@w -->) option. 
+Using the <code>MAKE</code> variable has the same effect as using a &lsquo;<samp><span class="samp">+</span></samp>&rsquo;
+character at the beginning of the recipe line.  See <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Executing the Recipes</a>.  This special feature
+is only enabled if the <code>MAKE</code> variable appears directly in the
+recipe: it does not apply if the <code>MAKE</code> variable is referenced
+through expansion of another variable.  In the latter case you must
+use the &lsquo;<samp><span class="samp">+</span></samp>&rsquo; token to get these special effects.
+
+   <p>Consider the command &lsquo;<samp><span class="samp">make -t</span></samp>&rsquo; in the above example.  (The
+&lsquo;<samp><span class="samp">-t</span></samp>&rsquo; option marks targets as up to date without actually running
+any recipes; see <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a>.)  Following the usual
+definition of &lsquo;<samp><span class="samp">-t</span></samp>&rsquo;, a &lsquo;<samp><span class="samp">make -t</span></samp>&rsquo; command in the example would
+create a file named <samp><span class="file">subsystem</span></samp> and do nothing else.  What you
+really want it to do is run &lsquo;<samp><span class="samp">cd&nbsp;subdir&nbsp;&amp;&amp;<!-- /@w --> make&nbsp;-t<!-- /@w --></span></samp>&rsquo;; but
+that would require executing the recipe, and &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; says not to
+execute recipes. 
+<a name="index-g_t_0040code_007b_002dt_007d_002c-and-recursion-384"></a><a name="index-recursion_002c-and-_0040code_007b_002dt_007d-385"></a><a name="index-g_t_0040code_007b_002d_002dtouch_007d_002c-and-recursion-386"></a>
+The special feature makes this do what you want: whenever a recipe
+line of a rule contains the variable <code>MAKE</code>, the flags &lsquo;<samp><span class="samp">-t</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-n</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; do not apply to that line.  Recipe lines
+containing <code>MAKE</code> are executed normally despite the presence of a
+flag that causes most recipes not to be run.  The usual
+<code>MAKEFLAGS</code> mechanism passes the flags to the sub-<code>make</code>
+(see <a href="Options_002fRecursion.html#Options_002fRecursion">Communicating Options to a Sub-<code>make</code></a>), so your request to touch the files, or print the
+recipes, is propagated to the subsystem.
+
+   </body></html>
+

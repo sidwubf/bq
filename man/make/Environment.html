@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>Environment - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-Variables.html#Using-Variables" title="Using Variables">
+<link rel="prev" href="Undefine-Directive.html#Undefine-Directive" title="Undefine Directive">
+<link rel="next" href="Target_002dspecific.html#Target_002dspecific" title="Target-specific">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Environment"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Target_002dspecific.html#Target_002dspecific">Target-specific</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Undefine-Directive.html#Undefine-Directive">Undefine Directive</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-Variables.html#Using-Variables">Using Variables</a>
+<hr>
+</div>
+
+<h3 class="section">6.10 Variables from the Environment</h3>
+
+<p><a name="index-variables_002c-environment-525"></a><a name="index-environment-526"></a>Variables in <code>make</code> can come from the environment in which
+<code>make</code> is run.  Every environment variable that <code>make</code> sees
+when it starts up is transformed into a <code>make</code> variable with the
+same name and value.  However, an explicit assignment in the makefile,
+or with a command argument, overrides the environment.  (If the
+&lsquo;<samp><span class="samp">-e</span></samp>&rsquo; flag is specified, then values from the environment override
+assignments in the makefile.  See <a href="Options-Summary.html#Options-Summary">Summary of Options</a>.  But this is not recommended practice.)
+
+   <p>Thus, by setting the variable <code>CFLAGS</code> in your environment, you can
+cause all C compilations in most makefiles to use the compiler switches you
+prefer.  This is safe for variables with standard or conventional meanings
+because you know that no makefile will use them for other things.  (Note
+this is not totally reliable; some makefiles set <code>CFLAGS</code> explicitly
+and therefore are not affected by the value in the environment.)
+
+   <p>When <code>make</code> runs a recipe, variables defined in the
+makefile are placed into the environment of each shell.  This allows
+you to pass values to sub-<code>make</code> invocations (see <a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>).  By default, only variables that came
+from the environment or the command line are passed to recursive
+invocations.  You can use the <code>export</code> directive to pass other
+variables.  See <a href="Variables_002fRecursion.html#Variables_002fRecursion">Communicating Variables to a Sub-<code>make</code></a>, for full details.
+
+   <p>Other use of variables from the environment is not recommended.  It is not
+wise for makefiles to depend for their functioning on environment variables
+set up outside their control, since this would cause different users to get
+different results from the same makefile.  This is against the whole
+purpose of most makefiles.
+
+   <p><a name="index-SHELL_002c-import-from-environment-527"></a>Such problems would be especially likely with the variable
+<code>SHELL</code>, which is normally present in the environment to specify
+the user's choice of interactive shell.  It would be very undesirable
+for this choice to affect <code>make</code>; so, <code>make</code> handles the
+<code>SHELL</code> environment variable in a special way; see <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a>.
+
+   </body></html>
+

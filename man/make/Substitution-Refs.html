@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Substitution Refs - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Advanced.html#Advanced" title="Advanced">
+<link rel="prev" href="Advanced.html#Advanced" title="Advanced">
+<link rel="next" href="Computed-Names.html#Computed-Names" title="Computed Names">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Substitution-Refs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Computed-Names.html#Computed-Names">Computed Names</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Advanced.html#Advanced">Advanced</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Advanced.html#Advanced">Advanced</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.3.1 Substitution References</h4>
+
+<p><a name="index-modified-variable-reference-489"></a><a name="index-substitution-variable-reference-490"></a><a name="index-variables_002c-modified-reference-491"></a><a name="index-variables_002c-substitution-reference-492"></a>
+<a name="index-variables_002c-substituting-suffix-in-493"></a><a name="index-suffix_002c-substituting-in-variables-494"></a>A <dfn>substitution reference</dfn> substitutes the value of a variable with
+alterations that you specify.  It has the form
+&lsquo;<samp><span class="samp">$(</span><var>var</var><span class="samp">:</span><var>a</var><span class="samp">=</span><var>b</var><span class="samp">)</span></samp>&rsquo; (or
+&lsquo;<samp><span class="samp">${</span><var>var</var><span class="samp">:</span><var>a</var><span class="samp">=</span><var>b</var><span class="samp">}</span></samp>&rsquo;) and its meaning is to take the value
+of the variable <var>var</var>, replace every <var>a</var> at the end of a word with
+<var>b</var> in that value, and substitute the resulting string.
+
+   <p>When we say &ldquo;at the end of a word&rdquo;, we mean that <var>a</var> must appear
+either followed by whitespace or at the end of the value in order to be
+replaced; other occurrences of <var>a</var> in the value are unaltered.  For
+example:
+
+<pre class="example">     foo := a.o b.o c.o
+     bar := $(foo:.o=.c)
+</pre>
+   <p class="noindent">sets &lsquo;<samp><span class="samp">bar</span></samp>&rsquo; to &lsquo;<samp><span class="samp">a.c b.c c.c</span></samp>&rsquo;.  See <a href="Setting.html#Setting">Setting Variables</a>.
+
+   <p>A substitution reference is actually an abbreviation for use of the
+<code>patsubst</code> expansion function (see <a href="Text-Functions.html#Text-Functions">Functions for String Substitution and Analysis</a>).  We provide
+substitution references as well as <code>patsubst</code> for compatibility with
+other implementations of <code>make</code>.
+
+   <p><a name="index-patsubst-495"></a>Another type of substitution reference lets you use the full power of
+the <code>patsubst</code> function.  It has the same form
+&lsquo;<samp><span class="samp">$(</span><var>var</var><span class="samp">:</span><var>a</var><span class="samp">=</span><var>b</var><span class="samp">)</span></samp>&rsquo; described above, except that now
+<var>a</var> must contain a single &lsquo;<samp><span class="samp">%</span></samp>&rsquo; character.  This case is
+equivalent to &lsquo;<samp><span class="samp">$(patsubst </span><var>a</var><span class="samp">,</span><var>b</var><span class="samp">,$(</span><var>var</var><span class="samp">))</span></samp>&rsquo;. 
+See <a href="Text-Functions.html#Text-Functions">Functions for String Substitution and Analysis</a>,
+for a description of the <code>patsubst</code> function.
+
+<pre class="example"><br>For example:<br>
+     
+     foo := a.o b.o c.o
+     bar := $(foo:%.o=%.c)
+</pre>
+   <p class="noindent">sets &lsquo;<samp><span class="samp">bar</span></samp>&rsquo; to &lsquo;<samp><span class="samp">a.c b.c c.c</span></samp>&rsquo;.
+
+   </body></html>
+

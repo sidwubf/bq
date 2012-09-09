@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+<title>Bugs - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Overview.html#Overview" title="Overview">
+<link rel="prev" href="Reading.html#Reading" title="Reading">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Bugs"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Reading.html#Reading">Reading</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overview.html#Overview">Overview</a>
+<hr>
+</div>
+
+<h3 class="section">1.2 Problems and Bugs</h3>
+
+<p><a name="index-reporting-bugs-4"></a><a name="index-bugs_002c-reporting-5"></a><a name="index-problems-and-bugs_002c-reporting-6"></a>
+If you have problems with GNU <code>make</code> or think you've found a bug,
+please report it to the developers; we cannot promise to do anything but
+we might well want to fix it.
+
+   <p>Before reporting a bug, make sure you've actually found a real bug. 
+Carefully reread the documentation and see if it really says you can do
+what you're trying to do.  If it's not clear whether you should be able
+to do something or not, report that too; it's a bug in the
+documentation!
+
+   <p>Before reporting a bug or trying to fix it yourself, try to isolate it
+to the smallest possible makefile that reproduces the problem.  Then
+send us the makefile and the exact results <code>make</code> gave you,
+including any error or warning messages.  Please don't paraphrase
+these messages: it's best to cut and paste them into your report. 
+When generating this small makefile, be sure to not use any non-free
+or unusual tools in your recipes: you can almost always emulate what
+such a tool would do with simple shell commands.  Finally, be sure to
+explain what you expected to occur; this will help us decide whether
+the problem was really in the documentation.
+
+   <p>Once you have a precise problem you can report it in one of two ways. 
+Either send electronic mail to:
+
+<pre class="example">         bug-make@gnu.org
+</pre>
+   <p class="noindent">or use our Web-based project management tool, at:
+
+<pre class="example">         http://savannah.gnu.org/projects/make/
+</pre>
+   <p class="noindent">In addition to the information above, please be careful to include the
+version number of <code>make</code> you are using.  You can get this
+information with the command &lsquo;<samp><span class="samp">make --version</span></samp>&rsquo;.  Be sure also to
+include the type of machine and operating system you are using.  One
+way to obtain this information is by looking at the final lines of
+output from the command &lsquo;<samp><span class="samp">make --help</span></samp>&rsquo;.
+
+   </body></html>
+

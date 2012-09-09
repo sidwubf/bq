@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+<title>Missing - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Features.html#Features" title="Features">
+<link rel="next" href="Makefile-Conventions.html#Makefile-Conventions" title="Makefile Conventions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Missing"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Features.html#Features">Features</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">13 Incompatibilities and Missing Features</h2>
+
+<p><a name="index-incompatibilities-1022"></a><a name="index-missing-features-1023"></a><a name="index-features_002c-missing-1024"></a>
+The <code>make</code> programs in various other systems support a few features
+that are not implemented in GNU <code>make</code>.  The POSIX.2 standard
+(<cite>IEEE Standard 1003.2-1992</cite>) which specifies <code>make</code> does not
+require any of these features.
+
+     <ul>
+<li>A target of the form &lsquo;<samp><var>file</var><span class="samp">((</span><var>entry</var><span class="samp">))</span></samp>&rsquo; stands for a member
+of archive file <var>file</var>.  The member is chosen, not by name, but by
+being an object file which defines the linker symbol <var>entry</var>.
+
+     <p>This feature was not put into GNU <code>make</code> because of the
+nonmodularity of putting knowledge into <code>make</code> of the internal
+format of archive file symbol tables. 
+See <a href="Archive-Symbols.html#Archive-Symbols">Updating Archive Symbol Directories</a>.
+
+     <li>Suffixes (used in suffix rules) that end with the character &lsquo;<samp><span class="samp">~</span></samp>&rsquo;
+have a special meaning to System V <code>make</code>;
+they refer to the SCCS file that corresponds
+to the file one would get without the &lsquo;<samp><span class="samp">~</span></samp>&rsquo;.  For example, the
+suffix rule &lsquo;<samp><span class="samp">.c~.o</span></samp>&rsquo; would make the file <samp><var>n</var><span class="file">.o</span></samp> from
+the SCCS file <samp><span class="file">s.</span><var>n</var><span class="file">.c</span></samp>.  For complete coverage, a whole
+series of such suffix rules is required. 
+See <a href="Suffix-Rules.html#Suffix-Rules">Old-Fashioned Suffix Rules</a>.
+
+     <p>In GNU <code>make</code>, this entire series of cases is handled by two
+pattern rules for extraction from SCCS, in combination with the
+general feature of rule chaining. 
+See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.
+
+     <li>In System V and 4.3 BSD <code>make</code>, files found by <code>VPATH</code>
+search (see <a href="Directory-Search.html#Directory-Search">Searching Directories for Prerequisites</a>) have their names changed inside recipes.  We feel it
+is much cleaner to always use automatic variables and thus make this
+feature obsolete.
+
+     <li>In some Unix <code>make</code>s, the automatic variable <code>$*</code> appearing in
+the prerequisites of a rule has the amazingly strange &ldquo;feature&rdquo; of
+expanding to the full name of the <em>target of that rule</em>.  We cannot
+imagine what went on in the minds of Unix <code>make</code> developers to do
+this; it is utterly inconsistent with the normal definition of <code>$*</code>. 
+<a name="index-g_t_002a-_0040r_007b_0028automatic-variable_0029_002c-unsupported-bizarre-usage_007d-1025"></a>
+<li>In some Unix <code>make</code>s, implicit rule search (see <a href="Implicit-Rules.html#Implicit-Rules">Using Implicit Rules</a>) is apparently done for <em>all</em>
+targets, not just those without recipes.  This means you can
+do:
+
+     <pre class="example">          foo.o:
+                  cc -c foo.c
+</pre>
+     <p class="noindent">and Unix <code>make</code> will intuit that <samp><span class="file">foo.o</span></samp> depends on
+<samp><span class="file">foo.c</span></samp>.
+
+     <p>We feel that such usage is broken.  The prerequisite properties of
+<code>make</code> are well-defined (for GNU <code>make</code>, at least),
+and doing such a thing simply does not fit the model.
+
+     <li>GNU <code>make</code> does not include any built-in implicit rules for
+compiling or preprocessing EFL programs.  If we hear of anyone who is
+using EFL, we will gladly add them.
+
+     <li>It appears that in SVR4 <code>make</code>, a suffix rule can be specified
+with no recipe, and it is treated as if it had an empty recipe
+(see <a href="Empty-Recipes.html#Empty-Recipes">Empty Recipes</a>).  For example:
+
+     <pre class="example">          .c.a:
+</pre>
+     <p class="noindent">will override the built-in <samp><span class="file">.c.a</span></samp> suffix rule.
+
+     <p>We feel that it is cleaner for a rule without a recipe to always simply
+add to the prerequisite list for the target.  The above example can be
+easily rewritten to get the desired behavior in GNU <code>make</code>:
+
+     <pre class="example">          .c.a: ;
+</pre>
+     <li>Some versions of <code>make</code> invoke the shell with the &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; flag,
+except under &lsquo;<samp><span class="samp">-k</span></samp>&rsquo; (see <a href="Testing.html#Testing">Testing the Compilation of a Program</a>).  The &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; flag tells the shell to exit as soon as any
+program it runs returns a nonzero status.  We feel it is cleaner to
+write each line of the recipe to stand on its own and not require this
+special treatment. 
+</ul>
+
+<!-- The makefile standards are in a separate file that is also -->
+<!-- included by standards.texi. -->
+<!-- This file is included by both standards.texi and make.texinfo. -->
+<!-- It was broken out of standards.texi on 1/6/93 by roland. -->
+   </body></html>
+

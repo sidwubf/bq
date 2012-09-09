@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>Avoiding Compilation - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running.html#Running" title="Running">
+<link rel="prev" href="Instead-of-Execution.html#Instead-of-Execution" title="Instead of Execution">
+<link rel="next" href="Overriding.html#Overriding" title="Overriding">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Avoiding-Compilation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Overriding.html#Overriding">Overriding</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running.html#Running">Running</a>
+<hr>
+</div>
+
+<h3 class="section">9.4 Avoiding Recompilation of Some Files</h3>
+
+<p><a name="index-g_t_0040code_007b_002do_007d-704"></a><a name="index-g_t_0040code_007b_002d_002dold_002dfile_007d-705"></a><a name="index-g_t_0040code_007b_002d_002dassume_002dold_007d-706"></a><a name="index-files_002c-assuming-old-707"></a><a name="index-files_002c-avoiding-recompilation-of-708"></a><a name="index-recompilation_002c-avoiding-709"></a>
+Sometimes you may have changed a source file but you do not want to
+recompile all the files that depend on it.  For example, suppose you add
+a macro or a declaration to a header file that many other files depend
+on.  Being conservative, <code>make</code> assumes that any change in the
+header file requires recompilation of all dependent files, but you know
+that they do not need to be recompiled and you would rather not waste
+the time waiting for them to compile.
+
+   <p>If you anticipate the problem before changing the header file, you can
+use the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; flag.  This flag tells <code>make</code> not to run the
+recipes in the rules, but rather to mark the target up to date by
+changing its last-modification date.  You would follow this procedure:
+
+     <ol type=1 start=1>
+<li>Use the command &lsquo;<samp><span class="samp">make</span></samp>&rsquo; to recompile the source files that really
+need recompilation, ensuring that the object files are up-to-date
+before you begin.
+
+     <li>Make the changes in the header files.
+
+     <li>Use the command &lsquo;<samp><span class="samp">make -t</span></samp>&rsquo; to mark all the object files as
+up to date.  The next time you run <code>make</code>, the changes in the
+header files will not cause any recompilation.
+        </ol>
+
+   <p>If you have already changed the header file at a time when some files
+do need recompilation, it is too late to do this.  Instead, you can
+use the &lsquo;<samp><span class="samp">-o&nbsp;</span><var>file</var></samp>&rsquo;<!-- /@w --> flag, which marks a specified file as
+&ldquo;old&rdquo; (see <a href="Options-Summary.html#Options-Summary">Summary of Options</a>).  This means
+that the file itself will not be remade, and nothing else will be
+remade on its account.  Follow this procedure:
+
+     <ol type=1 start=1>
+<li>Recompile the source files that need compilation for reasons independent
+of the particular header file, with &lsquo;<samp><span class="samp">make -o </span><var>headerfile</var></samp>&rsquo;. 
+If several header files are involved, use a separate &lsquo;<samp><span class="samp">-o</span></samp>&rsquo; option
+for each header file.
+
+     <li>Touch all the object files with &lsquo;<samp><span class="samp">make -t</span></samp>&rsquo;.
+        </ol>
+
+   </body></html>
+

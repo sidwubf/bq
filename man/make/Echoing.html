@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+<title>Echoing - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recipes.html#Recipes" title="Recipes">
+<link rel="prev" href="Recipe-Syntax.html#Recipe-Syntax" title="Recipe Syntax">
+<link rel="next" href="Execution.html#Execution" title="Execution">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Echoing"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Execution.html#Execution">Execution</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recipes.html#Recipes">Recipes</a>
+<hr>
+</div>
+
+<h3 class="section">5.2 Recipe Echoing</h3>
+
+<p><a name="index-echoing-of-recipes-303"></a><a name="index-silent-operation-304"></a><a name="index-g_t_0040code_007b_0040_0040_007d-_0028in-recipes_0029-305"></a><a name="index-recipes_002c-echoing-306"></a><a name="index-printing-of-recipes-307"></a>
+Normally <code>make</code> prints each line of the recipe before it is
+executed.  We call this <dfn>echoing</dfn> because it gives the appearance
+that you are typing the lines yourself.
+
+   <p>When a line starts with &lsquo;<samp><span class="samp">@</span></samp>&rsquo;, the echoing of that line is suppressed. 
+The &lsquo;<samp><span class="samp">@</span></samp>&rsquo; is discarded before the line is passed to the shell. 
+Typically you would use this for a command whose only effect is to print
+something, such as an <code>echo</code> command to indicate progress through
+the makefile:
+
+<pre class="example">     @echo About to make distribution files
+</pre>
+   <p><a name="index-g_t_0040code_007b_002dn_007d-308"></a><a name="index-g_t_0040code_007b_002d_002djust_002dprint_007d-309"></a><a name="index-g_t_0040code_007b_002d_002ddry_002drun_007d-310"></a><a name="index-g_t_0040code_007b_002d_002drecon_007d-311"></a>When <code>make</code> is given the flag &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--just-print</span></samp>&rsquo; it
+only echoes most recipes, without executing them.  See <a href="Options-Summary.html#Options-Summary">Summary of Options</a>.  In this case even the recipe lines
+starting with &lsquo;<samp><span class="samp">@</span></samp>&rsquo; are printed.  This flag is useful for finding
+out which recipes <code>make</code> thinks are necessary without actually
+doing them.
+
+   <p><a name="index-g_t_0040code_007b_002ds_007d-312"></a><a name="index-g_t_0040code_007b_002d_002dsilent_007d-313"></a><a name="index-g_t_0040code_007b_002d_002dquiet_007d-314"></a><a name="index-g_t_002eSILENT-315"></a>The &lsquo;<samp><span class="samp">-s</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--silent</span></samp>&rsquo;
+flag to <code>make</code> prevents all echoing, as if all recipes
+started with &lsquo;<samp><span class="samp">@</span></samp>&rsquo;.  A rule in the makefile for the special target
+<code>.SILENT</code> without prerequisites has the same effect
+(see <a href="Special-Targets.html#Special-Targets">Special Built-in Target Names</a>). 
+<code>.SILENT</code> is essentially obsolete since &lsquo;<samp><span class="samp">@</span></samp>&rsquo; is more flexible.
+
+   </body></html>
+

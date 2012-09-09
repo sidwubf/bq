@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>Conditional Functions - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="File-Name-Functions.html#File-Name-Functions" title="File Name Functions">
+<link rel="next" href="Foreach-Function.html#Foreach-Function" title="Foreach Function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conditional-Functions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Foreach-Function.html#Foreach-Function">Foreach Function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h3 class="section">8.4 Functions for Conditionals</h3>
+
+<p><a name="index-if-628"></a><a name="index-conditional-expansion-629"></a>There are three functions that provide conditional expansion.  A key
+aspect of these functions is that not all of the arguments are
+expanded initially.  Only those arguments which need to be expanded,
+will be expanded.
+
+     <dl>
+<dt><code>$(if </code><var>condition</var><code>,</code><var>then-part</var><code>[,</code><var>else-part</var><code>])</code><dd><a name="index-if-630"></a>The <code>if</code> function provides support for conditional expansion in a
+functional context (as opposed to the GNU <code>make</code> makefile
+conditionals such as <code>ifeq</code> (see <a href="Conditional-Syntax.html#Conditional-Syntax">Syntax of Conditionals</a>).
+
+     <p>The first argument, <var>condition</var>, first has all preceding and
+trailing whitespace stripped, then is expanded.  If it expands to any
+non-empty string, then the condition is considered to be true.  If it
+expands to an empty string, the condition is considered to be false.
+
+     <p>If the condition is true then the second argument, <var>then-part</var>, is
+evaluated and this is used as the result of the evaluation of the entire
+<code>if</code> function.
+
+     <p>If the condition is false then the third argument, <var>else-part</var>, is
+evaluated and this is the result of the <code>if</code> function.  If there is
+no third argument, the <code>if</code> function evaluates to nothing (the
+empty string).
+
+     <p>Note that only one of the <var>then-part</var> or the <var>else-part</var> will be
+evaluated, never both.  Thus, either can contain side-effects (such as
+<code>shell</code> function calls, etc.)
+
+     <br><dt><code>$(or </code><var>condition1</var><code>[,</code><var>condition2</var><code>[,</code><var>condition3</var><code>...]])</code><dd><a name="index-or-631"></a>The <code>or</code> function provides a &ldquo;short-circuiting&rdquo; OR operation. 
+Each argument is expanded, in order.  If an argument expands to a
+non-empty string the processing stops and the result of the expansion
+is that string.  If, after all arguments are expanded, all of them are
+false (empty), then the result of the expansion is the empty string.
+
+     <br><dt><code>$(and </code><var>condition1</var><code>[,</code><var>condition2</var><code>[,</code><var>condition3</var><code>...]])</code><dd><a name="index-and-632"></a>The <code>and</code> function provides a &ldquo;short-circuiting&rdquo; AND operation. 
+Each argument is expanded, in order.  If an argument expands to an
+empty string the processing stops and the result of the expansion is
+the empty string.  If all arguments expand to a non-empty string then
+the result of the expansion is the expansion of the last argument.
+
+   </dl>
+
+   </body></html>
+

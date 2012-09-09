@@ -1,0 +1,163 @@
+<html lang="en">
+<head>
+<title>Automatic Prerequisites - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Rules.html#Rules" title="Rules">
+<link rel="prev" href="Double_002dColon.html#Double_002dColon" title="Double-Colon">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Automatic-Prerequisites"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Double_002dColon.html#Double_002dColon">Double-Colon</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Rules.html#Rules">Rules</a>
+<hr>
+</div>
+
+<h3 class="section">4.14 Generating Prerequisites Automatically</h3>
+
+<p><a name="index-prerequisites_002c-automatic-generation-275"></a><a name="index-automatic-generation-of-prerequisites-276"></a><a name="index-generating-prerequisites-automatically-277"></a>
+In the makefile for a program, many of the rules you need to write often
+say only that some object file depends on some header
+file.  For example, if <samp><span class="file">main.c</span></samp> uses <samp><span class="file">defs.h</span></samp> via an
+<code>#include</code>, you would write:
+
+<pre class="example">     main.o: defs.h
+</pre>
+   <p class="noindent">You need this rule so that <code>make</code> knows that it must remake
+<samp><span class="file">main.o</span></samp> whenever <samp><span class="file">defs.h</span></samp> changes.  You can see that for a
+large program you would have to write dozens of such rules in your
+makefile.  And, you must always be very careful to update the makefile
+every time you add or remove an <code>#include</code>. 
+<a name="index-g_t_0040code_007b_0023include_007d-278"></a>
+<a name="index-g_t_0040code_007b_002dM_007d-_0028to-compiler_0029-279"></a>To avoid this hassle, most modern C compilers can write these rules for
+you, by looking at the <code>#include</code> lines in the source files. 
+Usually this is done with the &lsquo;<samp><span class="samp">-M</span></samp>&rsquo; option to the compiler. 
+For example, the command:
+
+<pre class="example">     cc -M main.c
+</pre>
+   <p class="noindent">generates the output:
+
+<pre class="example">     main.o : main.c defs.h
+</pre>
+   <p class="noindent">Thus you no longer have to write all those rules yourself. 
+The compiler will do it for you.
+
+   <p>Note that such a prerequisite constitutes mentioning <samp><span class="file">main.o</span></samp> in a
+makefile, so it can never be considered an intermediate file by implicit
+rule search.  This means that <code>make</code> won't ever remove the file
+after using it; see <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.
+
+   <p><a name="index-g_t_0040code_007bmake-depend_007d-280"></a>With old <code>make</code> programs, it was traditional practice to use this
+compiler feature to generate prerequisites on demand with a command like
+&lsquo;<samp><span class="samp">make depend</span></samp>&rsquo;.  That command would create a file <samp><span class="file">depend</span></samp>
+containing all the automatically-generated prerequisites; then the
+makefile could use <code>include</code> to read them in (see <a href="Include.html#Include">Include</a>).
+
+   <p>In GNU <code>make</code>, the feature of remaking makefiles makes this
+practice obsolete&mdash;you need never tell <code>make</code> explicitly to
+regenerate the prerequisites, because it always regenerates any makefile
+that is out of date.  See <a href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a>.
+
+   <p>The practice we recommend for automatic prerequisite generation is to have
+one makefile corresponding to each source file.  For each source file
+<samp><var>name</var><span class="file">.c</span></samp> there is a makefile <samp><var>name</var><span class="file">.d</span></samp> which lists
+what files the object file <samp><var>name</var><span class="file">.o</span></samp> depends on.  That way
+only the source files that have changed need to be rescanned to produce
+the new prerequisites.
+
+   <p>Here is the pattern rule to generate a file of prerequisites (i.e., a makefile)
+called <samp><var>name</var><span class="file">.d</span></samp> from a C source file called <samp><var>name</var><span class="file">.c</span></samp>:
+
+<pre class="smallexample">     %.d: %.c
+             @set -e; rm -f $@; \
+              $(CC) -M $(CPPFLAGS) $&lt; &gt; $@.$$$$; \
+              sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' &lt; $@.$$$$ &gt; $@; \
+              rm -f $@.$$$$
+</pre>
+   <p class="noindent">See <a href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>, for information on defining pattern rules.  The
+&lsquo;<samp><span class="samp">-e</span></samp>&rsquo; flag to the shell causes it to exit immediately if the
+<code>$(CC)</code> command (or any other command) fails (exits with a
+nonzero status). 
+<a name="index-g_t_0040code_007b_002de_007d-_0028shell-flag_0029-281"></a>
+<a name="index-g_t_0040code_007b_002dMM_007d-_0028to-GNU-compiler_0029-282"></a>With the GNU C compiler, you may wish to use the &lsquo;<samp><span class="samp">-MM</span></samp>&rsquo; flag instead
+of &lsquo;<samp><span class="samp">-M</span></samp>&rsquo;.  This omits prerequisites on system header files. 
+See <a href="../gcc/Preprocessor-Options.html#Preprocessor-Options">Options Controlling the Preprocessor</a>, for details.
+
+   <p><a name="index-g_t_0040code_007bsed_007d-_0028shell-command_0029-283"></a>The purpose of the <code>sed</code> command is to translate (for example):
+
+<pre class="example">     main.o : main.c defs.h
+</pre>
+   <p class="noindent">into:
+
+<pre class="example">     main.o main.d : main.c defs.h
+</pre>
+   <p class="noindent"><a name="index-g_t_0040code_007b_002ed_007d-284"></a>This makes each &lsquo;<samp><span class="samp">.d</span></samp>&rsquo; file depend on all the source and header files
+that the corresponding &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; file depends on.  <code>make</code> then
+knows it must regenerate the prerequisites whenever any of the source or
+header files changes.
+
+   <p>Once you've defined the rule to remake the &lsquo;<samp><span class="samp">.d</span></samp>&rsquo; files,
+you then use the <code>include</code> directive to read them all in. 
+See <a href="Include.html#Include">Include</a>.  For example:
+
+<pre class="example">     sources = foo.c bar.c
+     
+     include $(sources:.c=.d)
+</pre>
+   <p class="noindent">(This example uses a substitution variable reference to translate the
+list of source files &lsquo;<samp><span class="samp">foo.c bar.c</span></samp>&rsquo; into a list of prerequisite
+makefiles, &lsquo;<samp><span class="samp">foo.d bar.d</span></samp>&rsquo;.  See <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a>, for full
+information on substitution references.)  Since the &lsquo;<samp><span class="samp">.d</span></samp>&rsquo; files are
+makefiles like any others, <code>make</code> will remake them as necessary
+with no further work from you.  See <a href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a>.
+
+   <p>Note that the &lsquo;<samp><span class="samp">.d</span></samp>&rsquo; files contain target definitions; you should
+be sure to place the <code>include</code> directive <em>after</em> the first,
+default goal in your makefiles or run the risk of having a random
+object file become the default goal. 
+See <a href="How-Make-Works.html#How-Make-Works">How Make Works</a>.
+
+   </body></html>
+

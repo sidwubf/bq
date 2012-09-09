@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+<title>Makefile Contents - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="prev" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="next" href="Makefile-Names.html#Makefile-Names" title="Makefile Names">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Makefile-Contents"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Makefile-Names.html#Makefile-Names">Makefile Names</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Makefiles.html#Makefiles">Makefiles</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefiles.html#Makefiles">Makefiles</a>
+<hr>
+</div>
+
+<h3 class="section">3.1 What Makefiles Contain</h3>
+
+<p>Makefiles contain five kinds of things: <dfn>explicit rules</dfn>,
+<dfn>implicit rules</dfn>, <dfn>variable definitions</dfn>, <dfn>directives</dfn>,
+and <dfn>comments</dfn>.  Rules, variables, and directives are described at
+length in later chapters.
+
+     
+<a name="index-rule_002c-explicit_002c-definition-of-49"></a>
+<a name="index-explicit-rule_002c-definition-of-50"></a>
+<ul><li>An <dfn>explicit rule</dfn> says when and how to remake one or more files,
+called the rule's <dfn>targets</dfn>.  It lists the other files that the
+targets depend on, called the <dfn>prerequisites</dfn> of the target, and
+may also give a recipe to use to create or update the targets. 
+See <a href="Rules.html#Rules">Writing Rules</a>.
+
+     <p><a name="index-rule_002c-implicit_002c-definition-of-51"></a><a name="index-implicit-rule_002c-definition-of-52"></a><li>An <dfn>implicit rule</dfn> says when and how to remake a class of files
+based on their names.  It describes how a target may depend on a file
+with a name similar to the target and gives a recipe to create or
+update such a target.  See <a href="Implicit-Rules.html#Implicit-Rules">Using Implicit Rules</a>.
+
+     <p><a name="index-variable-definition-53"></a><li>A <dfn>variable definition</dfn> is a line that specifies a text string
+value for a variable that can be substituted into the text later.  The
+simple makefile example shows a variable definition for <code>objects</code>
+as a list of all object files (see <a href="Variables-Simplify.html#Variables-Simplify">Variables Make Makefiles Simpler</a>).
+
+     <p><a name="index-directive-54"></a><li>A <dfn>directive</dfn> is an instruction for <code>make</code> to do something
+special while reading the makefile.  These include:
+
+          <ul>
+<li>Reading another makefile (see <a href="Include.html#Include">Including Other Makefiles</a>).
+
+          <li>Deciding (based on the values of variables) whether to use or
+ignore a part of the makefile (see <a href="Conditionals.html#Conditionals">Conditional Parts of Makefiles</a>).
+
+          <li>Defining a variable from a verbatim string containing multiple lines
+(see <a href="Multi_002dLine.html#Multi_002dLine">Defining Multi-Line Variables</a>). 
+</ul>
+
+     <p><a name="index-comments_002c-in-makefile-55"></a><a name="index-g_t_0040code_007b_0023_007d-_0028comments_0029_002c-in-makefile-56"></a><li>&lsquo;<samp><span class="samp">#</span></samp>&rsquo; in a line of a makefile starts a <dfn>comment</dfn>.  It and the
+rest of the line are ignored, except that a trailing backslash not
+escaped by another backslash will continue the comment across multiple
+lines.  A line containing just a comment (with perhaps spaces before
+it) is effectively blank, and is ignored.  If you want a literal
+<code>#</code>, escape it with a backslash (e.g., <code>\#</code>).  Comments may
+appear on any line in the makefile, although they are treated
+specially in certain situations.
+
+     <p>You cannot use comments within variable references or function calls:
+any instance of <code>#</code> will be treated literally (rather than as the
+start of a comment) inside a variable reference or function call.
+
+     <p>Comments within a recipe are passed to the shell, just as with any
+other recipe text.  The shell decides how to interpret it: whether or
+not this is a comment is up to the shell.
+
+     <p>Within a <code>define</code> directive, comments are not ignored during the
+definition of the variable, but rather kept intact in the value of the
+variable.  When the variable is expanded they will either be treated
+as <code>make</code> comments or as recipe text, depending on the context in
+which the variable is evaluated. 
+</ul>
+
+   </body></html>
+

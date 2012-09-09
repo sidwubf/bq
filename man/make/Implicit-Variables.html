@@ -1,0 +1,183 @@
+<html lang="en">
+<head>
+<title>Implicit Variables - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implicit-Rules.html#Implicit-Rules" title="Implicit Rules">
+<link rel="prev" href="Catalogue-of-Rules.html#Catalogue-of-Rules" title="Catalogue of Rules">
+<link rel="next" href="Chained-Rules.html#Chained-Rules" title="Chained Rules">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implicit-Variables"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Chained-Rules.html#Chained-Rules">Chained Rules</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>
+<hr>
+</div>
+
+<h3 class="section">10.3 Variables Used by Implicit Rules</h3>
+
+<p><a name="index-flags-for-compilers-861"></a>
+The recipes in built-in implicit rules make liberal use of certain
+predefined variables.  You can alter the values of these variables in
+the makefile, with arguments to <code>make</code>, or in the environment to
+alter how the implicit rules work without redefining the rules
+themselves.  You can cancel all variables used by implicit rules with
+the &lsquo;<samp><span class="samp">-R</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--no-builtin-variables</span></samp>&rsquo; option.
+
+   <p>For example, the recipe used to compile a C source file actually says
+&lsquo;<samp><span class="samp">$(CC) -c $(CFLAGS) $(CPPFLAGS)</span></samp>&rsquo;.  The default values of the variables
+used are &lsquo;<samp><span class="samp">cc</span></samp>&rsquo; and nothing, resulting in the command &lsquo;<samp><span class="samp">cc -c</span></samp>&rsquo;.  By
+redefining &lsquo;<samp><span class="samp">CC</span></samp>&rsquo; to &lsquo;<samp><span class="samp">ncc</span></samp>&rsquo;, you could cause &lsquo;<samp><span class="samp">ncc</span></samp>&rsquo; to be
+used for all C compilations performed by the implicit rule.  By redefining
+&lsquo;<samp><span class="samp">CFLAGS</span></samp>&rsquo; to be &lsquo;<samp><span class="samp">-g</span></samp>&rsquo;, you could pass the &lsquo;<samp><span class="samp">-g</span></samp>&rsquo; option to
+each compilation.  <em>All</em> implicit rules that do C compilation use
+&lsquo;<samp><span class="samp">$(CC)</span></samp>&rsquo; to get the program name for the compiler and <em>all</em>
+include &lsquo;<samp><span class="samp">$(CFLAGS)</span></samp>&rsquo; among the arguments given to the compiler.
+
+   <p>The variables used in implicit rules fall into two classes: those that are
+names of programs (like <code>CC</code>) and those that contain arguments for the
+programs (like <code>CFLAGS</code>).  (The &ldquo;name of a program&rdquo; may also contain
+some command arguments, but it must start with an actual executable program
+name.)  If a variable value contains more than one argument, separate them
+with spaces.
+
+   <p>The following tables describe of some of the more commonly-used predefined
+variables.  This list is not exhaustive, and the default values shown here may
+not be what <code>make</code> selects for your environment.  To see the
+complete list of predefined variables for your instance of GNU <code>make</code> you
+can run &lsquo;<samp><span class="samp">make -p</span></samp>&rsquo; in a directory with no makefiles.
+
+   <p>Here is a table of some of the more common variables used as names of
+programs in built-in rules:
+makefiles.
+
+     <dl>
+<dt><code>AR</code><dd><a name="index-AR-862"></a>Archive-maintaining program; default &lsquo;<samp><span class="samp">ar</span></samp>&rsquo;. 
+<a name="index-ar-863"></a>
+<br><dt><code>AS</code><dd><a name="index-AS-864"></a>Program for compiling assembly files; default &lsquo;<samp><span class="samp">as</span></samp>&rsquo;. 
+<a name="index-as-865"></a>
+<br><dt><code>CC</code><dd><a name="index-CC-866"></a>Program for compiling C programs; default &lsquo;<samp><span class="samp">cc</span></samp>&rsquo;. 
+<a name="index-cc-867"></a>
+<br><dt><code>CXX</code><dd><a name="index-CXX-868"></a>Program for compiling C++ programs; default &lsquo;<samp><span class="samp">g++</span></samp>&rsquo;. 
+<a name="index-g_002b_002b-869"></a>
+<br><dt><code>CPP</code><dd><a name="index-CPP-870"></a>Program for running the C preprocessor, with results to standard output;
+default &lsquo;<samp><span class="samp">$(CC) -E</span></samp>&rsquo;.
+
+     <br><dt><code>FC</code><dd><a name="index-FC-871"></a>Program for compiling or preprocessing Fortran and Ratfor programs;
+default &lsquo;<samp><span class="samp">f77</span></samp>&rsquo;. 
+<a name="index-f77-872"></a>
+<br><dt><code>M2C</code><dd><a name="index-M2C-873"></a>Program to use to compile Modula-2 source code; default &lsquo;<samp><span class="samp">m2c</span></samp>&rsquo;. 
+<a name="index-m2c-874"></a>
+<br><dt><code>PC</code><dd><a name="index-PC-875"></a>Program for compiling Pascal programs; default &lsquo;<samp><span class="samp">pc</span></samp>&rsquo;. 
+<a name="index-pc-876"></a>
+<br><dt><code>CO</code><dd><a name="index-CO-877"></a>Program for extracting a file from RCS; default &lsquo;<samp><span class="samp">co</span></samp>&rsquo;. 
+<a name="index-co-878"></a>
+<br><dt><code>GET</code><dd><a name="index-GET-879"></a>Program for extracting a file from SCCS; default &lsquo;<samp><span class="samp">get</span></samp>&rsquo;. 
+<a name="index-get-880"></a>
+<br><dt><code>LEX</code><dd><a name="index-LEX-881"></a>Program to use to turn Lex grammars into source code; default &lsquo;<samp><span class="samp">lex</span></samp>&rsquo;. 
+<a name="index-lex-882"></a>
+<br><dt><code>YACC</code><dd><a name="index-YACC-883"></a>Program to use to turn Yacc grammars into source code; default &lsquo;<samp><span class="samp">yacc</span></samp>&rsquo;. 
+<a name="index-yacc-884"></a>
+<br><dt><code>LINT</code><dd><a name="index-LINT-885"></a>Program to use to run lint on source code; default &lsquo;<samp><span class="samp">lint</span></samp>&rsquo;. 
+<a name="index-lint-886"></a>
+<br><dt><code>MAKEINFO</code><dd><a name="index-MAKEINFO-887"></a>Program to convert a Texinfo source file into an Info file; default
+&lsquo;<samp><span class="samp">makeinfo</span></samp>&rsquo;. 
+<a name="index-makeinfo-888"></a>
+<br><dt><code>TEX</code><dd><a name="index-TEX-889"></a>Program to make TeX <span class="sc">dvi</span> files from TeX source;
+default &lsquo;<samp><span class="samp">tex</span></samp>&rsquo;. 
+<a name="index-tex-890"></a>
+<br><dt><code>TEXI2DVI</code><dd><a name="index-TEXI2DVI-891"></a>Program to make TeX <span class="sc">dvi</span> files from Texinfo source;
+default &lsquo;<samp><span class="samp">texi2dvi</span></samp>&rsquo;. 
+<a name="index-texi2dvi-892"></a>
+<br><dt><code>WEAVE</code><dd><a name="index-WEAVE-893"></a>Program to translate Web into TeX; default &lsquo;<samp><span class="samp">weave</span></samp>&rsquo;. 
+<a name="index-weave-894"></a>
+<br><dt><code>CWEAVE</code><dd><a name="index-CWEAVE-895"></a>Program to translate C Web into TeX; default &lsquo;<samp><span class="samp">cweave</span></samp>&rsquo;. 
+<a name="index-cweave-896"></a>
+<br><dt><code>TANGLE</code><dd><a name="index-TANGLE-897"></a>Program to translate Web into Pascal; default &lsquo;<samp><span class="samp">tangle</span></samp>&rsquo;. 
+<a name="index-tangle-898"></a>
+<br><dt><code>CTANGLE</code><dd><a name="index-CTANGLE-899"></a>Program to translate C Web into C; default &lsquo;<samp><span class="samp">ctangle</span></samp>&rsquo;. 
+<a name="index-ctangle-900"></a>
+<br><dt><code>RM</code><dd><a name="index-RM-901"></a>Command to remove a file; default &lsquo;<samp><span class="samp">rm -f</span></samp>&rsquo;. 
+<a name="index-rm-902"></a></dl>
+
+   <p>Here is a table of variables whose values are additional arguments for the
+programs above.  The default values for all of these is the empty
+string, unless otherwise noted.
+
+     <dl>
+<dt><code>ARFLAGS</code><dd><a name="index-ARFLAGS-903"></a>Flags to give the archive-maintaining program; default &lsquo;<samp><span class="samp">rv</span></samp>&rsquo;.
+
+     <br><dt><code>ASFLAGS</code><dd><a name="index-ASFLAGS-904"></a>Extra flags to give to the assembler (when explicitly
+invoked on a &lsquo;<samp><span class="samp">.s</span></samp>&rsquo; or &lsquo;<samp><span class="samp">.S</span></samp>&rsquo; file).
+
+     <br><dt><code>CFLAGS</code><dd><a name="index-CFLAGS-905"></a>Extra flags to give to the C compiler.
+
+     <br><dt><code>CXXFLAGS</code><dd><a name="index-CXXFLAGS-906"></a>Extra flags to give to the C++ compiler.
+
+     <br><dt><code>COFLAGS</code><dd><a name="index-COFLAGS-907"></a>Extra flags to give to the RCS <code>co</code> program.
+
+     <br><dt><code>CPPFLAGS</code><dd><a name="index-CPPFLAGS-908"></a>Extra flags to give to the C preprocessor and programs
+that use it (the C and Fortran compilers).
+
+     <br><dt><code>FFLAGS</code><dd><a name="index-FFLAGS-909"></a>Extra flags to give to the Fortran compiler.
+
+     <br><dt><code>GFLAGS</code><dd><a name="index-GFLAGS-910"></a>Extra flags to give to the SCCS <code>get</code> program.
+
+     <br><dt><code>LDFLAGS</code><dd><a name="index-LDFLAGS-911"></a>Extra flags to give to compilers when they are supposed to invoke the linker,
+&lsquo;<samp><span class="samp">ld</span></samp>&rsquo;.
+
+     <br><dt><code>LFLAGS</code><dd><a name="index-LFLAGS-912"></a>Extra flags to give to Lex.
+
+     <br><dt><code>YFLAGS</code><dd><a name="index-YFLAGS-913"></a>Extra flags to give to Yacc.
+
+     <br><dt><code>PFLAGS</code><dd><a name="index-PFLAGS-914"></a>Extra flags to give to the Pascal compiler.
+
+     <br><dt><code>RFLAGS</code><dd><a name="index-RFLAGS-915"></a>Extra flags to give to the Fortran compiler for Ratfor programs.
+
+     <br><dt><code>LINTFLAGS</code><dd><a name="index-LINTFLAGS-916"></a>Extra flags to give to lint. 
+</dl>
+
+   </body></html>
+

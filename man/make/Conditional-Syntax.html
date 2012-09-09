@@ -1,0 +1,206 @@
+<html lang="en">
+<head>
+<title>Conditional Syntax - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Conditionals.html#Conditionals" title="Conditionals">
+<link rel="prev" href="Conditional-Example.html#Conditional-Example" title="Conditional Example">
+<link rel="next" href="Testing-Flags.html#Testing-Flags" title="Testing Flags">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conditional-Syntax"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Testing-Flags.html#Testing-Flags">Testing Flags</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conditional-Example.html#Conditional-Example">Conditional Example</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditionals.html#Conditionals">Conditionals</a>
+<hr>
+</div>
+
+<h3 class="section">7.2 Syntax of Conditionals</h3>
+
+<p><a name="index-ifdef-547"></a><a name="index-ifeq-548"></a><a name="index-ifndef-549"></a><a name="index-ifneq-550"></a><a name="index-else-551"></a><a name="index-endif-552"></a>
+The syntax of a simple conditional with no <code>else</code> is as follows:
+
+<pre class="example">     <var>conditional-directive</var>
+     <var>text-if-true</var>
+     endif
+</pre>
+   <p class="noindent">The <var>text-if-true</var> may be any lines of text, to be considered as part
+of the makefile if the condition is true.  If the condition is false, no
+text is used instead.
+
+   <p>The syntax of a complex conditional is as follows:
+
+<pre class="example">     <var>conditional-directive</var>
+     <var>text-if-true</var>
+     else
+     <var>text-if-false</var>
+     endif
+</pre>
+   <p>or:
+
+<pre class="example">     <var>conditional-directive</var>
+     <var>text-if-one-is-true</var>
+     else <var>conditional-directive</var>
+     <var>text-if-true</var>
+     else
+     <var>text-if-false</var>
+     endif
+</pre>
+   <p class="noindent">There can be as many &ldquo;<code>else</code> <var>conditional-directive</var>&rdquo;
+clauses as necessary.  Once a given condition is true,
+<var>text-if-true</var> is used and no other clause is used; if no
+condition is true then <var>text-if-false</var> is used.  The
+<var>text-if-true</var> and <var>text-if-false</var> can be any number of lines
+of text.
+
+   <p>The syntax of the <var>conditional-directive</var> is the same whether the
+conditional is simple or complex; after an <code>else</code> or not.  There
+are four different directives that test different conditions.  Here is
+a table of them:
+
+     <dl>
+<dt><code>ifeq (</code><var>arg1</var><code>, </code><var>arg2</var><code>)</code><dt><code>ifeq '</code><var>arg1</var><code>' '</code><var>arg2</var><code>'</code><dt><code>ifeq "</code><var>arg1</var><code>" "</code><var>arg2</var><code>"</code><dt><code>ifeq "</code><var>arg1</var><code>" '</code><var>arg2</var><code>'</code><dt><code>ifeq '</code><var>arg1</var><code>' "</code><var>arg2</var><code>"</code><dd>Expand all variable references in <var>arg1</var> and <var>arg2</var> and
+compare them.  If they are identical, the <var>text-if-true</var> is
+effective; otherwise, the <var>text-if-false</var>, if any, is effective.
+
+     <p>Often you want to test if a variable has a non-empty value.  When the
+value results from complex expansions of variables and functions,
+expansions you would consider empty may actually contain whitespace
+characters and thus are not seen as empty.  However, you can use the
+<code>strip</code> function (see <a href="Text-Functions.html#Text-Functions">Text Functions</a>) to avoid interpreting
+whitespace as a non-empty value.  For example:
+
+     <pre class="example">          ifeq ($(strip $(foo)),)
+          <var>text-if-empty</var>
+          endif
+</pre>
+     <p class="noindent">will evaluate <var>text-if-empty</var> even if the expansion of
+<code>$(foo)</code> contains whitespace characters.
+
+     <br><dt><code>ifneq (</code><var>arg1</var><code>, </code><var>arg2</var><code>)</code><dt><code>ifneq '</code><var>arg1</var><code>' '</code><var>arg2</var><code>'</code><dt><code>ifneq "</code><var>arg1</var><code>" "</code><var>arg2</var><code>"</code><dt><code>ifneq "</code><var>arg1</var><code>" '</code><var>arg2</var><code>'</code><dt><code>ifneq '</code><var>arg1</var><code>' "</code><var>arg2</var><code>"</code><dd>Expand all variable references in <var>arg1</var> and <var>arg2</var> and
+compare them.  If they are different, the <var>text-if-true</var> is
+effective; otherwise, the <var>text-if-false</var>, if any, is effective.
+
+     <br><dt><code>ifdef </code><var>variable-name</var><dd>The <code>ifdef</code> form takes the <em>name</em> of a variable as its
+argument, not a reference to a variable.  The value of that variable
+has a non-empty value, the <var>text-if-true</var> is effective; otherwise,
+the <var>text-if-false</var>, if any, is effective.  Variables that have
+never been defined have an empty value.  The text <var>variable-name</var>
+is expanded, so it could be a variable or function that expands
+to the name of a variable.  For example:
+
+     <pre class="example">          bar = true
+          foo = bar
+          ifdef $(foo)
+          frobozz = yes
+          endif
+</pre>
+     <p>The variable reference <code>$(foo)</code> is expanded, yielding <code>bar</code>,
+which is considered to be the name of a variable.  The variable
+<code>bar</code> is not expanded, but its value is examined to determine if
+it is non-empty.
+
+     <p>Note that <code>ifdef</code> only tests whether a variable has a value.  It
+does not expand the variable to see if that value is nonempty. 
+Consequently, tests using <code>ifdef</code> return true for all definitions
+except those like <code>foo =</code>.  To test for an empty value, use
+<code>ifeq&nbsp;($(foo),)</code><!-- /@w -->.  For example,
+
+     <pre class="example">          bar =
+          foo = $(bar)
+          ifdef foo
+          frobozz = yes
+          else
+          frobozz = no
+          endif
+</pre>
+     <p class="noindent">sets &lsquo;<samp><span class="samp">frobozz</span></samp>&rsquo; to &lsquo;<samp><span class="samp">yes</span></samp>&rsquo;, while:
+
+     <pre class="example">          foo =
+          ifdef foo
+          frobozz = yes
+          else
+          frobozz = no
+          endif
+</pre>
+     <p class="noindent">sets &lsquo;<samp><span class="samp">frobozz</span></samp>&rsquo; to &lsquo;<samp><span class="samp">no</span></samp>&rsquo;.
+
+     <br><dt><code>ifndef </code><var>variable-name</var><dd>If the variable <var>variable-name</var> has an empty value, the
+<var>text-if-true</var> is effective; otherwise, the <var>text-if-false</var>,
+if any, is effective.  The rules for expansion and testing of
+<var>variable-name</var> are identical to the <code>ifdef</code> directive. 
+</dl>
+
+   <p>Extra spaces are allowed and ignored at the beginning of the
+conditional directive line, but a tab is not allowed.  (If the line
+begins with a tab, it will be considered part of a recipe for a rule.) 
+Aside from this, extra spaces or tabs may be inserted with no effect
+anywhere except within the directive name or within an argument.  A
+comment starting with &lsquo;<samp><span class="samp">#</span></samp>&rsquo; may appear at the end of the line.
+
+   <p>The other two directives that play a part in a conditional are <code>else</code>
+and <code>endif</code>.  Each of these directives is written as one word, with no
+arguments.  Extra spaces are allowed and ignored at the beginning of the
+line, and spaces or tabs at the end.  A comment starting with &lsquo;<samp><span class="samp">#</span></samp>&rsquo; may
+appear at the end of the line.
+
+   <p>Conditionals affect which lines of the makefile <code>make</code> uses.  If
+the condition is true, <code>make</code> reads the lines of the
+<var>text-if-true</var> as part of the makefile; if the condition is false,
+<code>make</code> ignores those lines completely.  It follows that syntactic
+units of the makefile, such as rules, may safely be split across the
+beginning or the end of the conditional.
+
+   <p><code>make</code> evaluates conditionals when it reads a makefile. 
+Consequently, you cannot use automatic variables in the tests of
+conditionals because they are not defined until recipes are run
+(see <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>).
+
+   <p>To prevent intolerable confusion, it is not permitted to start a
+conditional in one makefile and end it in another.  However, you may
+write an <code>include</code> directive within a conditional, provided you do
+not attempt to terminate the conditional inside the included file.
+
+   </body></html>
+

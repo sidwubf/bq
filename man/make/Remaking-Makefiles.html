@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+<title>Remaking Makefiles - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="prev" href="MAKEFILES-Variable.html#MAKEFILES-Variable" title="MAKEFILES Variable">
+<link rel="next" href="Overriding-Makefiles.html#Overriding-Makefiles" title="Overriding Makefiles">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Remaking-Makefiles"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Overriding-Makefiles.html#Overriding-Makefiles">Overriding Makefiles</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="MAKEFILES-Variable.html#MAKEFILES-Variable">MAKEFILES Variable</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefiles.html#Makefiles">Makefiles</a>
+<hr>
+</div>
+
+<h3 class="section">3.5 How Makefiles Are Remade</h3>
+
+<p><a name="index-updating-makefiles-92"></a><a name="index-remaking-makefiles-93"></a><a name="index-makefile_002c-remaking-of-94"></a>Sometimes makefiles can be remade from other files, such as RCS or SCCS
+files.  If a makefile can be remade from other files, you probably want
+<code>make</code> to get an up-to-date version of the makefile to read in.
+
+   <p>To this end, after reading in all makefiles, <code>make</code> will consider
+each as a goal target and attempt to update it.  If a makefile has a
+rule which says how to update it (found either in that very makefile or
+in another one) or if an implicit rule applies to it (see <a href="Implicit-Rules.html#Implicit-Rules">Using Implicit Rules</a>), it will be updated if necessary.  After
+all makefiles have been checked, if any have actually been changed,
+<code>make</code> starts with a clean slate and reads all the makefiles over
+again.  (It will also attempt to update each of them over again, but
+normally this will not change them again, since they are already up to
+date.)
+
+   <p>If you know that one or more of your makefiles cannot be remade and
+you want to keep <code>make</code> from performing an implicit rule search
+on them, perhaps for efficiency reasons, you can use any normal method
+of preventing implicit rule lookup to do so.  For example, you can
+write an explicit rule with the makefile as the target, and an empty
+recipe (see <a href="Empty-Recipes.html#Empty-Recipes">Using Empty Recipes</a>).
+
+   <p>If the makefiles specify a double-colon rule to remake a file with
+a recipe but no prerequisites, that file will always be remade
+(see <a href="Double_002dColon.html#Double_002dColon">Double-Colon</a>).  In the case of makefiles, a makefile that has a
+double-colon rule with a recipe but no prerequisites will be remade every
+time <code>make</code> is run, and then again after <code>make</code> starts over
+and reads the makefiles in again.  This would cause an infinite loop:
+<code>make</code> would constantly remake the makefile, and never do anything
+else.  So, to avoid this, <code>make</code> will <strong>not</strong> attempt to
+remake makefiles which are specified as targets of a double-colon rule
+with a recipe but no prerequisites.
+
+   <p>If you do not specify any makefiles to be read with &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; or
+&lsquo;<samp><span class="samp">--file</span></samp>&rsquo; options, <code>make</code> will try the default makefile names;
+see <a href="Makefile-Names.html#Makefile-Names">What Name to Give Your Makefile</a>.  Unlike
+makefiles explicitly requested with &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--file</span></samp>&rsquo; options,
+<code>make</code> is not certain that these makefiles should exist.  However,
+if a default makefile does not exist but can be created by running
+<code>make</code> rules, you probably want the rules to be run so that the
+makefile can be used.
+
+   <p>Therefore, if none of the default makefiles exists, <code>make</code> will try
+to make each of them in the same order in which they are searched for
+(see <a href="Makefile-Names.html#Makefile-Names">What Name to Give Your Makefile</a>)
+until it succeeds in making one, or it runs out of names to try.  Note
+that it is not an error if <code>make</code> cannot find or make any makefile;
+a makefile is not always necessary.
+
+   <p>When you use the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--touch</span></samp>&rsquo; option
+(see <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Executing Recipes</a>),
+you would not want to use an out-of-date makefile to decide which
+targets to touch.  So the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; option has no effect on updating
+makefiles; they are really updated even if &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; is specified. 
+Likewise, &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; (or &lsquo;<samp><span class="samp">--question</span></samp>&rsquo;) and &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; (or
+&lsquo;<samp><span class="samp">--just-print</span></samp>&rsquo;) do not prevent updating of makefiles, because an
+out-of-date makefile would result in the wrong output for other targets. 
+Thus, &lsquo;<samp><span class="samp">make -f mfile -n foo</span></samp>&rsquo; will update <samp><span class="file">mfile</span></samp>, read it in,
+and then print the recipe to update <samp><span class="file">foo</span></samp> and its prerequisites
+without running it.  The recipe printed for <samp><span class="file">foo</span></samp> will be the one
+specified in the updated contents of <samp><span class="file">mfile</span></samp>.
+
+   <p>However, on occasion you might actually wish to prevent updating of even
+the makefiles.  You can do this by specifying the makefiles as goals in
+the command line as well as specifying them as makefiles.  When the
+makefile name is specified explicitly as a goal, the options &lsquo;<samp><span class="samp">-t</span></samp>&rsquo;
+and so on do apply to them.
+
+   <p>Thus, &lsquo;<samp><span class="samp">make -f mfile -n mfile foo</span></samp>&rsquo; would read the makefile
+<samp><span class="file">mfile</span></samp>, print the recipe needed to update it without actually
+running it, and then print the recipe needed to update <samp><span class="file">foo</span></samp>
+without running that.  The recipe for <samp><span class="file">foo</span></samp> will be the one
+specified by the existing contents of <samp><span class="file">mfile</span></samp>.
+
+   </body></html>
+

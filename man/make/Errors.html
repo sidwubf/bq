@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>Errors - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recipes.html#Recipes" title="Recipes">
+<link rel="prev" href="Parallel.html#Parallel" title="Parallel">
+<link rel="next" href="Interrupts.html#Interrupts" title="Interrupts">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Errors"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interrupts.html#Interrupts">Interrupts</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Parallel.html#Parallel">Parallel</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recipes.html#Recipes">Recipes</a>
+<hr>
+</div>
+
+<h3 class="section">5.5 Errors in Recipes</h3>
+
+<p><a name="index-errors-_0028in-recipes_0029-353"></a><a name="index-recipes_002c-errors-in-354"></a><a name="index-exit-status-_0028errors_0029-355"></a>
+After each shell invocation returns, <code>make</code> looks at its exit
+status.  If the shell completed successfully (the exit status is
+zero), the next line in the recipe is executed in a new shell; after
+the last line is finished, the rule is finished.
+
+   <p>If there is an error (the exit status is nonzero), <code>make</code> gives up on
+the current rule, and perhaps on all rules.
+
+   <p>Sometimes the failure of a certain recipe line does not indicate a problem. 
+For example, you may use the <code>mkdir</code> command to ensure that a
+directory exists.  If the directory already exists, <code>mkdir</code> will
+report an error, but you probably want <code>make</code> to continue regardless.
+
+   <p><a name="index-g_t_0040code_007b_002d_007d-_0028in-recipes_0029-356"></a>To ignore errors in a recipe line, write a &lsquo;<samp><span class="samp">-</span></samp>&rsquo; at the beginning
+of the line's text (after the initial tab).  The &lsquo;<samp><span class="samp">-</span></samp>&rsquo; is discarded
+before the line is passed to the shell for execution.
+
+   <p>For example,
+
+<pre class="example">     clean:
+             -rm -f *.o
+</pre>
+   <p><a name="index-g_t_0040code_007brm_007d-_0028shell-command_0029-357"></a>
+This causes <code>make</code> to continue even if <code>rm</code> is unable to
+remove a file.
+
+   <p><a name="index-g_t_0040code_007b_002di_007d-358"></a><a name="index-g_t_0040code_007b_002d_002dignore_002derrors_007d-359"></a><a name="index-g_t_002eIGNORE-360"></a>When you run <code>make</code> with the &lsquo;<samp><span class="samp">-i</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--ignore-errors</span></samp>&rsquo;
+flag, errors are ignored in all recipes of all rules.  A rule in the
+makefile for the special target <code>.IGNORE</code> has the same effect, if
+there are no prerequisites.  These ways of ignoring errors are obsolete
+because &lsquo;<samp><span class="samp">-</span></samp>&rsquo; is more flexible.
+
+   <p>When errors are to be ignored, because of either a &lsquo;<samp><span class="samp">-</span></samp>&rsquo; or the
+&lsquo;<samp><span class="samp">-i</span></samp>&rsquo; flag, <code>make</code> treats an error return just like success,
+except that it prints out a message that tells you the status code
+the shell exited with, and says that the error has been ignored.
+
+   <p>When an error happens that <code>make</code> has not been told to ignore,
+it implies that the current target cannot be correctly remade, and neither
+can any other that depends on it either directly or indirectly.  No further
+recipes will be executed for these targets, since their preconditions
+have not been achieved.
+
+   <p><a name="index-g_t_0040code_007b_002dk_007d-361"></a><a name="index-g_t_0040code_007b_002d_002dkeep_002dgoing_007d-362"></a>Normally <code>make</code> gives up immediately in this circumstance, returning a
+nonzero status.  However, if the &lsquo;<samp><span class="samp">-k</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--keep-going</span></samp>&rsquo;
+flag is specified, <code>make</code>
+continues to consider the other prerequisites of the pending targets,
+remaking them if necessary, before it gives up and returns nonzero status. 
+For example, after an error in compiling one object file, &lsquo;<samp><span class="samp">make -k</span></samp>&rsquo;
+will continue compiling other object files even though it already knows
+that linking them will be impossible.  See <a href="Options-Summary.html#Options-Summary">Summary of Options</a>.
+
+   <p>The usual behavior assumes that your purpose is to get the specified
+targets up to date; once <code>make</code> learns that this is impossible, it
+might as well report the failure immediately.  The &lsquo;<samp><span class="samp">-k</span></samp>&rsquo; option says
+that the real purpose is to test as many of the changes made in the
+program as possible, perhaps to find several independent problems so
+that you can correct them all before the next attempt to compile.  This
+is why Emacs' <code>compile</code> command passes the &lsquo;<samp><span class="samp">-k</span></samp>&rsquo; flag by
+default. 
+<a name="index-Emacs-_0028_0040code_007bM_002dx-compile_007d_0029-363"></a>
+<a name="index-g_t_002eDELETE_005fON_005fERROR-364"></a><a name="index-deletion-of-target-files-365"></a><a name="index-removal-of-target-files-366"></a><a name="index-target_002c-deleting-on-error-367"></a>Usually when a recipe line fails, if it has changed the target file at all,
+the file is corrupted and cannot be used&mdash;or at least it is not
+completely updated.  Yet the file's time stamp says that it is now up to
+date, so the next time <code>make</code> runs, it will not try to update that
+file.  The situation is just the same as when the shell is killed by a
+signal; see <a href="Interrupts.html#Interrupts">Interrupts</a>.  So generally the right thing to do is to
+delete the target file if the recipe fails after beginning to change
+the file.  <code>make</code> will do this if <code>.DELETE_ON_ERROR</code> appears
+as a target.  This is almost always what you want <code>make</code> to do, but
+it is not historical practice; so for compatibility, you must explicitly
+request it.
+
+   </body></html>
+

@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+<title>Phony Targets - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Rules.html#Rules" title="Rules">
+<link rel="prev" href="Directory-Search.html#Directory-Search" title="Directory Search">
+<link rel="next" href="Force-Targets.html#Force-Targets" title="Force Targets">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Phony-Targets"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Force-Targets.html#Force-Targets">Force Targets</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Directory-Search.html#Directory-Search">Directory Search</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Rules.html#Rules">Rules</a>
+<hr>
+</div>
+
+<h3 class="section">4.6 Phony Targets</h3>
+
+<p><a name="index-phony-targets-202"></a><a name="index-targets_002c-phony-203"></a><a name="index-targets-without-a-file-204"></a>
+A phony target is one that is not really the name of a file; rather it
+is just a name for a recipe to be executed when you make an explicit
+request.  There are two reasons to use a phony target: to avoid a
+conflict with a file of the same name, and to improve performance.
+
+   <p>If you write a rule whose recipe will not create the target file, the
+recipe will be executed every time the target comes up for remaking. 
+Here is an example:
+
+<pre class="example">     clean:
+             rm *.o temp
+</pre>
+   <p class="noindent">Because the <code>rm</code> command does not create a file named <samp><span class="file">clean</span></samp>,
+probably no such file will ever exist.  Therefore, the <code>rm</code> command
+will be executed every time you say &lsquo;<samp><span class="samp">make clean</span></samp>&rsquo;. 
+<a name="index-g_t_0040code_007brm_007d-_0028shell-command_0029-205"></a>
+<a name="index-g_t_002ePHONY-206"></a>The phony target will cease to work if anything ever does create a file
+named <samp><span class="file">clean</span></samp> in this directory.  Since it has no prerequisites, the
+file <samp><span class="file">clean</span></samp> would inevitably be considered up to date, and its
+recipe would not be executed.  To avoid this problem, you can explicitly
+declare the target to be phony, using the special target <code>.PHONY</code>
+(see <a href="Special-Targets.html#Special-Targets">Special Built-in Target Names</a>) as follows:
+
+<pre class="example">     .PHONY : clean
+</pre>
+   <p class="noindent">Once this is done, &lsquo;<samp><span class="samp">make clean</span></samp>&rsquo; will run the recipe regardless of
+whether there is a file named <samp><span class="file">clean</span></samp>.
+
+   <p>Since it knows that phony targets do not name actual files that could be
+remade from other files, <code>make</code> skips the implicit rule search for
+phony targets (see <a href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>).  This is why declaring a target
+phony is good for performance, even if you are not worried about the
+actual file existing.
+
+   <p>Thus, you first write the line that states that <code>clean</code> is a
+phony target, then you write the rule, like this:
+
+<pre class="example">     .PHONY: clean
+     clean:
+             rm *.o temp
+</pre>
+   <p>Another example of the usefulness of phony targets is in conjunction
+with recursive invocations of <code>make</code> (for more information, see
+<a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>).  In this case the
+makefile will often contain a variable which lists a number of
+subdirectories to be built.  One way to handle this is with one rule
+whose recipe is a shell loop over the subdirectories, like this:
+
+<pre class="example">     SUBDIRS = foo bar baz
+     
+     subdirs:
+             for dir in $(SUBDIRS); do \
+               $(MAKE) -C $$dir; \
+             done
+</pre>
+   <p>There are problems with this method, however.  First, any error
+detected in a submake is ignored by this rule, so it will continue
+to build the rest of the directories even when one fails.  This can be
+overcome by adding shell commands to note the error and exit, but then
+it will do so even if <code>make</code> is invoked with the <code>-k</code>
+option, which is unfortunate.  Second, and perhaps more importantly,
+you cannot take advantage of <code>make</code>'s ability to build targets in
+parallel (see <a href="Parallel.html#Parallel">Parallel Execution</a>), since there is only
+one rule.
+
+   <p>By declaring the subdirectories as phony targets (you must do this as
+the subdirectory obviously always exists; otherwise it won't be built)
+you can remove these problems:
+
+<pre class="example">     SUBDIRS = foo bar baz
+     
+     .PHONY: subdirs $(SUBDIRS)
+     
+     subdirs: $(SUBDIRS)
+     
+     $(SUBDIRS):
+             $(MAKE) -C $@
+     
+     foo: baz
+</pre>
+   <p>Here we've also declared that the <samp><span class="file">foo</span></samp> subdirectory cannot be
+built until after the <samp><span class="file">baz</span></samp> subdirectory is complete; this kind of
+relationship declaration is particularly important when attempting
+parallel builds.
+
+   <p>A phony target should not be a prerequisite of a real target file; if it
+is, its recipe will be run every time <code>make</code> goes to update that
+file.  As long as a phony target is never a prerequisite of a real
+target, the phony target recipe will be executed only when the phony
+target is a specified goal (see <a href="Goals.html#Goals">Arguments to Specify the Goals</a>).
+
+   <p>Phony targets can have prerequisites.  When one directory contains multiple
+programs, it is most convenient to describe all of the programs in one
+makefile <samp><span class="file">./Makefile</span></samp>.  Since the target remade by default will be the
+first one in the makefile, it is common to make this a phony target named
+&lsquo;<samp><span class="samp">all</span></samp>&rsquo; and give it, as prerequisites, all the individual programs.  For
+example:
+
+<pre class="example">     all : prog1 prog2 prog3
+     .PHONY : all
+     
+     prog1 : prog1.o utils.o
+             cc -o prog1 prog1.o utils.o
+     
+     prog2 : prog2.o
+             cc -o prog2 prog2.o
+     
+     prog3 : prog3.o sort.o utils.o
+             cc -o prog3 prog3.o sort.o utils.o
+</pre>
+   <p class="noindent">Now you can say just &lsquo;<samp><span class="samp">make</span></samp>&rsquo; to remake all three programs, or
+specify as arguments the ones to remake (as in &lsquo;<samp><span class="samp">make prog1
+prog3</span></samp>&rsquo;).  Phoniness is not inherited: the prerequisites of a phony
+target are not themselves phony, unless explicitly declared to be so.
+
+   <p>When one phony target is a prerequisite of another, it serves as a subroutine
+of the other.  For example, here &lsquo;<samp><span class="samp">make cleanall</span></samp>&rsquo; will delete the
+object files, the difference files, and the file <samp><span class="file">program</span></samp>:
+
+<pre class="example">     .PHONY: cleanall cleanobj cleandiff
+     
+     cleanall : cleanobj cleandiff
+             rm program
+     
+     cleanobj :
+             rm *.o
+     
+     cleandiff :
+             rm *.diff
+</pre>
+   </body></html>
+

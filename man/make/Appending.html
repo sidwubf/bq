@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+<title>Appending - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-Variables.html#Using-Variables" title="Using Variables">
+<link rel="prev" href="Setting.html#Setting" title="Setting">
+<link rel="next" href="Override-Directive.html#Override-Directive" title="Override Directive">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Appending"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Override-Directive.html#Override-Directive">Override Directive</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Setting.html#Setting">Setting</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-Variables.html#Using-Variables">Using Variables</a>
+<hr>
+</div>
+
+<h3 class="section">6.6 Appending More Text to Variables</h3>
+
+<p><a name="index-g_t_002b_003d-510"></a><a name="index-appending-to-variables-511"></a><a name="index-variables_002c-appending-to-512"></a>
+Often it is useful to add more text to the value of a variable already defined. 
+You do this with a line containing &lsquo;<samp><span class="samp">+=</span></samp>&rsquo;, like this:
+
+<pre class="example">     objects += another.o
+</pre>
+   <p class="noindent">This takes the value of the variable <code>objects</code>, and adds the text
+&lsquo;<samp><span class="samp">another.o</span></samp>&rsquo; to it (preceded by a single space).  Thus:
+
+<pre class="example">     objects = main.o foo.o bar.o utils.o
+     objects += another.o
+</pre>
+   <p class="noindent">sets <code>objects</code> to &lsquo;<samp><span class="samp">main.o foo.o bar.o utils.o another.o</span></samp>&rsquo;.
+
+   <p>Using &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; is similar to:
+
+<pre class="example">     objects = main.o foo.o bar.o utils.o
+     objects := $(objects) another.o
+</pre>
+   <p class="noindent">but differs in ways that become important when you use more complex values.
+
+   <p>When the variable in question has not been defined before, &lsquo;<samp><span class="samp">+=</span></samp>&rsquo;
+acts just like normal &lsquo;<samp><span class="samp">=</span></samp>&rsquo;: it defines a recursively-expanded
+variable.  However, when there <em>is</em> a previous definition, exactly
+what &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; does depends on what flavor of variable you defined
+originally.  See <a href="Flavors.html#Flavors">The Two Flavors of Variables</a>, for an
+explanation of the two flavors of variables.
+
+   <p>When you add to a variable's value with &lsquo;<samp><span class="samp">+=</span></samp>&rsquo;, <code>make</code> acts
+essentially as if you had included the extra text in the initial
+definition of the variable.  If you defined it first with &lsquo;<samp><span class="samp">:=</span></samp>&rsquo;,
+making it a simply-expanded variable, &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; adds to that
+simply-expanded definition, and expands the new text before appending it
+to the old value just as &lsquo;<samp><span class="samp">:=</span></samp>&rsquo; does
+(see <a href="Setting.html#Setting">Setting Variables</a>, for a full explanation of &lsquo;<samp><span class="samp">:=</span></samp>&rsquo;). 
+In fact,
+
+<pre class="example">     variable := value
+     variable += more
+</pre>
+   <p class="noindent">is exactly equivalent to:
+
+<p class="noindent">
+<pre class="example">     variable := value
+     variable := $(variable) more
+</pre>
+   <p>On the other hand, when you use &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; with a variable that you defined
+first to be recursively-expanded using plain &lsquo;<samp><span class="samp">=</span></samp>&rsquo;, <code>make</code> does
+something a bit different.  Recall that when you define a
+recursively-expanded variable, <code>make</code> does not expand the value you set
+for variable and function references immediately.  Instead it stores the text
+verbatim, and saves these variable and function references to be expanded
+later, when you refer to the new variable (see <a href="Flavors.html#Flavors">The Two Flavors of Variables</a>).  When you use &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; on a recursively-expanded variable,
+it is this unexpanded text to which <code>make</code> appends the new text you
+specify.
+
+<pre class="example">     variable = value
+     variable += more
+</pre>
+   <p class="noindent">is roughly equivalent to:
+
+<pre class="example">     temp = value
+     variable = $(temp) more
+</pre>
+   <p class="noindent">except that of course it never defines a variable called <code>temp</code>. 
+The importance of this comes when the variable's old value contains
+variable references.  Take this common example:
+
+<pre class="example">     CFLAGS = $(includes) -O
+     ...
+     CFLAGS += -pg # enable profiling
+</pre>
+   <p class="noindent">The first line defines the <code>CFLAGS</code> variable with a reference to another
+variable, <code>includes</code>.  (<code>CFLAGS</code> is used by the rules for C
+compilation; see <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Implicit Rules</a>.) 
+Using &lsquo;<samp><span class="samp">=</span></samp>&rsquo; for the definition makes <code>CFLAGS</code> a recursively-expanded
+variable, meaning &lsquo;<samp><span class="samp">$(includes)&nbsp;-O</span></samp>&rsquo;<!-- /@w --> is <em>not</em> expanded when
+<code>make</code> processes the definition of <code>CFLAGS</code>.  Thus, <code>includes</code>
+need not be defined yet for its value to take effect.  It only has to be
+defined before any reference to <code>CFLAGS</code>.  If we tried to append to the
+value of <code>CFLAGS</code> without using &lsquo;<samp><span class="samp">+=</span></samp>&rsquo;, we might do it like this:
+
+<pre class="example">     CFLAGS := $(CFLAGS) -pg # enable profiling
+</pre>
+   <p class="noindent">This is pretty close, but not quite what we want.  Using &lsquo;<samp><span class="samp">:=</span></samp>&rsquo;
+redefines <code>CFLAGS</code> as a simply-expanded variable; this means
+<code>make</code> expands the text &lsquo;<samp><span class="samp">$(CFLAGS)&nbsp;-pg</span></samp>&rsquo;<!-- /@w --> before setting the
+variable.  If <code>includes</code> is not yet defined, we get &lsquo;<samp><span class="samp">&nbsp;-O&nbsp;-pg</span></samp>&rsquo;<!-- /@w -->, and a later definition of <code>includes</code> will have no effect. 
+Conversely, by using &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; we set <code>CFLAGS</code> to the
+<em>unexpanded</em> value &lsquo;<samp><span class="samp">$(includes)&nbsp;-O&nbsp;-pg</span></samp>&rsquo;<!-- /@w -->.  Thus we preserve
+the reference to <code>includes</code>, so if that variable gets defined at
+any later point, a reference like &lsquo;<samp><span class="samp">$(CFLAGS)</span></samp>&rsquo; still uses its
+value.
+
+   </body></html>
+

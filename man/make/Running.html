@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Running - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Functions.html#Functions" title="Functions">
+<link rel="next" href="Implicit-Rules.html#Implicit-Rules" title="Implicit Rules">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Functions.html#Functions">Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">9 How to Run <code>make</code></h2>
+
+<p>A makefile that says how to recompile a program can be used in more
+than one way.  The simplest use is to recompile every file that is out
+of date.  Usually, makefiles are written so that if you run
+<code>make</code> with no arguments, it does just that.
+
+   <p>But you might want to update only some of the files; you might want to use
+a different compiler or different compiler options; you might want just to
+find out which files are out of date without changing them.
+
+   <p>By giving arguments when you run <code>make</code>, you can do any of these
+things and many others.
+
+   <p><a name="index-exit-status-of-make-663"></a>The exit status of <code>make</code> is always one of three values:
+     <dl>
+<dt><code>0</code><dd>The exit status is zero if <code>make</code> is successful. 
+<br><dt><code>2</code><dd>The exit status is two if <code>make</code> encounters any errors. 
+It will print messages describing the particular errors. 
+<br><dt><code>1</code><dd>The exit status is one if you use the &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; flag and <code>make</code>
+determines that some target is not already up to date. 
+See <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Executing Recipes</a>. 
+</dl>
+
+<ul class="menu">
+<li><a accesskey="1" href="Makefile-Arguments.html#Makefile-Arguments">Makefile Arguments</a>:           How to specify which makefile to use. 
+<li><a accesskey="2" href="Goals.html#Goals">Goals</a>:                        How to use goal arguments to specify which
+                                  parts of the makefile to use. 
+<li><a accesskey="3" href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a>:         How to use mode flags to specify what
+                                  kind of thing to do with the recipes
+                                  in the makefile other than simply
+                                  execute them. 
+<li><a accesskey="4" href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a>:         How to avoid recompiling certain files. 
+<li><a accesskey="5" href="Overriding.html#Overriding">Overriding</a>:                   How to override a variable to specify
+                                  an alternate compiler and other things. 
+<li><a accesskey="6" href="Testing.html#Testing">Testing</a>:                      How to proceed past some errors, to
+                                  test compilation. 
+<li><a accesskey="7" href="Options-Summary.html#Options-Summary">Options Summary</a>:              Summary of Options
+</ul>
+
+   </body></html>
+

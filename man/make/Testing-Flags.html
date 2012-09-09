@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>Testing Flags - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Conditionals.html#Conditionals" title="Conditionals">
+<link rel="prev" href="Conditional-Syntax.html#Conditional-Syntax" title="Conditional Syntax">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Testing-Flags"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conditional-Syntax.html#Conditional-Syntax">Conditional Syntax</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditionals.html#Conditionals">Conditionals</a>
+<hr>
+</div>
+
+<h3 class="section">7.3 Conditionals that Test Flags</h3>
+
+<p>You can write a conditional that tests <code>make</code> command flags such as
+&lsquo;<samp><span class="samp">-t</span></samp>&rsquo; by using the variable <code>MAKEFLAGS</code> together with the
+<code>findstring</code> function
+(see <a href="Text-Functions.html#Text-Functions">Functions for String Substitution and Analysis</a>). 
+This is useful when <code>touch</code> is not enough to make a file appear up
+to date.
+
+   <p>The <code>findstring</code> function determines whether one string appears as a
+substring of another.  If you want to test for the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; flag,
+use &lsquo;<samp><span class="samp">t</span></samp>&rsquo; as the first string and the value of <code>MAKEFLAGS</code> as
+the other.
+
+   <p>For example, here is how to arrange to use &lsquo;<samp><span class="samp">ranlib -t</span></samp>&rsquo; to finish
+marking an archive file up to date:
+
+<pre class="example">     archive.a: ...
+     ifneq (,$(findstring t,$(MAKEFLAGS)))
+             +touch archive.a
+             +ranlib -t archive.a
+     else
+             ranlib archive.a
+     endif
+</pre>
+   <p class="noindent">The &lsquo;<samp><span class="samp">+</span></samp>&rsquo; prefix marks those recipe lines as &ldquo;recursive&rdquo; so that
+they will be executed despite use of the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; flag. 
+See <a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>.
+
+   </body></html>
+

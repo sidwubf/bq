@@ -1,0 +1,194 @@
+<html lang="en">
+<head>
+<title>Variables/Recursion - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recursion.html#Recursion" title="Recursion">
+<link rel="prev" href="MAKE-Variable.html#MAKE-Variable" title="MAKE Variable">
+<link rel="next" href="Options_002fRecursion.html#Options_002fRecursion" title="Options/Recursion">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Variables%2fRecursion"></a>
+<a name="Variables_002fRecursion"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recursion.html#Recursion">Recursion</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.7.2 Communicating Variables to a Sub-<code>make</code></h4>
+
+<p><a name="index-sub_002d_0040code_007bmake_007d-387"></a><a name="index-environment_002c-and-recursion-388"></a><a name="index-exporting-variables-389"></a><a name="index-variables_002c-environment-390"></a><a name="index-variables_002c-exporting-391"></a><a name="index-recursion_002c-and-environment-392"></a><a name="index-recursion_002c-and-variables-393"></a>
+Variable values of the top-level <code>make</code> can be passed to the
+sub-<code>make</code> through the environment by explicit request.  These
+variables are defined in the sub-<code>make</code> as defaults, but do not
+override what is specified in the makefile used by the sub-<code>make</code>
+makefile unless you use the &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; switch (see <a href="Options-Summary.html#Options-Summary">Summary of Options</a>).
+
+   <p>To pass down, or <dfn>export</dfn>, a variable, <code>make</code> adds the
+variable and its value to the environment for running each line of the
+recipe.  The sub-<code>make</code>, in turn, uses the environment to
+initialize its table of variable values.  See <a href="Environment.html#Environment">Variables from the Environment</a>.
+
+   <p>Except by explicit request, <code>make</code> exports a variable only if it
+is either defined in the environment initially or set on the command
+line, and if its name consists only of letters, numbers, and underscores. 
+Some shells cannot cope with environment variable names consisting of
+characters other than letters, numbers, and underscores.
+
+   <p><a name="index-SHELL_002c-exported-value-394"></a>The value of the <code>make</code> variable <code>SHELL</code> is not exported. 
+Instead, the value of the <code>SHELL</code> variable from the invoking
+environment is passed to the sub-<code>make</code>.  You can force
+<code>make</code> to export its value for <code>SHELL</code> by using the
+<code>export</code> directive, described below.  See <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a>.
+
+   <p>The special variable <code>MAKEFLAGS</code> is always exported (unless you
+unexport it).  <code>MAKEFILES</code> is exported if you set it to anything.
+
+   <p><code>make</code> automatically passes down variable values that were defined
+on the command line, by putting them in the <code>MAKEFLAGS</code> variable. 
+See <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a>.
+
+   <p>Variables are <em>not</em> normally passed down if they were created by
+default by <code>make</code> (see <a href="Implicit-Variables.html#Implicit-Variables">Variables Used by Implicit Rules</a>).  The sub-<code>make</code> will define these for
+itself.
+
+   <p><a name="index-export-395"></a>If you want to export specific variables to a sub-<code>make</code>, use the
+<code>export</code> directive, like this:
+
+<pre class="example">     export <var>variable</var> ...
+</pre>
+   <p class="noindent"><a name="index-unexport-396"></a>If you want to <em>prevent</em> a variable from being exported, use the
+<code>unexport</code> directive, like this:
+
+<pre class="example">     unexport <var>variable</var> ...
+</pre>
+   <p class="noindent">In both of these forms, the arguments to <code>export</code> and
+<code>unexport</code> are expanded, and so could be variables or functions
+which expand to a (list of) variable names to be (un)exported.
+
+   <p>As a convenience, you can define a variable and export it at the same
+time by doing:
+
+<pre class="example">     export <var>variable</var> = value
+</pre>
+   <p class="noindent">has the same result as:
+
+<pre class="example">     <var>variable</var> = value
+     export <var>variable</var>
+</pre>
+   <p class="noindent">and
+
+<pre class="example">     export <var>variable</var> := value
+</pre>
+   <p class="noindent">has the same result as:
+
+<pre class="example">     <var>variable</var> := value
+     export <var>variable</var>
+</pre>
+   <p>Likewise,
+
+<pre class="example">     export <var>variable</var> += value
+</pre>
+   <p class="noindent">is just like:
+
+<pre class="example">     <var>variable</var> += value
+     export <var>variable</var>
+</pre>
+   <p class="noindent">See <a href="Appending.html#Appending">Appending More Text to Variables</a>.
+
+   <p>You may notice that the <code>export</code> and <code>unexport</code> directives
+work in <code>make</code> in the same way they work in the shell, <code>sh</code>.
+
+   <p>If you want all variables to be exported by default, you can use
+<code>export</code> by itself:
+
+<pre class="example">     export
+</pre>
+   <p class="noindent">This tells <code>make</code> that variables which are not explicitly mentioned
+in an <code>export</code> or <code>unexport</code> directive should be exported. 
+Any variable given in an <code>unexport</code> directive will still <em>not</em>
+be exported.  If you use <code>export</code> by itself to export variables by
+default, variables whose names contain characters other than
+alphanumerics and underscores will not be exported unless specifically
+mentioned in an <code>export</code> directive.
+
+   <p><a name="index-g_t_002eEXPORT_005fALL_005fVARIABLES-397"></a>The behavior elicited by an <code>export</code> directive by itself was the
+default in older versions of GNU <code>make</code>.  If your makefiles depend
+on this behavior and you want to be compatible with old versions of
+<code>make</code>, you can write a rule for the special target
+<code>.EXPORT_ALL_VARIABLES</code> instead of using the <code>export</code> directive. 
+This will be ignored by old <code>make</code>s, while the <code>export</code>
+directive will cause a syntax error. 
+<a name="index-compatibility-in-exporting-398"></a>
+Likewise, you can use <code>unexport</code> by itself to tell <code>make</code>
+<em>not</em> to export variables by default.  Since this is the default
+behavior, you would only need to do this if <code>export</code> had been used
+by itself earlier (in an included makefile, perhaps).  You
+<strong>cannot</strong> use <code>export</code> and <code>unexport</code> by themselves to
+have variables exported for some recipes and not for others.  The last
+<code>export</code> or <code>unexport</code> directive that appears by itself
+determines the behavior for the entire run of <code>make</code>.
+
+   <p><a name="index-MAKELEVEL-399"></a><a name="index-recursion_002c-level-of-400"></a>As a special feature, the variable <code>MAKELEVEL</code> is changed when it
+is passed down from level to level.  This variable's value is a string
+which is the depth of the level as a decimal number.  The value is
+&lsquo;<samp><span class="samp">0</span></samp>&rsquo; for the top-level <code>make</code>; &lsquo;<samp><span class="samp">1</span></samp>&rsquo; for a sub-<code>make</code>,
+&lsquo;<samp><span class="samp">2</span></samp>&rsquo; for a sub-sub-<code>make</code>, and so on.  The incrementation
+happens when <code>make</code> sets up the environment for a recipe.
+
+   <p>The main use of <code>MAKELEVEL</code> is to test it in a conditional
+directive (see <a href="Conditionals.html#Conditionals">Conditional Parts of Makefiles</a>); this
+way you can write a makefile that behaves one way if run recursively and
+another way if run directly by you.
+
+   <p><a name="index-MAKEFILES-401"></a>You can use the variable <code>MAKEFILES</code> to cause all sub-<code>make</code>
+commands to use additional makefiles.  The value of <code>MAKEFILES</code> is
+a whitespace-separated list of file names.  This variable, if defined in
+the outer-level makefile, is passed down through the environment; then
+it serves as a list of extra makefiles for the sub-<code>make</code> to read
+before the usual or specified ones.  See <a href="MAKEFILES-Variable.html#MAKEFILES-Variable">The Variable <code>MAKEFILES</code></a>.
+
+   </body></html>
+

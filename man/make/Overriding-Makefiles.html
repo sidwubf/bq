@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+<title>Overriding Makefiles - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="prev" href="Remaking-Makefiles.html#Remaking-Makefiles" title="Remaking Makefiles">
+<link rel="next" href="Reading-Makefiles.html#Reading-Makefiles" title="Reading Makefiles">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Overriding-Makefiles"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefiles.html#Makefiles">Makefiles</a>
+<hr>
+</div>
+
+<h3 class="section">3.6 Overriding Part of Another Makefile</h3>
+
+<p><a name="index-overriding-makefiles-95"></a><a name="index-makefile_002c-overriding-96"></a>Sometimes it is useful to have a makefile that is mostly just like
+another makefile.  You can often use the &lsquo;<samp><span class="samp">include</span></samp>&rsquo; directive to
+include one in the other, and add more targets or variable definitions. 
+However, it is illegal for two makefiles to give different recipes for
+the same target.  But there is another way.
+
+   <p><a name="index-match_002danything-rule_002c-used-to-override-97"></a>In the containing makefile (the one that wants to include the other),
+you can use a match-anything pattern rule to say that to remake any
+target that cannot be made from the information in the containing
+makefile, <code>make</code> should look in another makefile. 
+See <a href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>, for more information on pattern rules.
+
+   <p>For example, if you have a makefile called <samp><span class="file">Makefile</span></samp> that says how
+to make the target &lsquo;<samp><span class="samp">foo</span></samp>&rsquo; (and other targets), you can write a
+makefile called <samp><span class="file">GNUmakefile</span></samp> that contains:
+
+<pre class="example">     foo:
+             frobnicate &gt; foo
+     
+     %: force
+             @$(MAKE) -f Makefile $@
+     force: ;
+</pre>
+   <p>If you say &lsquo;<samp><span class="samp">make foo</span></samp>&rsquo;, <code>make</code> will find <samp><span class="file">GNUmakefile</span></samp>,
+read it, and see that to make <samp><span class="file">foo</span></samp>, it needs to run the recipe
+&lsquo;<samp><span class="samp">frobnicate &gt; foo</span></samp>&rsquo;.  If you say &lsquo;<samp><span class="samp">make bar</span></samp>&rsquo;, <code>make</code> will
+find no way to make <samp><span class="file">bar</span></samp> in <samp><span class="file">GNUmakefile</span></samp>, so it will use the
+recipe from the pattern rule: &lsquo;<samp><span class="samp">make -f Makefile bar</span></samp>&rsquo;.  If
+<samp><span class="file">Makefile</span></samp> provides a rule for updating <samp><span class="file">bar</span></samp>, <code>make</code>
+will apply the rule.  And likewise for any other target that
+<samp><span class="file">GNUmakefile</span></samp> does not say how to make.
+
+   <p>The way this works is that the pattern rule has a pattern of just
+&lsquo;<samp><span class="samp">%</span></samp>&rsquo;, so it matches any target whatever.  The rule specifies a
+prerequisite <samp><span class="file">force</span></samp>, to guarantee that the recipe will be run even
+if the target file already exists.  We give the <samp><span class="file">force</span></samp> target an
+empty recipe to prevent <code>make</code> from searching for an implicit rule to
+build it&mdash;otherwise it would apply the same match-anything rule to
+<samp><span class="file">force</span></samp> itself and create a prerequisite loop!
+
+   </body></html>
+

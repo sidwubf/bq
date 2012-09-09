@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+<title>Cleanup - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Introduction.html#Introduction" title="Introduction">
+<link rel="prev" href="Combine-By-Prerequisite.html#Combine-By-Prerequisite" title="Combine By Prerequisite">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Cleanup"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Combine-By-Prerequisite.html#Combine-By-Prerequisite">Combine By Prerequisite</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Introduction.html#Introduction">Introduction</a>
+<hr>
+</div>
+
+<h3 class="section">2.7 Rules for Cleaning the Directory</h3>
+
+<p><a name="index-cleaning-up-45"></a><a name="index-removing_002c-to-clean-up-46"></a>
+Compiling a program is not the only thing you might want to write rules
+for.  Makefiles commonly tell how to do a few other things besides
+compiling a program: for example, how to delete all the object files
+and executables so that the directory is &lsquo;<samp><span class="samp">clean</span></samp>&rsquo;.
+
+   <p><a name="index-g_t_0040code_007bclean_007d-target-47"></a>Here is how we
+could write a <code>make</code> rule for cleaning our example editor:
+
+<pre class="example">     clean:
+             rm edit $(objects)
+</pre>
+   <p>In practice, we might want to write the rule in a somewhat more
+complicated manner to handle unanticipated situations.  We would do this:
+
+<pre class="example">     .PHONY : clean
+     clean :
+             -rm edit $(objects)
+</pre>
+   <p class="noindent">This prevents <code>make</code> from getting confused by an actual file
+called <samp><span class="file">clean</span></samp> and causes it to continue in spite of errors from
+<code>rm</code>.  (See <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a>, and <a href="Errors.html#Errors">Errors in Recipes</a>.)
+
+<p class="noindent">A rule such as this should not be placed at the beginning of the
+makefile, because we do not want it to run by default!  Thus, in the
+example makefile, we want the rule for <code>edit</code>, which recompiles
+the editor, to remain the default goal.
+
+   <p>Since <code>clean</code> is not a prerequisite of <code>edit</code>, this rule will not
+run at all if we give the command &lsquo;<samp><span class="samp">make</span></samp>&rsquo; with no arguments.  In
+order to make the rule run, we have to type &lsquo;<samp><span class="samp">make clean</span></samp>&rsquo;. 
+See <a href="Running.html#Running">How to Run <code>make</code></a>.
+
+   </body></html>
+

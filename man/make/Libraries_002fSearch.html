@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<title>Libraries/Search - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Directory-Search.html#Directory-Search" title="Directory Search">
+<link rel="prev" href="Implicit_002fSearch.html#Implicit_002fSearch" title="Implicit/Search">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Libraries%2fSearch"></a>
+<a name="Libraries_002fSearch"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Directory-Search.html#Directory-Search">Directory Search</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.5.6 Directory Search for Link Libraries</h4>
+
+<p><a name="index-link-libraries_002c-and-directory-search-193"></a><a name="index-libraries-for-linking_002c-directory-search-194"></a><a name="index-directory-search-_0028_0040code_007bVPATH_007d_0029_002c-and-link-libraries-195"></a><a name="index-g_t_0040code_007bVPATH_007d_002c-and-link-libraries-196"></a><a name="index-search-path-for-prerequisites-_0028_0040code_007bVPATH_007d_0029_002c-and-link-libraries-197"></a><a name="index-g_t_0040code_007b_002dl_007d-_0028library-search_0029-198"></a><a name="index-link-libraries_002c-patterns-matching-199"></a><a name="index-g_t_0040code_007b_002eLIBPATTERNS_007d_002c-and-link-libraries-200"></a><a name="index-g_t_002eLIBPATTERNS-201"></a>
+Directory search applies in a special way to libraries used with the
+linker.  This special feature comes into play when you write a prerequisite
+whose name is of the form &lsquo;<samp><span class="samp">-l</span><var>name</var></samp>&rsquo;.  (You can tell something
+strange is going on here because the prerequisite is normally the name of a
+file, and the <em>file name</em> of a library generally looks like
+<samp><span class="file">lib</span><var>name</var><span class="file">.a</span></samp>, not like &lsquo;<samp><span class="samp">-l</span><var>name</var></samp>&rsquo;.)
+
+   <p>When a prerequisite's name has the form &lsquo;<samp><span class="samp">-l</span><var>name</var></samp>&rsquo;, <code>make</code>
+handles it specially by searching for the file <samp><span class="file">lib</span><var>name</var><span class="file">.so</span></samp>,
+and, if it is not found, for the file <samp><span class="file">lib</span><var>name</var><span class="file">.a</span></samp> in the current
+directory, in directories specified by matching <code>vpath</code>
+search paths and the <code>VPATH</code> search path, and then in the
+directories <samp><span class="file">/lib</span></samp>, <samp><span class="file">/usr/lib</span></samp>, and <samp><var>prefix</var><span class="file">/lib</span></samp>
+(normally <samp><span class="file">/usr/local/lib</span></samp>, but MS-DOS/MS-Windows versions of
+<code>make</code> behave as if <var>prefix</var> is defined to be the root of the
+DJGPP installation tree).
+
+   <p>For example, if there is a <samp><span class="file">/usr/lib/libcurses.a</span></samp> library on your
+system (and no <samp><span class="file">/usr/lib/libcurses.so</span></samp> file), then
+
+<pre class="example">     foo : foo.c -lcurses
+             cc $^ -o $@
+</pre>
+   <p class="noindent">would cause the command &lsquo;<samp><span class="samp">cc foo.c /usr/lib/libcurses.a -o foo</span></samp>&rsquo; to
+be executed when <samp><span class="file">foo</span></samp> is older than <samp><span class="file">foo.c</span></samp> or than
+<samp><span class="file">/usr/lib/libcurses.a</span></samp>.
+
+   <p>Although the default set of files to be searched for is
+<samp><span class="file">lib</span><var>name</var><span class="file">.so</span></samp> and <samp><span class="file">lib</span><var>name</var><span class="file">.a</span></samp>, this is customizable
+via the <code>.LIBPATTERNS</code> variable.  Each word in the value of this
+variable is a pattern string.  When a prerequisite like
+&lsquo;<samp><span class="samp">-l</span><var>name</var></samp>&rsquo; is seen, <code>make</code> will replace the percent in
+each pattern in the list with <var>name</var> and perform the above directory
+searches using each library filename.
+
+   <p>The default value for <code>.LIBPATTERNS</code> is &lsquo;<samp><span class="samp">lib%.so lib%.a</span></samp>&rsquo;,
+which provides the default behavior described above.
+
+   <p>You can turn off link library expansion completely by setting this
+variable to an empty value.
+
+   </body></html>
+

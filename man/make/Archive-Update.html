@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Archive Update - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Archives.html#Archives" title="Archives">
+<link rel="prev" href="Archive-Members.html#Archive-Members" title="Archive Members">
+<link rel="next" href="Archive-Pitfalls.html#Archive-Pitfalls" title="Archive Pitfalls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Archive-Update"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Archive-Pitfalls.html#Archive-Pitfalls">Archive Pitfalls</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Archive-Members.html#Archive-Members">Archive Members</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Archives.html#Archives">Archives</a>
+<hr>
+</div>
+
+<h3 class="section">11.2 Implicit Rule for Archive Member Targets</h3>
+
+<p>Recall that a target that looks like <samp><var>a</var><span class="file">(</span><var>m</var><span class="file">)</span></samp> stands for the
+member named <var>m</var> in the archive file <var>a</var>.
+
+   <p>When <code>make</code> looks for an implicit rule for such a target, as a special
+feature it considers implicit rules that match <samp><span class="file">(</span><var>m</var><span class="file">)</span></samp>, as well as
+those that match the actual target <samp><var>a</var><span class="file">(</span><var>m</var><span class="file">)</span></samp>.
+
+   <p>This causes one special rule whose target is <samp><span class="file">(%)</span></samp> to match.  This
+rule updates the target <samp><var>a</var><span class="file">(</span><var>m</var><span class="file">)</span></samp> by copying the file <var>m</var>
+into the archive.  For example, it will update the archive member target
+<samp><span class="file">foo.a(bar.o)</span></samp> by copying the <em>file</em> <samp><span class="file">bar.o</span></samp> into the
+archive <samp><span class="file">foo.a</span></samp> as a <em>member</em> named <samp><span class="file">bar.o</span></samp>.
+
+   <p>When this rule is chained with others, the result is very powerful. 
+Thus, &lsquo;<samp><span class="samp">make "foo.a(bar.o)"</span></samp>&rsquo; (the quotes are needed to protect the
+&lsquo;<samp><span class="samp">(</span></samp>&rsquo; and &lsquo;<samp><span class="samp">)</span></samp>&rsquo; from being interpreted specially by the shell) in
+the presence of a file <samp><span class="file">bar.c</span></samp> is enough to cause the following
+recipe to be run, even without a makefile:
+
+<pre class="example">     cc -c bar.c -o bar.o
+     ar r foo.a bar.o
+     rm -f bar.o
+</pre>
+   <p class="noindent">Here <code>make</code> has envisioned the file <samp><span class="file">bar.o</span></samp> as an intermediate
+file.  See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.
+
+   <p>Implicit rules such as this one are written using the automatic variable
+&lsquo;<samp><span class="samp">$%</span></samp>&rsquo;.  See <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>.
+
+   <p>An archive member name in an archive cannot contain a directory name, but
+it may be useful in a makefile to pretend that it does.  If you write an
+archive member target <samp><span class="file">foo.a(dir/file.o)</span></samp>, <code>make</code> will perform
+automatic updating with this recipe:
+
+<pre class="example">     ar r foo.a dir/file.o
+</pre>
+   <p class="noindent">which has the effect of copying the file <samp><span class="file">dir/file.o</span></samp> into a member
+named <samp><span class="file">file.o</span></samp>.  In connection with such usage, the automatic variables
+<code>%D</code> and <code>%F</code> may be useful.
+
+<ul class="menu">
+<li><a accesskey="1" href="Archive-Symbols.html#Archive-Symbols">Archive Symbols</a>:              How to update archive symbol directories. 
+</ul>
+
+   </body></html>
+

@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Rules - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="next" href="Recipes.html#Recipes" title="Recipes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Rules"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Recipes.html#Recipes">Recipes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Makefiles.html#Makefiles">Makefiles</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">4 Writing Rules</h2>
+
+<p><a name="index-writing-rules-123"></a><a name="index-rule_002c-how-to-write-124"></a><a name="index-target-125"></a><a name="index-prerequisite-126"></a>
+A <dfn>rule</dfn> appears in the makefile and says when and how to remake
+certain files, called the rule's <dfn>targets</dfn> (most often only one per rule). 
+It lists the other files that are the <dfn>prerequisites</dfn> of the target, and
+the <dfn>recipe</dfn> to use to create or update the target.
+
+   <p><a name="index-default-goal-127"></a><a name="index-goal_002c-default-128"></a>The order of rules is not significant, except for determining the
+<dfn>default goal</dfn>: the target for <code>make</code> to consider, if you do
+not otherwise specify one.  The default goal is the target of the first
+rule in the first makefile.  If the first rule has multiple targets,
+only the first target is taken as the default.  There are two
+exceptions: a target starting with a period is not a default unless it
+contains one or more slashes, &lsquo;<samp><span class="samp">/</span></samp>&rsquo;, as well; and, a target that
+defines a pattern rule has no effect on the default goal. 
+(See <a href="Pattern-Rules.html#Pattern-Rules">Defining and Redefining Pattern Rules</a>.)
+
+   <p>Therefore, we usually write the makefile so that the first rule is the
+one for compiling the entire program or all the programs described by
+the makefile (often with a target called &lsquo;<samp><span class="samp">all</span></samp>&rsquo;). 
+See <a href="Goals.html#Goals">Arguments to Specify the Goals</a>.
+
+<ul class="menu">
+<li><a accesskey="1" href="Rule-Example.html#Rule-Example">Rule Example</a>:                 An example explained. 
+<li><a accesskey="2" href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a>:                  General syntax explained. 
+<li><a accesskey="3" href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a>:           There are two types of prerequisites. 
+<li><a accesskey="4" href="Wildcards.html#Wildcards">Wildcards</a>:                    Using wildcard characters such as `*'. 
+<li><a accesskey="5" href="Directory-Search.html#Directory-Search">Directory Search</a>:             Searching other directories for source files. 
+<li><a accesskey="6" href="Phony-Targets.html#Phony-Targets">Phony Targets</a>:                Using a target that is not a real file's name. 
+<li><a accesskey="7" href="Force-Targets.html#Force-Targets">Force Targets</a>:                You can use a target without recipes
+                                  or prerequisites to mark other targets
+                                  as phony. 
+<li><a accesskey="8" href="Empty-Targets.html#Empty-Targets">Empty Targets</a>:                When only the date matters and the
+                                  files are empty. 
+<li><a accesskey="9" href="Special-Targets.html#Special-Targets">Special Targets</a>:              Targets with special built-in meanings. 
+<li><a href="Multiple-Targets.html#Multiple-Targets">Multiple Targets</a>:             When to make use of several targets in a rule. 
+<li><a href="Multiple-Rules.html#Multiple-Rules">Multiple Rules</a>:               How to use several rules with the same target. 
+<li><a href="Static-Pattern.html#Static-Pattern">Static Pattern</a>:               Static pattern rules apply to multiple targets
+                                  and can vary the prerequisites according to
+                                  the target name. 
+<li><a href="Double_002dColon.html#Double_002dColon">Double-Colon</a>:                 How to use a special kind of rule to allow
+                                  several independent rules for one target. 
+<li><a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a>:      How to automatically generate rules giving
+                                  prerequisites from source files themselves. 
+</ul>
+
+   </body></html>
+

@@ -1,0 +1,895 @@
+<html lang="en">
+<head>
+<title>Concept Index - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License" title="GNU Free Documentation License">
+<link rel="next" href="Name-Index.html#Name-Index" title="Name Index">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Concept-Index"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Name-Index.html#Name-Index">Name Index</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="unnumbered">Index of Concepts</h2>
+
+<ul class="index-cp" compact>
+<li><a href="Makefile-Contents.html#index-g_t_0040code_007b_0023_007d-_0028comments_0029_002c-in-makefile-56"><code>#</code> (comments), in makefile</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Recipe-Syntax.html#index-g_t_0040code_007b_0023_007d-_0028comments_0029_002c-in-recipes-292"><code>#</code> (comments), in recipes</a>: <a href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007b_0023include_007d-278"><code>#include</code></a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Syntax-of-Functions.html#index-g_t_0040code_007b_0024_007d_002c-in-function-call-554"><code>$</code>, in function call</a>: <a href="Syntax-of-Functions.html#Syntax-of-Functions">Syntax of Functions</a></li>
+<li><a href="Rule-Syntax.html#index-g_t_0040code_007b_0024_007d_002c-in-rules-136"><code>$</code>, in rules</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Computed-Names.html#index-g_t_0040code_007b_0024_007d_002c-in-variable-name-501"><code>$</code>, in variable name</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Reference.html#index-g_t_0040code_007b_0024_007d_002c-in-variable-reference-467"><code>$</code>, in variable reference</a>: <a href="Reference.html#Reference">Reference</a></li>
+<li><a href="Pattern-Intro.html#index-g_t_0040code_007b_0025_007d_002c-in-pattern-rules-929"><code>%</code>, in pattern rules</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Text-Functions.html#index-g_t_0040code_007b_0025_007d_002c-quoting-in-_0040code_007bpatsubst_007d-561"><code>%</code>, quoting in <code>patsubst</code></a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Static-Usage.html#index-g_t_0040code_007b_0025_007d_002c-quoting-in-static-pattern-263"><code>%</code>, quoting in static pattern</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Selective-Search.html#index-g_t_0040code_007b_0025_007d_002c-quoting-in-_0040code_007bvpath_007d-174"><code>%</code>, quoting in <code>vpath</code></a>: <a href="Selective-Search.html#Selective-Search">Selective Search</a></li>
+<li><a href="Text-Functions.html#index-g_t_0040code_007b_0025_007d_002c-quoting-with-_0040code_007b_005c_007d-_0028backslash_0029-562"><code>%</code>, quoting with <code>\</code> (backslash)</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Static-Usage.html#index-g_t_0040code_007b_0025_007d_002c-quoting-with-_0040code_007b_005c_007d-_0028backslash_0029-264"><code>%</code>, quoting with <code>\</code> (backslash)</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Selective-Search.html#index-g_t_0040code_007b_0025_007d_002c-quoting-with-_0040code_007b_005c_007d-_0028backslash_0029-175"><code>%</code>, quoting with <code>\</code> (backslash)</a>: <a href="Selective-Search.html#Selective-Search">Selective Search</a></li>
+<li><a href="Wildcards.html#index-g_t_0040code_007b_002a_007d-_0028wildcard-character_0029-149"><code>*</code> (wildcard character)</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="Canned-Recipes.html#index-g_t_002b_002c-and-_0040code_007bdefine_007d-456">+, and <code>define</code></a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_002b_002c-and-recipe-execution-702">+, and recipe execution</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="MAKE-Variable.html#index-g_t_002b_002c-and-recipes-383">+, and recipes</a>: <a href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a></li>
+<li><a href="Appending.html#index-g_t_002b_003d-510">+=</a>: <a href="Appending.html#Appending">Appending</a></li>
+<li><a href="Reading-Makefiles.html#index-g_t_002b_003d_002c-expansion-100">+=, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002cv-_0040r_007b_0028RCS-file-extension_0029_007d-855"><code>,v </code><span class="roman">(RCS file extension)</span></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Errors.html#index-g_t_0040code_007b_002d_007d-_0028in-recipes_0029-356"><code>-</code> (in recipes)</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Canned-Recipes.html#index-g_t_002d_002c-and-_0040code_007bdefine_007d-455">-, and <code>define</code></a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dalways_002dmake_007d-724"><code>--always-make</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dassume_002dnew_007d-783"><code>--assume-new</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002dassume_002dnew_007d-698"><code>--assume-new</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002dassume_002dnew_007d_002c-and-recursion-416"><code>--assume-new</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dassume_002dold_007d-756"><code>--assume-old</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Avoiding-Compilation.html#index-g_t_0040code_007b_002d_002dassume_002dold_007d-706"><code>--assume-old</code></a>: <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002dassume_002dold_007d_002c-and-recursion-415"><code>--assume-old</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dcheck_002dsymlink_002dtimes_007d-749"><code>--check-symlink-times</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002ddebug_007d-728"><code>--debug</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002ddirectory_007d-726"><code>--directory</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Recursion.html#index-g_t_0040code_007b_002d_002ddirectory_007d-378"><code>--directory</code></a>: <a href="Recursion.html#Recursion">Recursion</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002d_002ddirectory_007d_002c-and-_0040code_007b_002d_002dprint_002ddirectory_007d-440"><code>--directory</code>, and <code>--print-directory</code></a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002ddirectory_007d_002c-and-recursion-412"><code>--directory</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002ddry_002drun_007d-752"><code>--dry-run</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002ddry_002drun_007d-686"><code>--dry-run</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002d_002ddry_002drun_007d-310"><code>--dry-run</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002denvironment_002doverrides_007d-730"><code>--environment-overrides</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002deval_007d-731"><code>--eval</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dfile_007d-733"><code>--file</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Makefile-Arguments.html#index-g_t_0040code_007b_002d_002dfile_007d-664"><code>--file</code></a>: <a href="Makefile-Arguments.html#Makefile-Arguments">Makefile Arguments</a></li>
+<li><a href="Makefile-Names.html#index-g_t_0040code_007b_002d_002dfile_007d-66"><code>--file</code></a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002dfile_007d_002c-and-recursion-413"><code>--file</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dhelp_007d-736"><code>--help</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dignore_002derrors_007d-738"><code>--ignore-errors</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Errors.html#index-g_t_0040code_007b_002d_002dignore_002derrors_007d-359"><code>--ignore-errors</code></a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dinclude_002ddir_007d-740"><code>--include-dir</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Include.html#index-g_t_0040code_007b_002d_002dinclude_002ddir_007d-82"><code>--include-dir</code></a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002djobs_007d-742"><code>--jobs</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Parallel.html#index-g_t_0040code_007b_002d_002djobs_007d-344"><code>--jobs</code></a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002djobs_007d_002c-and-recursion-423"><code>--jobs</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002djust_002dprint_007d-751"><code>--just-print</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002djust_002dprint_007d-685"><code>--just-print</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002d_002djust_002dprint_007d-309"><code>--just-print</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dkeep_002dgoing_007d-744"><code>--keep-going</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Testing.html#index-g_t_0040code_007b_002d_002dkeep_002dgoing_007d-717"><code>--keep-going</code></a>: <a href="Testing.html#Testing">Testing</a></li>
+<li><a href="Errors.html#index-g_t_0040code_007b_002d_002dkeep_002dgoing_007d-362"><code>--keep-going</code></a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dload_002daverage_007d-746"><code>--load-average</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Parallel.html#index-g_t_0040code_007b_002d_002dload_002daverage_007d-352"><code>--load-average</code></a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dmakefile_007d-734"><code>--makefile</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Makefile-Arguments.html#index-g_t_0040code_007b_002d_002dmakefile_007d-665"><code>--makefile</code></a>: <a href="Makefile-Arguments.html#Makefile-Arguments">Makefile Arguments</a></li>
+<li><a href="Makefile-Names.html#index-g_t_0040code_007b_002d_002dmakefile_007d-67"><code>--makefile</code></a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dmax_002dload_007d-747"><code>--max-load</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Parallel.html#index-g_t_0040code_007b_002d_002dmax_002dload_007d-351"><code>--max-load</code></a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dnew_002dfile_007d-782"><code>--new-file</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002dnew_002dfile_007d-699"><code>--new-file</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002dnew_002dfile_007d_002c-and-recursion-417"><code>--new-file</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dno_002dbuiltin_002drules_007d-764"><code>--no-builtin-rules</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dno_002dbuiltin_002dvariables_007d-766"><code>--no-builtin-variables</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dno_002dkeep_002dgoing_007d-771"><code>--no-keep-going</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dno_002dprint_002ddirectory_007d-779"><code>--no-print-directory</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002d_002dno_002dprint_002ddirectory_007d-446"><code>--no-print-directory</code></a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dold_002dfile_007d-755"><code>--old-file</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Avoiding-Compilation.html#index-g_t_0040code_007b_002d_002dold_002dfile_007d-705"><code>--old-file</code></a>: <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002d_002dold_002dfile_007d_002c-and-recursion-414"><code>--old-file</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dprint_002ddata_002dbase_007d-758"><code>--print-data-base</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dprint_002ddirectory_007d-778"><code>--print-directory</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002d_002dprint_002ddirectory_007d_002c-and-_0040code_007b_002d_002ddirectory_007d-444"><code>--print-directory</code>, and <code>--directory</code></a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002d_002dprint_002ddirectory_007d_002c-and-recursion-445"><code>--print-directory</code>, and recursion</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002d_002dprint_002ddirectory_007d_002c-disabling-447"><code>--print-directory</code>, disabling</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dquestion_007d-762"><code>--question</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002dquestion_007d-693"><code>--question</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dquiet_007d-769"><code>--quiet</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002d_002dquiet_007d-314"><code>--quiet</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002drecon_007d-753"><code>--recon</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002drecon_007d-687"><code>--recon</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002d_002drecon_007d-311"><code>--recon</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dsilent_007d-768"><code>--silent</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002d_002dsilent_007d-313"><code>--silent</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dstop_007d-772"><code>--stop</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dtouch_007d-774"><code>--touch</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002dtouch_007d-689"><code>--touch</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="MAKE-Variable.html#index-g_t_0040code_007b_002d_002dtouch_007d_002c-and-recursion-386"><code>--touch</code>, and recursion</a>: <a href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dversion_007d-776"><code>--version</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dwarn_002dundefined_002dvariables_007d-784"><code>--warn-undefined-variables</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002d_002dwhat_002dif_007d-781"><code>--what-if</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002d_002dwhat_002dif_007d-696"><code>--what-if</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dB_007d-723"><code>-B</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002db_007d-721"><code>-b</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dC_007d-725"><code>-C</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Recursion.html#index-g_t_0040code_007b_002dC_007d-377"><code>-C</code></a>: <a href="Recursion.html#Recursion">Recursion</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002dC_007d_002c-and-_0040code_007b_002dw_007d-439"><code>-C</code>, and <code>-w</code></a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002dC_007d_002c-and-recursion-408"><code>-C</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dd_007d-727"><code>-d</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002de_007d-729"><code>-e</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007b_002de_007d-_0028shell-flag_0029-281"><code>-e</code> (shell flag)</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002df_007d-732"><code>-f</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Makefile-Arguments.html#index-g_t_0040code_007b_002df_007d-666"><code>-f</code></a>: <a href="Makefile-Arguments.html#Makefile-Arguments">Makefile Arguments</a></li>
+<li><a href="Makefile-Names.html#index-g_t_0040code_007b_002df_007d-65"><code>-f</code></a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002df_007d_002c-and-recursion-409"><code>-f</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dh_007d-735"><code>-h</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dI_007d-739"><code>-I</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002di_007d-737"><code>-i</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Errors.html#index-g_t_0040code_007b_002di_007d-358"><code>-i</code></a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Include.html#index-g_t_0040code_007b_002dI_007d-81"><code>-I</code></a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dj_007d-741"><code>-j</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Parallel.html#index-g_t_0040code_007b_002dj_007d-343"><code>-j</code></a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Archive-Pitfalls.html#index-g_t_0040code_007b_002dj_007d_002c-and-archive-update-1013"><code>-j</code>, and archive update</a>: <a href="Archive-Pitfalls.html#Archive-Pitfalls">Archive Pitfalls</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002dj_007d_002c-and-recursion-422"><code>-j</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dk_007d-743"><code>-k</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Testing.html#index-g_t_0040code_007b_002dk_007d-716"><code>-k</code></a>: <a href="Testing.html#Testing">Testing</a></li>
+<li><a href="Errors.html#index-g_t_0040code_007b_002dk_007d-361"><code>-k</code></a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dL_007d-748"><code>-L</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dl_007d-745"><code>-l</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Libraries_002fSearch.html#index-g_t_0040code_007b_002dl_007d-_0028library-search_0029-198"><code>-l</code> (library search)</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Parallel.html#index-g_t_0040code_007b_002dl_007d-_0028load-average_0029-350"><code>-l</code> (load average)</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dm_007d-722"><code>-m</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007b_002dM_007d-_0028to-compiler_0029-279"><code>-M</code> (to compiler)</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007b_002dMM_007d-_0028to-GNU-compiler_0029-282"><code>-MM</code> (to GNU compiler)</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dn_007d-750"><code>-n</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002dn_007d-688"><code>-n</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002dn_007d-308"><code>-n</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002do_007d-754"><code>-o</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Avoiding-Compilation.html#index-g_t_0040code_007b_002do_007d-704"><code>-o</code></a>: <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002do_007d_002c-and-recursion-410"><code>-o</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dp_007d-757"><code>-p</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dq_007d-761"><code>-q</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002dq_007d-694"><code>-q</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dR_007d-765"><code>-R</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dr_007d-763"><code>-r</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dS_007d-770"><code>-S</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002ds_007d-767"><code>-s</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_002ds_007d-312"><code>-s</code></a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dt_007d-773"><code>-t</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002dt_007d-692"><code>-t</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="MAKE-Variable.html#index-g_t_0040code_007b_002dt_007d_002c-and-recursion-384"><code>-t</code>, and recursion</a>: <a href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dv_007d-775"><code>-v</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dW_007d-780"><code>-W</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options-Summary.html#index-g_t_0040code_007b_002dw_007d-777"><code>-w</code></a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Instead-of-Execution.html#index-g_t_0040code_007b_002dW_007d-697"><code>-W</code></a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002dw_007d_002c-and-_0040code_007b_002dC_007d-442"><code>-w</code>, and <code>-C</code></a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002dw_007d_002c-and-recursion-443"><code>-w</code>, and recursion</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Options_002fRecursion.html#index-g_t_0040code_007b_002dW_007d_002c-and-recursion-411"><code>-W</code>, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="_002dw-Option.html#index-g_t_0040code_007b_002dw_007d_002c-disabling-448"><code>-w</code>, disabling</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Archive-Suffix-Rules.html#index-g_t_0040code_007b_002ea_007d-_0028archives_0029-1017"><code>.a</code> (archives)</a>: <a href="Archive-Suffix-Rules.html#Archive-Suffix-Rules">Archive Suffix Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002eC-802"><code>.C</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ec-797"><code>.c</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ecc-800"><code>.cc</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ech-844"><code>.ch</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ecpp-801"><code>.cpp</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007b_002ed_007d-284"><code>.d</code></a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002edef-815"><code>.def</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002edvi-840"><code>.dvi</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002eF-811"><code>.F</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ef-809"><code>.f</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002einfo-850"><code>.info</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002el-829"><code>.l</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Libraries_002fSearch.html#index-g_t_0040code_007b_002eLIBPATTERNS_007d_002c-and-link-libraries-200"><code>.LIBPATTERNS</code>, and link libraries</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002eln-832"><code>.ln</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002emod-816"><code>.mod</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002eo-796"><code>.o</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="One-Shell.html#index-g_t_0040code_007b_002eONESHELL_007d_002c-use-of-323"><code>.ONESHELL</code>, use of</a>: <a href="One-Shell.html#One-Shell">One Shell</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ep-805"><code>.p</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Chained-Rules.html#index-g_t_0040code_007b_002ePRECIOUS_007d-intermediate-files-925"><code>.PRECIOUS</code> intermediate files</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002er-810"><code>.r</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002eS-820"><code>.S</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002es-819"><code>.s</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002esh-859"><code>.sh</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Choosing-the-Shell.html#index-g_t_0040code_007b_002eSHELLFLAGS_007d_002c-value-of-327"><code>.SHELLFLAGS</code>, value of</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002esym-814"><code>.sym</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002etex-841"><code>.tex</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002etexi-851"><code>.texi</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002etexinfo-849"><code>.texinfo</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002etxinfo-852"><code>.txinfo</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ew-843"><code>.w</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002eweb-842"><code>.web</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_002ey-826"><code>.y</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Double_002dColon.html#index-g_t_0040code_007b_003a_003a_007d-rules-_0028double_002dcolon_0029-274"><code>::</code> rules (double-colon)</a>: <a href="Double_002dColon.html#Double_002dColon">Double-Colon</a></li>
+<li><a href="Setting.html#index-g_t_003a_003d-508">:=</a>: <a href="Setting.html#Setting">Setting</a></li>
+<li><a href="Flavors.html#index-g_t_003a_003d-479">:=</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Setting.html#index-g_t_003d-507">=</a>: <a href="Setting.html#Setting">Setting</a></li>
+<li><a href="Flavors.html#index-g_t_003d-474">=</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Reading-Makefiles.html#index-g_t_003d_002c-expansion-101">=, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Wildcards.html#index-g_t_0040code_007b_003f_007d-_0028wildcard-character_0029-150"><code>?</code> (wildcard character)</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="Setting.html#index-g_t_003f_003d-509">?=</a>: <a href="Setting.html#Setting">Setting</a></li>
+<li><a href="Flavors.html#index-g_t_003f_003d-487">?=</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Reading-Makefiles.html#index-g_t_003f_003d_002c-expansion-102">?=, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Echoing.html#index-g_t_0040code_007b_0040_0040_007d-_0028in-recipes_0029-305"><code>@</code> (in recipes)</a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Canned-Recipes.html#index-g_t_0040_0040_002c-and-_0040code_007bdefine_007d-454">@, and <code>define</code></a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Wildcards.html#index-g_t_0040code_007b_005b_0040dots_007b_007d_005d_007d-_0028wildcard-characters_0029-151"><code>[...]</code> (wildcard characters)</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="Simple-Makefile.html#index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-for-continuation-lines-20"><code>\</code> (backslash), for continuation lines</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Splitting-Lines.html#index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-in-recipes-298"><code>\</code> (backslash), in recipes</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="Text-Functions.html#index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-to-quote-_0040code_007b_0025_007d-563"><code>\</code> (backslash), to quote <code>%</code></a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Static-Usage.html#index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-to-quote-_0040code_007b_0025_007d-265"><code>\</code> (backslash), to quote <code>%</code></a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Selective-Search.html#index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-to-quote-_0040code_007b_0025_007d-176"><code>\</code> (backslash), to quote <code>%</code></a>: <a href="Selective-Search.html#Selective-Search">Selective Search</a></li>
+<li><a href="Archive-Symbols.html#index-g_t_0040code_007b_005f_005f_002eSYMDEF_007d-1005"><code>__.SYMDEF</code></a>: <a href="Archive-Symbols.html#Archive-Symbols">Archive Symbols</a></li>
+<li><a href="File-Name-Functions.html#index-abspath-626">abspath</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Search-Algorithm.html#index-algorithm-for-directory-search-179">algorithm for directory search</a>: <a href="Search-Algorithm.html#Search-Algorithm">Search Algorithm</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007ball_007d-_0040r_007b_0028standard-target_0029_007d-669"><code>all</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Appending.html#index-appending-to-variables-511">appending to variables</a>: <a href="Appending.html#Appending">Appending</a></li>
+<li><a href="Implicit-Variables.html#index-ar-863"><code>ar</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Archives.html#index-archive-1002">archive</a>: <a href="Archives.html#Archives">Archives</a></li>
+<li><a href="Archive-Members.html#index-archive-member-targets-1003">archive member targets</a>: <a href="Archive-Members.html#Archive-Members">Archive Members</a></li>
+<li><a href="Archive-Symbols.html#index-archive-symbol-directory-updating-1007">archive symbol directory updating</a>: <a href="Archive-Symbols.html#Archive-Symbols">Archive Symbols</a></li>
+<li><a href="Archive-Pitfalls.html#index-archive_002c-and-_0040code_007b_002dj_007d-1012">archive, and <code>-j</code></a>: <a href="Archive-Pitfalls.html#Archive-Pitfalls">Archive Pitfalls</a></li>
+<li><a href="Archive-Pitfalls.html#index-archive_002c-and-parallel-execution-1010">archive, and parallel execution</a>: <a href="Archive-Pitfalls.html#Archive-Pitfalls">Archive Pitfalls</a></li>
+<li><a href="Archive-Suffix-Rules.html#index-archive_002c-suffix-rule-for-1015">archive, suffix rule for</a>: <a href="Archive-Suffix-Rules.html#Archive-Suffix-Rules">Archive Suffix Rules</a></li>
+<li><a href="Options_002fRecursion.html#index-Arg-list-too-long-427">Arg list too long</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Syntax-of-Functions.html#index-arguments-of-functions-556">arguments of functions</a>: <a href="Syntax-of-Functions.html#Syntax-of-Functions">Syntax of Functions</a></li>
+<li><a href="Implicit-Variables.html#index-as-865"><code>as</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-as-818"><code>as</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-assembly_002c-rule-to-compile-817">assembly, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Automatic-Prerequisites.html#index-automatic-generation-of-prerequisites-276">automatic generation of prerequisites</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Include.html#index-automatic-generation-of-prerequisites-79">automatic generation of prerequisites</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Automatic-Variables.html#index-automatic-variables-933">automatic variables</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Automatic-Variables.html#index-automatic-variables-in-prerequisites-936">automatic variables in prerequisites</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Shell-Function.html#index-backquotes-651">backquotes</a>: <a href="Shell-Function.html#Shell-Function">Shell Function</a></li>
+<li><a href="Simple-Makefile.html#index-backslash-_0028_0040code_007b_005c_007d_0029_002c-for-continuation-lines-21">backslash (<code>\</code>), for continuation lines</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Splitting-Lines.html#index-backslash-_0028_0040code_007b_005c_007d_0029_002c-in-recipes-297">backslash (<code>\</code>), in recipes</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="Text-Functions.html#index-backslash-_0028_0040code_007b_005c_007d_0029_002c-to-quote-_0040code_007b_0025_007d-564">backslash (<code>\</code>), to quote <code>%</code></a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Static-Usage.html#index-backslash-_0028_0040code_007b_005c_007d_0029_002c-to-quote-_0040code_007b_0025_007d-266">backslash (<code>\</code>), to quote <code>%</code></a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Selective-Search.html#index-backslash-_0028_0040code_007b_005c_007d_0029_002c-to-quote-_0040code_007b_0025_007d-177">backslash (<code>\</code>), to quote <code>%</code></a>: <a href="Selective-Search.html#Selective-Search">Selective Search</a></li>
+<li><a href="Wildcard-Pitfall.html#index-backslashes-in-pathnames-and-wildcard-expansion-165">backslashes in pathnames and wildcard expansion</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="File-Name-Functions.html#index-basename-609">basename</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Install-Command-Categories.html#index-binary-packages-1041">binary packages</a>: <a href="Install-Command-Categories.html#Install-Command-Categories">Install Command Categories</a></li>
+<li><a href="Parallel.html#index-broken-pipe-345">broken pipe</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Bugs.html#index-bugs_002c-reporting-5">bugs, reporting</a>: <a href="Bugs.html#Bugs">Bugs</a></li>
+<li><a href="Special-Targets.html#index-built_002din-special-targets-218">built-in special targets</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Catalogue-of-Rules.html#index-C_002b_002b_002c-rule-to-compile-798">C++, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-C_002c-rule-to-compile-793">C, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Canned-Recipes.html#index-canned-recipes-449">canned recipes</a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Implicit-Variables.html#index-cc-867"><code>cc</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-cc-794"><code>cc</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="MAKE-Variable.html#index-g_t_0040code_007bcd_007d-_0028shell-command_0029-382"><code>cd</code> (shell command)</a>: <a href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a></li>
+<li><a href="Execution.html#index-g_t_0040code_007bcd_007d-_0028shell-command_0029-319"><code>cd</code> (shell command)</a>: <a href="Execution.html#Execution">Execution</a></li>
+<li><a href="Chained-Rules.html#index-chains-of-rules-917">chains of rules</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bcheck_007d-_0040r_007b_0028standard-target_0029_007d-681"><code>check</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bclean_007d-_0040r_007b_0028standard-target_0029_007d-670"><code>clean</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Cleanup.html#index-g_t_0040code_007bclean_007d-target-47"><code>clean</code> target</a>: <a href="Cleanup.html#Cleanup">Cleanup</a></li>
+<li><a href="Simple-Makefile.html#index-g_t_0040code_007bclean_007d-target-25"><code>clean</code> target</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Cleanup.html#index-cleaning-up-45">cleaning up</a>: <a href="Cleanup.html#Cleanup">Cleanup</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bclobber_007d-_0040r_007b_0028standard-target_0029_007d-674"><code>clobber</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Implicit-Variables.html#index-co-878"><code>co</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-co-854"><code>co</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Combine-By-Prerequisite.html#index-combining-rules-by-prerequisite-44">combining rules by prerequisite</a>: <a href="Combine-By-Prerequisite.html#Combine-By-Prerequisite">Combine By Prerequisite</a></li>
+<li><a href="Shell-Function.html#index-command-expansion-650">command expansion</a>: <a href="Shell-Function.html#Shell-Function">Shell Function</a></li>
+<li><a href="Options_002fRecursion.html#index-command-line-variable-definitions_002c-and-recursion-405">command line variable definitions, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Overriding.html#index-command-line-variables-712">command line variables</a>: <a href="Overriding.html#Overriding">Overriding</a></li>
+<li><a href="Canned-Recipes.html#index-commands_002c-sequences-of-452">commands, sequences of</a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Makefile-Contents.html#index-comments_002c-in-makefile-55">comments, in makefile</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Recipe-Syntax.html#index-comments_002c-in-recipes-290">comments, in recipes</a>: <a href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a></li>
+<li><a href="Features.html#index-compatibility-1020">compatibility</a>: <a href="Features.html#Features">Features</a></li>
+<li><a href="Variables_002fRecursion.html#index-compatibility-in-exporting-398">compatibility in exporting</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Testing.html#index-compilation_002c-testing-715">compilation, testing</a>: <a href="Testing.html#Testing">Testing</a></li>
+<li><a href="Computed-Names.html#index-computed-variable-name-497">computed variable name</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Conditional-Functions.html#index-conditional-expansion-629">conditional expansion</a>: <a href="Conditional-Functions.html#Conditional-Functions">Conditional Functions</a></li>
+<li><a href="Flavors.html#index-conditional-variable-assignment-485">conditional variable assignment</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Conditionals.html#index-conditionals-546">conditionals</a>: <a href="Conditionals.html#Conditionals">Conditionals</a></li>
+<li><a href="Simple-Makefile.html#index-continuation-lines-19">continuation lines</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Make-Control-Functions.html#index-controlling-make-654">controlling make</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="Makefile-Conventions.html#index-conventions-for-makefiles-1027">conventions for makefiles</a>: <a href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a></li>
+<li><a href="Implicit-Variables.html#index-ctangle-900"><code>ctangle</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-ctangle-839"><code>ctangle</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Implicit-Variables.html#index-cweave-896"><code>cweave</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-cweave-836"><code>cweave</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Options-Summary.html#index-data-base-of-_0040code_007bmake_007d-rules-759">data base of <code>make</code> rules</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="make-Deduces.html#index-deducing-recipes-_0028implicit-rules_0029-41">deducing recipes (implicit rules)</a>: <a href="make-Deduces.html#make-Deduces">make Deduces</a></li>
+<li><a href="Include.html#index-default-directories-for-included-makefiles-84">default directories for included makefiles</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Rules.html#index-default-goal-127">default goal</a>: <a href="Rules.html#Rules">Rules</a></li>
+<li><a href="How-Make-Works.html#index-default-goal-29">default goal</a>: <a href="How-Make-Works.html#How-Make-Works">How Make Works</a></li>
+<li><a href="Makefile-Names.html#index-default-makefile-name-59">default makefile name</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Last-Resort.html#index-default-rules_002c-last_002dresort-994">default rules, last-resort</a>: <a href="Last-Resort.html#Last-Resort">Last Resort</a></li>
+<li><a href="Reading-Makefiles.html#index-define_002c-expansion-104">define, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Multi_002dLine.html#index-defining-variables-verbatim-521">defining variables verbatim</a>: <a href="Multi_002dLine.html#Multi_002dLine">Multi-Line</a></li>
+<li><a href="Interrupts.html#index-deletion-of-target-files-370">deletion of target files</a>: <a href="Interrupts.html#Interrupts">Interrupts</a></li>
+<li><a href="Errors.html#index-deletion-of-target-files-365">deletion of target files</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Makefile-Contents.html#index-directive-54">directive</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Directory-Variables.html#index-directories_002c-creating-installation-1032">directories, creating installation</a>: <a href="Directory-Variables.html#Directory-Variables">Directory Variables</a></li>
+<li><a href="_002dw-Option.html#index-directories_002c-printing-them-436">directories, printing them</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Archive-Symbols.html#index-directories_002c-updating-archive-symbol-1009">directories, updating archive symbol</a>: <a href="Archive-Symbols.html#Archive-Symbols">Archive Symbols</a></li>
+<li><a href="File-Name-Functions.html#index-directory-part-600">directory part</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Directory-Search.html#index-directory-search-_0028_0040code_007bVPATH_007d_0029-171">directory search (<code>VPATH</code>)</a>: <a href="Directory-Search.html#Directory-Search">Directory Search</a></li>
+<li><a href="Implicit_002fSearch.html#index-directory-search-_0028_0040code_007bVPATH_007d_0029_002c-and-implicit-rules-187">directory search (<code>VPATH</code>), and implicit rules</a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Libraries_002fSearch.html#index-directory-search-_0028_0040code_007bVPATH_007d_0029_002c-and-link-libraries-195">directory search (<code>VPATH</code>), and link libraries</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Recipes_002fSearch.html#index-directory-search-_0028_0040code_007bVPATH_007d_0029_002c-and-recipes-185">directory search (<code>VPATH</code>), and recipes</a>: <a href="Recipes_002fSearch.html#Recipes_002fSearch">Recipes/Search</a></li>
+<li><a href="Search-Algorithm.html#index-directory-search-algorithm-180">directory search algorithm</a>: <a href="Search-Algorithm.html#Search-Algorithm">Search Algorithm</a></li>
+<li><a href="Search-Algorithm.html#index-directory-search_002c-traditional-_0028GPATH_0029-182">directory search, traditional (GPATH)</a>: <a href="Search-Algorithm.html#Search-Algorithm">Search Algorithm</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bdist_007d-_0040r_007b_0028standard-target_0029_007d-679"><code>dist</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bdistclean_007d-_0040r_007b_0028standard-target_0029_007d-672"><code>distclean</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Syntax-of-Functions.html#index-dollar-sign-_0028_0040code_007b_0024_007d_0029_002c-in-function-call-555">dollar sign (<code>$</code>), in function call</a>: <a href="Syntax-of-Functions.html#Syntax-of-Functions">Syntax of Functions</a></li>
+<li><a href="Rule-Syntax.html#index-dollar-sign-_0028_0040code_007b_0024_007d_0029_002c-in-rules-135">dollar sign (<code>$</code>), in rules</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Computed-Names.html#index-dollar-sign-_0028_0040code_007b_0024_007d_0029_002c-in-variable-name-502">dollar sign (<code>$</code>), in variable name</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Reference.html#index-dollar-sign-_0028_0040code_007b_0024_007d_0029_002c-in-variable-reference-468">dollar sign (<code>$</code>), in variable reference</a>: <a href="Reference.html#Reference">Reference</a></li>
+<li><a href="Choosing-the-Shell.html#index-DOS_002c-choosing-a-shell-in-333">DOS, choosing a shell in</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Double_002dColon.html#index-double_002dcolon-rules-271">double-colon rules</a>: <a href="Double_002dColon.html#Double_002dColon">Double-Colon</a></li>
+<li><a href="Text-Functions.html#index-duplicate-words_002c-removing-583">duplicate words, removing</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Options_002fRecursion.html#index-E2BIG-428">E2BIG</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Echoing.html#index-echoing-of-recipes-303">echoing of recipes</a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Introduction.html#index-editor-9">editor</a>: <a href="Introduction.html#Introduction">Introduction</a></li>
+<li><a href="Errors.html#index-Emacs-_0028_0040code_007bM_002dx-compile_007d_0029-363">Emacs (<code>M-x compile</code>)</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Empty-Recipes.html#index-empty-recipes-457">empty recipes</a>: <a href="Empty-Recipes.html#Empty-Recipes">Empty Recipes</a></li>
+<li><a href="Empty-Targets.html#index-empty-targets-211">empty targets</a>: <a href="Empty-Targets.html#Empty-Targets">Empty Targets</a></li>
+<li><a href="Environment.html#index-environment-526">environment</a>: <a href="Environment.html#Environment">Environment</a></li>
+<li><a href="Variables_002fRecursion.html#index-environment_002c-and-recursion-388">environment, and recursion</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Choosing-the-Shell.html#index-environment_002c-_0040code_007bSHELL_007d-in-330">environment, <code>SHELL</code> in</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Make-Control-Functions.html#index-error_002c-stopping-on-656">error, stopping on</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="Errors.html#index-errors-_0028in-recipes_0029-353">errors (in recipes)</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Wildcard-Pitfall.html#index-errors-with-wildcards-162">errors with wildcards</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="Eval-Function.html#index-evaluating-makefile-syntax-641">evaluating makefile syntax</a>: <a href="Eval-Function.html#Eval-Function">Eval Function</a></li>
+<li><a href="Parallel.html#index-execution_002c-in-parallel-341">execution, in parallel</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Instead-of-Execution.html#index-execution_002c-instead-of-683">execution, instead of</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Execution.html#index-execution_002c-of-recipes-317">execution, of recipes</a>: <a href="Execution.html#Execution">Execution</a></li>
+<li><a href="Errors.html#index-exit-status-_0028errors_0029-355">exit status (errors)</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Running.html#index-exit-status-of-make-663">exit status of make</a>: <a href="Running.html#Running">Running</a></li>
+<li><a href="Secondary-Expansion.html#index-expansion_002c-secondary-115">expansion, secondary</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Makefile-Contents.html#index-explicit-rule_002c-definition-of-50">explicit rule, definition of</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Reading-Makefiles.html#index-explicit-rule_002c-expansion-113">explicit rule, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Secondary-Expansion.html#index-explicit-rules_002c-secondary-expansion-of-118">explicit rules, secondary expansion of</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Variables_002fRecursion.html#index-exporting-variables-389">exporting variables</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Implicit-Variables.html#index-f77-872"><code>f77</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-f77-808"><code>f77</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="GNU-Free-Documentation-License.html#index-FDL_002c-GNU-Free-Documentation-License-1042">FDL, GNU Free Documentation License</a>: <a href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a></li>
+<li><a href="Features.html#index-features-of-GNU-_0040code_007bmake_007d-1018">features of GNU <code>make</code></a>: <a href="Features.html#Features">Features</a></li>
+<li><a href="Missing.html#index-features_002c-missing-1024">features, missing</a>: <a href="Missing.html#Missing">Missing</a></li>
+<li><a href="File-Name-Functions.html#index-file-name-functions-598">file name functions</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Makefile-Names.html#index-file-name-of-makefile-60">file name of makefile</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Makefile-Names.html#index-file-name-of-makefile_002c-how-to-specify-71">file name of makefile, how to specify</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="File-Name-Functions.html#index-file-name-prefix_002c-adding-616">file name prefix, adding</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-file-name-suffix-607">file name suffix</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-file-name-suffix_002c-adding-613">file name suffix, adding</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Wildcards.html#index-file-name-with-wildcards-147">file name with wildcards</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="File-Name-Functions.html#index-file-name_002c-abspath-of-627">file name, abspath of</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-file-name_002c-basename-of-610">file name, basename of</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-file-name_002c-directory-part-601">file name, directory part</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-file-name_002c-nondirectory-part-603">file name, nondirectory part</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-file-name_002c-realpath-of-624">file name, realpath of</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Instead-of-Execution.html#index-files_002c-assuming-new-701">files, assuming new</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Avoiding-Compilation.html#index-files_002c-assuming-old-707">files, assuming old</a>: <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a></li>
+<li><a href="Avoiding-Compilation.html#index-files_002c-avoiding-recompilation-of-708">files, avoiding recompilation of</a>: <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a></li>
+<li><a href="Chained-Rules.html#index-files_002c-intermediate-920">files, intermediate</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Text-Functions.html#index-filtering-out-words-578">filtering out words</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-filtering-words-575">filtering words</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-finding-strings-572">finding strings</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Options-Summary.html#index-flags-719">flags</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Implicit-Variables.html#index-flags-for-compilers-861">flags for compilers</a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Flavor-Function.html#index-flavor-of-variable-648">flavor of variable</a>: <a href="Flavor-Function.html#Flavor-Function">Flavor Function</a></li>
+<li><a href="Flavors.html#index-flavors-of-variables-469">flavors of variables</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Force-Targets.html#index-g_t_0040code_007bFORCE_007d-209"><code>FORCE</code></a>: <a href="Force-Targets.html#Force-Targets">Force Targets</a></li>
+<li><a href="Force-Targets.html#index-force-targets-207">force targets</a>: <a href="Force-Targets.html#Force-Targets">Force Targets</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Fortran_002c-rule-to-compile-806">Fortran, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Functions.html#index-functions-553">functions</a>: <a href="Functions.html#Functions">Functions</a></li>
+<li><a href="Make-Control-Functions.html#index-functions_002c-for-controlling-make-653">functions, for controlling make</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="File-Name-Functions.html#index-functions_002c-for-file-names-597">functions, for file names</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Text-Functions.html#index-functions_002c-for-text-558">functions, for text</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Syntax-of-Functions.html#index-functions_002c-syntax-of-557">functions, syntax of</a>: <a href="Syntax-of-Functions.html#Syntax-of-Functions">Syntax of Functions</a></li>
+<li><a href="Call-Function.html#index-functions_002c-user-defined-636">functions, user defined</a>: <a href="Call-Function.html#Call-Function">Call Function</a></li>
+<li><a href="Implicit-Variables.html#index-g_002b_002b-869"><code>g++</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_002b_002b-799"><code>g++</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-gcc-795"><code>gcc</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Automatic-Prerequisites.html#index-generating-prerequisites-automatically-277">generating prerequisites automatically</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Include.html#index-generating-prerequisites-automatically-80">generating prerequisites automatically</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Implicit-Variables.html#index-get-880"><code>get</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-get-857"><code>get</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Wildcards.html#index-globbing-_0028wildcards_0029-148">globbing (wildcards)</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="How-Make-Works.html#index-goal-31">goal</a>: <a href="How-Make-Works.html#How-Make-Works">How Make Works</a></li>
+<li><a href="Rules.html#index-goal_002c-default-128">goal, default</a>: <a href="Rules.html#Rules">Rules</a></li>
+<li><a href="How-Make-Works.html#index-goal_002c-default-30">goal, default</a>: <a href="How-Make-Works.html#How-Make-Works">How Make Works</a></li>
+<li><a href="Goals.html#index-goal_002c-how-to-specify-667">goal, how to specify</a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Wildcards.html#index-home-directory-154">home directory</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="Overview.html#index-IEEE-Standard-1003_002e2-2">IEEE Standard 1003.2</a>: <a href="Overview.html#Overview">Overview</a></li>
+<li><a href="Reading-Makefiles.html#index-ifdef_002c-expansion-105">ifdef, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Reading-Makefiles.html#index-ifeq_002c-expansion-106">ifeq, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Reading-Makefiles.html#index-ifndef_002c-expansion-107">ifndef, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Reading-Makefiles.html#index-ifneq_002c-expansion-108">ifneq, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Implicit-Rules.html#index-implicit-rule-787">implicit rule</a>: <a href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a></li>
+<li><a href="Implicit_002fSearch.html#index-implicit-rule_002c-and-directory-search-189">implicit rule, and directory search</a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Implicit_002fSearch.html#index-implicit-rule_002c-and-_0040code_007bVPATH_007d-190">implicit rule, and <code>VPATH</code></a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Makefile-Contents.html#index-implicit-rule_002c-definition-of-52">implicit rule, definition of</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Reading-Makefiles.html#index-implicit-rule_002c-expansion-111">implicit rule, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Using-Implicit.html#index-implicit-rule_002c-how-to-use-789">implicit rule, how to use</a>: <a href="Using-Implicit.html#Using-Implicit">Using Implicit</a></li>
+<li><a href="make-Deduces.html#index-implicit-rule_002c-introduction-to-42">implicit rule, introduction to</a>: <a href="make-Deduces.html#make-Deduces">make Deduces</a></li>
+<li><a href="Catalogue-of-Rules.html#index-implicit-rule_002c-predefined-791">implicit rule, predefined</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Implicit-Rule-Search.html#index-implicit-rule_002c-search-algorithm-1000">implicit rule, search algorithm</a>: <a href="Implicit-Rule-Search.html#Implicit-Rule-Search">Implicit Rule Search</a></li>
+<li><a href="Secondary-Expansion.html#index-implicit-rules_002c-secondary-expansion-of-122">implicit rules, secondary expansion of</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Include.html#index-included-makefiles_002c-default-directories-83">included makefiles, default directories</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Special-Variables.html#index-including-_0028_0040code_007bMAKEFILE_005fLIST_007d-variable_0029-539">including (<code>MAKEFILE_LIST</code> variable)</a>: <a href="Special-Variables.html#Special-Variables">Special Variables</a></li>
+<li><a href="MAKEFILES-Variable.html#index-including-_0028_0040code_007bMAKEFILES_007d-variable_0029-89">including (<code>MAKEFILES</code> variable)</a>: <a href="MAKEFILES-Variable.html#MAKEFILES-Variable">MAKEFILES Variable</a></li>
+<li><a href="Include.html#index-including-other-makefiles-72">including other makefiles</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Missing.html#index-incompatibilities-1022">incompatibilities</a>: <a href="Missing.html#Missing">Missing</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Info_002c-rule-to-format-846">Info, rule to format</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Suppressing-Inheritance.html#index-inheritance_002c-suppressing-534">inheritance, suppressing</a>: <a href="Suppressing-Inheritance.html#Suppressing-Inheritance">Suppressing Inheritance</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007binstall_007d-_0040r_007b_0028standard-target_0029_007d-675"><code>install</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Directory-Variables.html#index-installation-directories_002c-creating-1033">installation directories, creating</a>: <a href="Directory-Variables.html#Directory-Variables">Directory Variables</a></li>
+<li><a href="DESTDIR.html#index-installations_002c-staged-1031">installations, staged</a>: <a href="DESTDIR.html#DESTDIR">DESTDIR</a></li>
+<li><a href="Chained-Rules.html#index-intermediate-files-919">intermediate files</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Chained-Rules.html#index-intermediate-files_002c-preserving-921">intermediate files, preserving</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Special-Targets.html#index-intermediate-targets_002c-explicit-227">intermediate targets, explicit</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Interrupts.html#index-interrupt-368">interrupt</a>: <a href="Interrupts.html#Interrupts">Interrupts</a></li>
+<li><a href="Parallel.html#index-job-slots-342">job slots</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Options_002fRecursion.html#index-job-slots_002c-and-recursion-425">job slots, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Parallel.html#index-jobs_002c-limiting-based-on-load-349">jobs, limiting based on load</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="File-Name-Functions.html#index-joining-lists-of-words-618">joining lists of words</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Interrupts.html#index-killing-_0028interruption_0029-373">killing (interruption)</a>: <a href="Interrupts.html#Interrupts">Interrupts</a></li>
+<li><a href="Last-Resort.html#index-last_002dresort-default-rules-993">last-resort default rules</a>: <a href="Last-Resort.html#Last-Resort">Last Resort</a></li>
+<li><a href="Catalogue-of-Rules.html#index-ld-822"><code>ld</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Implicit-Variables.html#index-lex-882"><code>lex</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-lex-827"><code>lex</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Lex_002c-rule-to-run-828">Lex, rule to run</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Libraries_002fSearch.html#index-libraries-for-linking_002c-directory-search-194">libraries for linking, directory search</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Archive-Suffix-Rules.html#index-library-archive_002c-suffix-rule-for-1016">library archive, suffix rule for</a>: <a href="Archive-Suffix-Rules.html#Archive-Suffix-Rules">Archive Suffix Rules</a></li>
+<li><a href="Parallel.html#index-limiting-jobs-based-on-load-348">limiting jobs based on load</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Libraries_002fSearch.html#index-link-libraries_002c-and-directory-search-193">link libraries, and directory search</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Libraries_002fSearch.html#index-link-libraries_002c-patterns-matching-199">link libraries, patterns matching</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Catalogue-of-Rules.html#index-linking_002c-predefined-rule-for-821">linking, predefined rule for</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Implicit-Variables.html#index-lint-886"><code>lint</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-lint-830"><code>lint</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_0040code_007blint_007d_002c-rule-to-run-831"><code>lint</code>, rule to run</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Automatic-Variables.html#index-list-of-all-prerequisites-951">list of all prerequisites</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Automatic-Variables.html#index-list-of-changed-prerequisites-947">list of changed prerequisites</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Parallel.html#index-load-average-347">load average</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Flavors.html#index-loops-in-variable-expansion-475">loops in variable expansion</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Empty-Targets.html#index-g_t_0040code_007blpr_007d-_0028shell-command_0029-215"><code>lpr</code> (shell command)</a>: <a href="Empty-Targets.html#Empty-Targets">Empty Targets</a></li>
+<li><a href="Wildcard-Examples.html#index-g_t_0040code_007blpr_007d-_0028shell-command_0029-157"><code>lpr</code> (shell command)</a>: <a href="Wildcard-Examples.html#Wildcard-Examples">Wildcard Examples</a></li>
+<li><a href="Implicit-Variables.html#index-m2c-874"><code>m2c</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-m2c-813"><code>m2c</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Using-Variables.html#index-macro-464">macro</a>: <a href="Using-Variables.html#Using-Variables">Using Variables</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007bmake-depend_007d-280"><code>make depend</code></a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Introduction.html#index-makefile-7">makefile</a>: <a href="Introduction.html#Introduction">Introduction</a></li>
+<li><a href="Makefile-Names.html#index-makefile-name-57">makefile name</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Makefile-Names.html#index-makefile-name_002c-how-to-specify-69">makefile name, how to specify</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Rule-Introduction.html#index-makefile-rule-parts-11">makefile rule parts</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Eval-Function.html#index-makefile-syntax_002c-evaluating-642">makefile syntax, evaluating</a>: <a href="Eval-Function.html#Eval-Function">Eval Function</a></li>
+<li><a href="MAKEFILES-Variable.html#index-makefile_002c-and-_0040code_007bMAKEFILES_007d-variable-88">makefile, and <code>MAKEFILES</code> variable</a>: <a href="MAKEFILES-Variable.html#MAKEFILES-Variable">MAKEFILES Variable</a></li>
+<li><a href="Makefile-Conventions.html#index-makefile_002c-conventions-for-1026">makefile, conventions for</a>: <a href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a></li>
+<li><a href="How-Make-Works.html#index-makefile_002c-how-_0040code_007bmake_007d-processes-28">makefile, how <code>make</code> processes</a>: <a href="How-Make-Works.html#How-Make-Works">How Make Works</a></li>
+<li><a href="Makefiles.html#index-makefile_002c-how-to-write-48">makefile, how to write</a>: <a href="Makefiles.html#Makefiles">Makefiles</a></li>
+<li><a href="Include.html#index-makefile_002c-including-73">makefile, including</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Overriding-Makefiles.html#index-makefile_002c-overriding-96">makefile, overriding</a>: <a href="Overriding-Makefiles.html#Overriding-Makefiles">Overriding Makefiles</a></li>
+<li><a href="Reading-Makefiles.html#index-makefile_002c-parsing-99">makefile, parsing</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Remaking-Makefiles.html#index-makefile_002c-remaking-of-94">makefile, remaking of</a>: <a href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a></li>
+<li><a href="Simple-Makefile.html#index-makefile_002c-simple-18">makefile, simple</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Special-Variables.html#index-makefiles_002c-and-_0040code_007bMAKEFILE_005fLIST_007d-variable-538">makefiles, and <code>MAKEFILE_LIST</code> variable</a>: <a href="Special-Variables.html#Special-Variables">Special Variables</a></li>
+<li><a href="Special-Variables.html#index-makefiles_002c-and-special-variables-535">makefiles, and special variables</a>: <a href="Special-Variables.html#Special-Variables">Special Variables</a></li>
+<li><a href="Implicit-Variables.html#index-makeinfo-888"><code>makeinfo</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-makeinfo-848"><code>makeinfo</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Match_002dAnything-Rules.html#index-match_002danything-rule-991">match-anything rule</a>: <a href="Match_002dAnything-Rules.html#Match_002dAnything-Rules">Match-Anything Rules</a></li>
+<li><a href="Overriding-Makefiles.html#index-match_002danything-rule_002c-used-to-override-97">match-anything rule, used to override</a>: <a href="Overriding-Makefiles.html#Overriding-Makefiles">Overriding Makefiles</a></li>
+<li><a href="Missing.html#index-missing-features-1023">missing features</a>: <a href="Missing.html#Missing">Missing</a></li>
+<li><a href="Wildcard-Pitfall.html#index-mistakes-with-wildcards-161">mistakes with wildcards</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="Substitution-Refs.html#index-modified-variable-reference-489">modified variable reference</a>: <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Modula_002d2_002c-rule-to-compile-812">Modula-2, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bmostlyclean_007d-_0040r_007b_0028standard-target_0029_007d-671"><code>mostlyclean</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Multi_002dLine.html#index-multi_002dline-variable-definition-518">multi-line variable definition</a>: <a href="Multi_002dLine.html#Multi_002dLine">Multi-Line</a></li>
+<li><a href="Multiple-Rules.html#index-multiple-rules-for-one-target-249">multiple rules for one target</a>: <a href="Multiple-Rules.html#Multiple-Rules">Multiple Rules</a></li>
+<li><a href="Double_002dColon.html#index-multiple-rules-for-one-target-_0028_0040code_007b_003a_003a_007d_0029-273">multiple rules for one target (<code>::</code>)</a>: <a href="Double_002dColon.html#Double_002dColon">Double-Colon</a></li>
+<li><a href="Multiple-Targets.html#index-multiple-targets-244">multiple targets</a>: <a href="Multiple-Targets.html#Multiple-Targets">Multiple Targets</a></li>
+<li><a href="Pattern-Intro.html#index-multiple-targets_002c-in-pattern-rule-931">multiple targets, in pattern rule</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Makefile-Names.html#index-name-of-makefile-58">name of makefile</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Makefile-Names.html#index-name-of-makefile_002c-how-to-specify-70">name of makefile, how to specify</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Computed-Names.html#index-nested-variable-reference-496">nested variable reference</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Simple-Makefile.html#index-newline_002c-quoting_002c-in-makefile-23">newline, quoting, in makefile</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Splitting-Lines.html#index-newline_002c-quoting_002c-in-recipes-300">newline, quoting, in recipes</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="File-Name-Functions.html#index-nondirectory-part-604">nondirectory part</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Prerequisite-Types.html#index-normal-prerequisites-143">normal prerequisites</a>: <a href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a></li>
+<li><a href="Variables-Simplify.html#index-g_t_0040code_007bOBJ_007d-40"><code>OBJ</code></a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Variables-Simplify.html#index-g_t_0040code_007bobj_007d-39"><code>obj</code></a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Variables-Simplify.html#index-g_t_0040code_007bOBJECTS_007d-36"><code>OBJECTS</code></a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Variables-Simplify.html#index-g_t_0040code_007bobjects_007d-35"><code>objects</code></a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Variables-Simplify.html#index-g_t_0040code_007bOBJS_007d-38"><code>OBJS</code></a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Variables-Simplify.html#index-g_t_0040code_007bobjs_007d-37"><code>objs</code></a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Suffix-Rules.html#index-old_002dfashioned-suffix-rules-996">old-fashioned suffix rules</a>: <a href="Suffix-Rules.html#Suffix-Rules">Suffix Rules</a></li>
+<li><a href="Options-Summary.html#index-options-718">options</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Options_002fRecursion.html#index-options_002c-and-recursion-402">options, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-options_002c-setting-from-environment-433">options, setting from environment</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-options_002c-setting-in-makefiles-435">options, setting in makefiles</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Pattern-Match.html#index-order-of-pattern-rules-989">order of pattern rules</a>: <a href="Pattern-Match.html#Pattern-Match">Pattern Match</a></li>
+<li><a href="Prerequisite-Types.html#index-order_002donly-prerequisites-145">order-only prerequisites</a>: <a href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a></li>
+<li><a href="Origin-Function.html#index-origin-of-variable-645">origin of variable</a>: <a href="Origin-Function.html#Origin-Function">Origin Function</a></li>
+<li><a href="Overriding-Makefiles.html#index-overriding-makefiles-95">overriding makefiles</a>: <a href="Overriding-Makefiles.html#Overriding-Makefiles">Overriding Makefiles</a></li>
+<li><a href="Overriding.html#index-overriding-variables-with-arguments-710">overriding variables with arguments</a>: <a href="Overriding.html#Overriding">Overriding</a></li>
+<li><a href="Override-Directive.html#index-overriding-with-_0040code_007boverride_007d-514">overriding with <code>override</code></a>: <a href="Override-Directive.html#Override-Directive">Override Directive</a></li>
+<li><a href="Parallel.html#index-parallel-execution-340">parallel execution</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Archive-Pitfalls.html#index-parallel-execution_002c-and-archive-update-1011">parallel execution, and archive update</a>: <a href="Archive-Pitfalls.html#Archive-Pitfalls">Archive Pitfalls</a></li>
+<li><a href="Special-Targets.html#index-parallel-execution_002c-overriding-239">parallel execution, overriding</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Rule-Introduction.html#index-parts-of-makefile-rule-12">parts of makefile rule</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Pascal_002c-rule-to-compile-803">Pascal, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Pattern-Intro.html#index-pattern-rule-926">pattern rule</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Reading-Makefiles.html#index-pattern-rule_002c-expansion-112">pattern rule, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Pattern-Match.html#index-pattern-rules_002c-order-of-988">pattern rules, order of</a>: <a href="Pattern-Match.html#Pattern-Match">Pattern Match</a></li>
+<li><a href="Static-Pattern.html#index-pattern-rules_002c-static-_0028not-implicit_0029-255">pattern rules, static (not implicit)</a>: <a href="Static-Pattern.html#Static-Pattern">Static Pattern</a></li>
+<li><a href="Static-Usage.html#index-pattern-rules_002c-static_002c-syntax-of-259">pattern rules, static, syntax of</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Pattern_002dspecific.html#index-pattern_002dspecific-variables-530">pattern-specific variables</a>: <a href="Pattern_002dspecific.html#Pattern_002dspecific">Pattern-specific</a></li>
+<li><a href="Implicit-Variables.html#index-pc-876"><code>pc</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-pc-804"><code>pc</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Phony-Targets.html#index-phony-targets-202">phony targets</a>: <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a></li>
+<li><a href="Instead-of-Execution.html#index-phony-targets-and-recipe-execution-703">phony targets and recipe execution</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Wildcard-Pitfall.html#index-pitfalls-of-wildcards-160">pitfalls of wildcards</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="Features.html#index-portability-1019">portability</a>: <a href="Features.html#Features">Features</a></li>
+<li><a href="Overview.html#index-POSIX-1">POSIX</a>: <a href="Overview.html#Overview">Overview</a></li>
+<li><a href="Special-Targets.html#index-POSIX_002dconforming-mode_002c-setting-243">POSIX-conforming mode, setting</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Options_002fRecursion.html#index-POSIX_002e2-430">POSIX.2</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Install-Command-Categories.html#index-post_002dinstallation-commands-1040">post-installation commands</a>: <a href="Install-Command-Categories.html#Install-Command-Categories">Install Command Categories</a></li>
+<li><a href="Install-Command-Categories.html#index-pre_002dinstallation-commands-1039">pre-installation commands</a>: <a href="Install-Command-Categories.html#Install-Command-Categories">Install Command Categories</a></li>
+<li><a href="Special-Targets.html#index-precious-targets-224">precious targets</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Options-Summary.html#index-predefined-rules-and-variables_002c-printing-760">predefined rules and variables, printing</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="File-Name-Functions.html#index-prefix_002c-adding-615">prefix, adding</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Rules.html#index-prerequisite-126">prerequisite</a>: <a href="Rules.html#Rules">Rules</a></li>
+<li><a href="Pattern-Intro.html#index-prerequisite-pattern_002c-implicit-930">prerequisite pattern, implicit</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Static-Usage.html#index-prerequisite-pattern_002c-static-_0028not-implicit_0029-262">prerequisite pattern, static (not implicit)</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Prerequisite-Types.html#index-prerequisite-types-140">prerequisite types</a>: <a href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a></li>
+<li><a href="Reading-Makefiles.html#index-prerequisite_002c-expansion-110">prerequisite, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Rule-Syntax.html#index-prerequisites-138">prerequisites</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Automatic-Variables.html#index-prerequisites_002c-and-automatic-variables-937">prerequisites, and automatic variables</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Automatic-Prerequisites.html#index-prerequisites_002c-automatic-generation-275">prerequisites, automatic generation</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Include.html#index-prerequisites_002c-automatic-generation-78">prerequisites, automatic generation</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Rule-Introduction.html#index-prerequisites_002c-introduction-to-14">prerequisites, introduction to</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Automatic-Variables.html#index-prerequisites_002c-list-of-all-950">prerequisites, list of all</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Automatic-Variables.html#index-prerequisites_002c-list-of-changed-946">prerequisites, list of changed</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Prerequisite-Types.html#index-prerequisites_002c-normal-142">prerequisites, normal</a>: <a href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a></li>
+<li><a href="Prerequisite-Types.html#index-prerequisites_002c-order_002donly-144">prerequisites, order-only</a>: <a href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a></li>
+<li><a href="Static-Pattern.html#index-prerequisites_002c-varying-_0028static-pattern_0029-257">prerequisites, varying (static pattern)</a>: <a href="Static-Pattern.html#Static-Pattern">Static Pattern</a></li>
+<li><a href="Chained-Rules.html#index-preserving-intermediate-files-922">preserving intermediate files</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Chained-Rules.html#index-preserving-with-_0040code_007b_002ePRECIOUS_007d-924">preserving with <code>.PRECIOUS</code></a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Special-Targets.html#index-preserving-with-_0040code_007b_002ePRECIOUS_007d-225">preserving with <code>.PRECIOUS</code></a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Special-Targets.html#index-preserving-with-_0040code_007b_002eSECONDARY_007d-230">preserving with <code>.SECONDARY</code></a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bprint_007d-_0040r_007b_0028standard-target_0029_007d-676"><code>print</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Empty-Targets.html#index-g_t_0040code_007bprint_007d-target-214"><code>print</code> target</a>: <a href="Empty-Targets.html#Empty-Targets">Empty Targets</a></li>
+<li><a href="Wildcard-Examples.html#index-g_t_0040code_007bprint_007d-target-156"><code>print</code> target</a>: <a href="Wildcard-Examples.html#Wildcard-Examples">Wildcard Examples</a></li>
+<li><a href="_002dw-Option.html#index-printing-directories-437">printing directories</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Make-Control-Functions.html#index-printing-messages-662">printing messages</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="Echoing.html#index-printing-of-recipes-307">printing of recipes</a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Make-Control-Functions.html#index-printing-user-warnings-660">printing user warnings</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="Bugs.html#index-problems-and-bugs_002c-reporting-6">problems and bugs, reporting</a>: <a href="Bugs.html#Bugs">Bugs</a></li>
+<li><a href="Wildcard-Pitfall.html#index-problems-with-wildcards-163">problems with wildcards</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="How-Make-Works.html#index-processing-a-makefile-27">processing a makefile</a>: <a href="How-Make-Works.html#How-Make-Works">How Make Works</a></li>
+<li><a href="Instead-of-Execution.html#index-question-mode-695">question mode</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Text-Functions.html#index-quoting-_0040code_007b_0025_007d_002c-in-_0040code_007bpatsubst_007d-565">quoting <code>%</code>, in <code>patsubst</code></a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Static-Usage.html#index-quoting-_0040code_007b_0025_007d_002c-in-static-pattern-267">quoting <code>%</code>, in static pattern</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Selective-Search.html#index-quoting-_0040code_007b_0025_007d_002c-in-_0040code_007bvpath_007d-178">quoting <code>%</code>, in <code>vpath</code></a>: <a href="Selective-Search.html#Selective-Search">Selective Search</a></li>
+<li><a href="Simple-Makefile.html#index-quoting-newline_002c-in-makefile-22">quoting newline, in makefile</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Splitting-Lines.html#index-quoting-newline_002c-in-recipes-299">quoting newline, in recipes</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Ratfor_002c-rule-to-compile-807">Ratfor, rule to compile</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-RCS_002c-rule-to-extract-from-853">RCS, rule to extract from</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Reading-Makefiles.html#index-reading-makefiles-98">reading makefiles</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Makefile-Names.html#index-g_t_0040code_007bREADME_007d-64"><code>README</code></a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007brealclean_007d-_0040r_007b_0028standard-target_0029_007d-673"><code>realclean</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="File-Name-Functions.html#index-realpath-623">realpath</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Simple-Makefile.html#index-recipe-24">recipe</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Special-Targets.html#index-recipe-execution_002c-single-invocation-241">recipe execution, single invocation</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="One-Shell.html#index-recipe-lines_002c-single-shell-322">recipe lines, single shell</a>: <a href="One-Shell.html#One-Shell">One Shell</a></li>
+<li><a href="Recipe-Syntax.html#index-recipe-syntax-288">recipe syntax</a>: <a href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a></li>
+<li><a href="Execution.html#index-recipe_002c-execution-316">recipe, execution</a>: <a href="Execution.html#Execution">Execution</a></li>
+<li><a href="Recipes.html#index-recipes-285">recipes</a>: <a href="Recipes.html#Recipes">Recipes</a></li>
+<li><a href="Rule-Syntax.html#index-recipes-133">recipes</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Execution.html#index-recipes-setting-shell-variables-321">recipes setting shell variables</a>: <a href="Execution.html#Execution">Execution</a></li>
+<li><a href="Recipes_002fSearch.html#index-recipes_002c-and-directory-search-184">recipes, and directory search</a>: <a href="Recipes_002fSearch.html#Recipes_002fSearch">Recipes/Search</a></li>
+<li><a href="Splitting-Lines.html#index-recipes_002c-backslash-_0028_0040code_007b_005c_007d_0029-in-295">recipes, backslash (<code>\</code>) in</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="Canned-Recipes.html#index-recipes_002c-canned-450">recipes, canned</a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Recipe-Syntax.html#index-recipes_002c-comments-in-291">recipes, comments in</a>: <a href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a></li>
+<li><a href="Echoing.html#index-recipes_002c-echoing-306">recipes, echoing</a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Empty-Recipes.html#index-recipes_002c-empty-458">recipes, empty</a>: <a href="Empty-Recipes.html#Empty-Recipes">Empty Recipes</a></li>
+<li><a href="Errors.html#index-recipes_002c-errors-in-354">recipes, errors in</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Parallel.html#index-recipes_002c-execution-in-parallel-339">recipes, execution in parallel</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Recipes.html#index-recipes_002c-how-to-write-286">recipes, how to write</a>: <a href="Recipes.html#Recipes">Recipes</a></li>
+<li><a href="Instead-of-Execution.html#index-recipes_002c-instead-of-executing-684">recipes, instead of executing</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Rule-Introduction.html#index-recipes_002c-introduction-to-15">recipes, introduction to</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Splitting-Lines.html#index-recipes_002c-quoting-newlines-in-296">recipes, quoting newlines in</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="Splitting-Lines.html#index-recipes_002c-splitting-293">recipes, splitting</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="Variables-in-Recipes.html#index-recipes_002c-using-variables-in-302">recipes, using variables in</a>: <a href="Variables-in-Recipes.html#Variables-in-Recipes">Variables in Recipes</a></li>
+<li><a href="Introduction.html#index-recompilation-8">recompilation</a>: <a href="Introduction.html#Introduction">Introduction</a></li>
+<li><a href="Avoiding-Compilation.html#index-recompilation_002c-avoiding-709">recompilation, avoiding</a>: <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a></li>
+<li><a href="Empty-Targets.html#index-recording-events-with-empty-targets-213">recording events with empty targets</a>: <a href="Empty-Targets.html#Empty-Targets">Empty Targets</a></li>
+<li><a href="Recursion.html#index-recursion-375">recursion</a>: <a href="Recursion.html#Recursion">Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-_0040code_007b_002dC_007d-418">recursion, and <code>-C</code></a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-_0040code_007b_002df_007d-419">recursion, and <code>-f</code></a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-_0040code_007b_002dj_007d-424">recursion, and <code>-j</code></a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-_0040code_007b_002do_007d-420">recursion, and <code>-o</code></a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="MAKE-Variable.html#index-recursion_002c-and-_0040code_007b_002dt_007d-385">recursion, and <code>-t</code></a>: <a href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a></li>
+<li><a href="_002dw-Option.html#index-recursion_002c-and-_0040code_007b_002dw_007d-441">recursion, and <code>-w</code></a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-_0040code_007b_002dW_007d-421">recursion, and <code>-W</code></a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-command-line-variable-definitions-407">recursion, and command line variable definitions</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Variables_002fRecursion.html#index-recursion_002c-and-environment-392">recursion, and environment</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="MAKE-Variable.html#index-recursion_002c-and-_0040code_007bMAKE_007d-variable-381">recursion, and <code>MAKE</code> variable</a>: <a href="MAKE-Variable.html#MAKE-Variable">MAKE Variable</a></li>
+<li><a href="MAKEFILES-Variable.html#index-recursion_002c-and-_0040code_007bMAKEFILES_007d-variable-91">recursion, and <code>MAKEFILES</code> variable</a>: <a href="MAKEFILES-Variable.html#MAKEFILES-Variable">MAKEFILES Variable</a></li>
+<li><a href="Options_002fRecursion.html#index-recursion_002c-and-options-403">recursion, and options</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="_002dw-Option.html#index-recursion_002c-and-printing-directories-438">recursion, and printing directories</a>: <a href="_002dw-Option.html#g_t_002dw-Option">-w Option</a></li>
+<li><a href="Variables_002fRecursion.html#index-recursion_002c-and-variables-393">recursion, and variables</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Variables_002fRecursion.html#index-recursion_002c-level-of-400">recursion, level of</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Flavors.html#index-recursive-variable-expansion-470">recursive variable expansion</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Using-Variables.html#index-recursive-variable-expansion-462">recursive variable expansion</a>: <a href="Using-Variables.html#Using-Variables">Using Variables</a></li>
+<li><a href="Flavors.html#index-recursively-expanded-variables-472">recursively expanded variables</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Advanced.html#index-reference-to-variables-488">reference to variables</a>: <a href="Advanced.html#Advanced">Advanced</a></li>
+<li><a href="Reference.html#index-reference-to-variables-466">reference to variables</a>: <a href="Reference.html#Reference">Reference</a></li>
+<li><a href="How-Make-Works.html#index-relinking-32">relinking</a>: <a href="How-Make-Works.html#How-Make-Works">How Make Works</a></li>
+<li><a href="Remaking-Makefiles.html#index-remaking-makefiles-93">remaking makefiles</a>: <a href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a></li>
+<li><a href="Interrupts.html#index-removal-of-target-files-371">removal of target files</a>: <a href="Interrupts.html#Interrupts">Interrupts</a></li>
+<li><a href="Errors.html#index-removal-of-target-files-366">removal of target files</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Text-Functions.html#index-removing-duplicate-words-582">removing duplicate words</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Special-Targets.html#index-removing-targets-on-failure-233">removing targets on failure</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Cleanup.html#index-removing_002c-to-clean-up-46">removing, to clean up</a>: <a href="Cleanup.html#Cleanup">Cleanup</a></li>
+<li><a href="Bugs.html#index-reporting-bugs-4">reporting bugs</a>: <a href="Bugs.html#Bugs">Bugs</a></li>
+<li><a href="Implicit-Variables.html#index-rm-902"><code>rm</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Errors.html#index-g_t_0040code_007brm_007d-_0028shell-command_0029-357"><code>rm</code> (shell command)</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Phony-Targets.html#index-g_t_0040code_007brm_007d-_0028shell-command_0029-205"><code>rm</code> (shell command)</a>: <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a></li>
+<li><a href="Wildcard-Examples.html#index-g_t_0040code_007brm_007d-_0028shell-command_0029-155"><code>rm</code> (shell command)</a>: <a href="Wildcard-Examples.html#Wildcard-Examples">Wildcard Examples</a></li>
+<li><a href="Simple-Makefile.html#index-g_t_0040code_007brm_007d-_0028shell-command_0029-26"><code>rm</code> (shell command)</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Rule-Syntax.html#index-rule-prerequisites-139">rule prerequisites</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Rule-Syntax.html#index-rule-syntax-129">rule syntax</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Rule-Syntax.html#index-rule-targets-132">rule targets</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Double_002dColon.html#index-rule_002c-double_002dcolon-_0028_0040code_007b_003a_003a_007d_0029-272">rule, double-colon (<code>::</code>)</a>: <a href="Double_002dColon.html#Double_002dColon">Double-Colon</a></li>
+<li><a href="Makefile-Contents.html#index-rule_002c-explicit_002c-definition-of-49">rule, explicit, definition of</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Rules.html#index-rule_002c-how-to-write-124">rule, how to write</a>: <a href="Rules.html#Rules">Rules</a></li>
+<li><a href="Implicit-Rules.html#index-rule_002c-implicit-788">rule, implicit</a>: <a href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a></li>
+<li><a href="Implicit_002fSearch.html#index-rule_002c-implicit_002c-and-directory-search-191">rule, implicit, and directory search</a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Implicit_002fSearch.html#index-rule_002c-implicit_002c-and-_0040code_007bVPATH_007d-192">rule, implicit, and <code>VPATH</code></a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Chained-Rules.html#index-rule_002c-implicit_002c-chains-of-918">rule, implicit, chains of</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Makefile-Contents.html#index-rule_002c-implicit_002c-definition-of-51">rule, implicit, definition of</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Using-Implicit.html#index-rule_002c-implicit_002c-how-to-use-790">rule, implicit, how to use</a>: <a href="Using-Implicit.html#Using-Implicit">Using Implicit</a></li>
+<li><a href="make-Deduces.html#index-rule_002c-implicit_002c-introduction-to-43">rule, implicit, introduction to</a>: <a href="make-Deduces.html#make-Deduces">make Deduces</a></li>
+<li><a href="Catalogue-of-Rules.html#index-rule_002c-implicit_002c-predefined-792">rule, implicit, predefined</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Rule-Introduction.html#index-rule_002c-introduction-to-10">rule, introduction to</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Multiple-Rules.html#index-rule_002c-multiple-for-one-target-251">rule, multiple for one target</a>: <a href="Multiple-Rules.html#Multiple-Rules">Multiple Rules</a></li>
+<li><a href="Force-Targets.html#index-rule_002c-no-recipe-or-prerequisites-210">rule, no recipe or prerequisites</a>: <a href="Force-Targets.html#Force-Targets">Force Targets</a></li>
+<li><a href="Pattern-Intro.html#index-rule_002c-pattern-927">rule, pattern</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Static-Pattern.html#index-rule_002c-static-pattern-254">rule, static pattern</a>: <a href="Static-Pattern.html#Static-Pattern">Static Pattern</a></li>
+<li><a href="Static-versus-Implicit.html#index-rule_002c-static-pattern-versus-implicit-269">rule, static pattern versus implicit</a>: <a href="Static-versus-Implicit.html#Static-versus-Implicit">Static versus Implicit</a></li>
+<li><a href="Multiple-Targets.html#index-rule_002c-with-multiple-targets-247">rule, with multiple targets</a>: <a href="Multiple-Targets.html#Multiple-Targets">Multiple Targets</a></li>
+<li><a href="Rule-Syntax.html#index-rules_002c-and-_0040code_007b_0024_007d-137">rules, and <code>$</code></a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Catalogue-of-Rules.html#index-s_002e-_0040r_007b_0028SCCS-file-prefix_0029_007d-858"><code>s. </code><span class="roman">(SCCS file prefix)</span></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-SCCS_002c-rule-to-extract-from-856">SCCS, rule to extract from</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Implicit-Rule-Search.html#index-search-algorithm_002c-implicit-rule-1001">search algorithm, implicit rule</a>: <a href="Implicit-Rule-Search.html#Implicit-Rule-Search">Implicit Rule Search</a></li>
+<li><a href="Directory-Search.html#index-search-path-for-prerequisites-_0028_0040code_007bVPATH_007d_0029-170">search path for prerequisites (<code>VPATH</code>)</a>: <a href="Directory-Search.html#Directory-Search">Directory Search</a></li>
+<li><a href="Implicit_002fSearch.html#index-search-path-for-prerequisites-_0028_0040code_007bVPATH_007d_0029_002c-and-implicit-rules-188">search path for prerequisites (<code>VPATH</code>), and implicit rules</a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Libraries_002fSearch.html#index-search-path-for-prerequisites-_0028_0040code_007bVPATH_007d_0029_002c-and-link-libraries-197">search path for prerequisites (<code>VPATH</code>), and link libraries</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Text-Functions.html#index-searching-for-strings-571">searching for strings</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Secondary-Expansion.html#index-secondary-expansion-114">secondary expansion</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Secondary-Expansion.html#index-secondary-expansion-and-explicit-rules-117">secondary expansion and explicit rules</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Secondary-Expansion.html#index-secondary-expansion-and-implicit-rules-121">secondary expansion and implicit rules</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Secondary-Expansion.html#index-secondary-expansion-and-static-pattern-rules-119">secondary expansion and static pattern rules</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Chained-Rules.html#index-secondary-files-923">secondary files</a>: <a href="Chained-Rules.html#Chained-Rules">Chained Rules</a></li>
+<li><a href="Special-Targets.html#index-secondary-targets-229">secondary targets</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Automatic-Prerequisites.html#index-g_t_0040code_007bsed_007d-_0028shell-command_0029-283"><code>sed</code> (shell command)</a>: <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a></li>
+<li><a href="Text-Functions.html#index-selecting-a-word-587">selecting a word</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-selecting-word-lists-590">selecting word lists</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Canned-Recipes.html#index-sequences-of-commands-451">sequences of commands</a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Options_002fRecursion.html#index-setting-options-from-environment-432">setting options from environment</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Options_002fRecursion.html#index-setting-options-in-makefiles-434">setting options in makefiles</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Setting.html#index-setting-variables-505">setting variables</a>: <a href="Setting.html#Setting">Setting</a></li>
+<li><a href="Multiple-Rules.html#index-several-rules-for-one-target-250">several rules for one target</a>: <a href="Multiple-Rules.html#Multiple-Rules">Multiple Rules</a></li>
+<li><a href="Multiple-Targets.html#index-several-targets-in-a-rule-245">several targets in a rule</a>: <a href="Multiple-Targets.html#Multiple-Targets">Multiple Targets</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bshar_007d-_0040r_007b_0028standard-target_0029_007d-678"><code>shar</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Shell-Function.html#index-shell-command_002c-function-for-652">shell command, function for</a>: <a href="Shell-Function.html#Shell-Function">Shell Function</a></li>
+<li><a href="Include.html#index-shell-file-name-pattern-_0028in-_0040code_007binclude_007d_0029-75">shell file name pattern (in <code>include</code>)</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Execution.html#index-shell-variables_002c-setting-in-recipes-320">shell variables, setting in recipes</a>: <a href="Execution.html#Execution">Execution</a></li>
+<li><a href="Include.html#index-shell-wildcards-_0028in-_0040code_007binclude_007d_0029-76">shell wildcards (in <code>include</code>)</a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Choosing-the-Shell.html#index-shell_002c-choosing-the-325">shell, choosing the</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Variables_002fRecursion.html#index-SHELL_002c-exported-value-394">SHELL, exported value</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Environment.html#index-SHELL_002c-import-from-environment-527">SHELL, import from environment</a>: <a href="Environment.html#Environment">Environment</a></li>
+<li><a href="Choosing-the-Shell.html#index-shell_002c-in-DOS-and-Windows-332">shell, in DOS and Windows</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Choosing-the-Shell.html#index-g_t_0040code_007bSHELL_007d_002c-MS_002dDOS-specifics-336"><code>SHELL</code>, MS-DOS specifics</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Choosing-the-Shell.html#index-g_t_0040code_007bSHELL_007d_002c-value-of-326"><code>SHELL</code>, value of</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Interrupts.html#index-signal-369">signal</a>: <a href="Interrupts.html#Interrupts">Interrupts</a></li>
+<li><a href="Echoing.html#index-silent-operation-304">silent operation</a>: <a href="Echoing.html#Echoing">Echoing</a></li>
+<li><a href="Simple-Makefile.html#index-simple-makefile-17">simple makefile</a>: <a href="Simple-Makefile.html#Simple-Makefile">Simple Makefile</a></li>
+<li><a href="Using-Variables.html#index-simple-variable-expansion-463">simple variable expansion</a>: <a href="Using-Variables.html#Using-Variables">Using Variables</a></li>
+<li><a href="Variables-Simplify.html#index-simplifying-with-variables-34">simplifying with variables</a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Flavors.html#index-simply-expanded-variables-477">simply expanded variables</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Text-Functions.html#index-sorting-words-581">sorting words</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Flavors.html#index-spaces_002c-in-variable-values-482">spaces, in variable values</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Text-Functions.html#index-spaces_002c-stripping-568">spaces, stripping</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Special-Targets.html#index-special-targets-217">special targets</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Special-Variables.html#index-special-variables-536">special variables</a>: <a href="Special-Variables.html#Special-Variables">Special Variables</a></li>
+<li><a href="Makefile-Names.html#index-specifying-makefile-name-68">specifying makefile name</a>: <a href="Makefile-Names.html#Makefile-Names">Makefile Names</a></li>
+<li><a href="Splitting-Lines.html#index-splitting-recipes-294">splitting recipes</a>: <a href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a></li>
+<li><a href="DESTDIR.html#index-staged-installs-1030">staged installs</a>: <a href="DESTDIR.html#DESTDIR">DESTDIR</a></li>
+<li><a href="Parallel.html#index-standard-input-346">standard input</a>: <a href="Parallel.html#Parallel">Parallel</a></li>
+<li><a href="Overview.html#index-standards-conformance-3">standards conformance</a>: <a href="Overview.html#Overview">Overview</a></li>
+<li><a href="Makefile-Conventions.html#index-standards-for-makefiles-1028">standards for makefiles</a>: <a href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a></li>
+<li><a href="Static-Pattern.html#index-static-pattern-rule-253">static pattern rule</a>: <a href="Static-Pattern.html#Static-Pattern">Static Pattern</a></li>
+<li><a href="Static-Usage.html#index-static-pattern-rule_002c-syntax-of-258">static pattern rule, syntax of</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Static-versus-Implicit.html#index-static-pattern-rule_002c-versus-implicit-270">static pattern rule, versus implicit</a>: <a href="Static-versus-Implicit.html#Static-versus-Implicit">Static versus Implicit</a></li>
+<li><a href="Secondary-Expansion.html#index-static-pattern-rules_002c-secondary-expansion-of-120">static pattern rules, secondary expansion of</a>: <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a></li>
+<li><a href="Pattern-Match.html#index-stem-987">stem</a>: <a href="Pattern-Match.html#Pattern-Match">Pattern Match</a></li>
+<li><a href="Static-Usage.html#index-stem-261">stem</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Pattern-Match.html#index-stem_002c-shortest-990">stem, shortest</a>: <a href="Pattern-Match.html#Pattern-Match">Pattern Match</a></li>
+<li><a href="Automatic-Variables.html#index-stem_002c-variable-for-958">stem, variable for</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Make-Control-Functions.html#index-stopping-make-657">stopping make</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="Text-Functions.html#index-strings_002c-searching-for-573">strings, searching for</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-stripping-whitespace-566">stripping whitespace</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Variables_002fRecursion.html#index-sub_002d_0040code_007bmake_007d-387">sub-<code>make</code></a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Recursion.html#index-subdirectories_002c-recursion-for-376">subdirectories, recursion for</a>: <a href="Recursion.html#Recursion">Recursion</a></li>
+<li><a href="Substitution-Refs.html#index-substitution-variable-reference-490">substitution variable reference</a>: <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a></li>
+<li><a href="Suffix-Rules.html#index-suffix-rule-997">suffix rule</a>: <a href="Suffix-Rules.html#Suffix-Rules">Suffix Rules</a></li>
+<li><a href="Archive-Suffix-Rules.html#index-suffix-rule_002c-for-archive-1014">suffix rule, for archive</a>: <a href="Archive-Suffix-Rules.html#Archive-Suffix-Rules">Archive Suffix Rules</a></li>
+<li><a href="File-Name-Functions.html#index-suffix_002c-adding-612">suffix, adding</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="File-Name-Functions.html#index-suffix_002c-function-to-find-606">suffix, function to find</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Substitution-Refs.html#index-suffix_002c-substituting-in-variables-494">suffix, substituting in variables</a>: <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a></li>
+<li><a href="Suppressing-Inheritance.html#index-suppressing-inheritance-533">suppressing inheritance</a>: <a href="Suppressing-Inheritance.html#Suppressing-Inheritance">Suppressing Inheritance</a></li>
+<li><a href="Options-Summary.html#index-switches-720">switches</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Archive-Symbols.html#index-symbol-directories_002c-updating-archive-1008">symbol directories, updating archive</a>: <a href="Archive-Symbols.html#Archive-Symbols">Archive Symbols</a></li>
+<li><a href="Recipe-Syntax.html#index-syntax-of-recipe-289">syntax of recipe</a>: <a href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a></li>
+<li><a href="Rule-Syntax.html#index-syntax-of-rules-130">syntax of rules</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Rule-Syntax.html#index-tab-character-_0028in-commands_0029-134">tab character (in commands)</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Rule-Introduction.html#index-tabs-in-rules-16">tabs in rules</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007bTAGS_007d-_0040r_007b_0028standard-target_0029_007d-680"><code>TAGS</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Implicit-Variables.html#index-tangle-898"><code>tangle</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-tangle-838"><code>tangle</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007btar_007d-_0040r_007b_0028standard-target_0029_007d-677"><code>tar</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Rules.html#index-target-125">target</a>: <a href="Rules.html#Rules">Rules</a></li>
+<li><a href="Pattern-Intro.html#index-target-pattern_002c-implicit-928">target pattern, implicit</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Static-Usage.html#index-target-pattern_002c-static-_0028not-implicit_0029-260">target pattern, static (not implicit)</a>: <a href="Static-Usage.html#Static-Usage">Static Usage</a></li>
+<li><a href="Errors.html#index-target_002c-deleting-on-error-367">target, deleting on error</a>: <a href="Errors.html#Errors">Errors</a></li>
+<li><a href="Interrupts.html#index-target_002c-deleting-on-interrupt-372">target, deleting on interrupt</a>: <a href="Interrupts.html#Interrupts">Interrupts</a></li>
+<li><a href="Reading-Makefiles.html#index-target_002c-expansion-109">target, expansion</a>: <a href="Reading-Makefiles.html#Reading-Makefiles">Reading Makefiles</a></li>
+<li><a href="Pattern-Intro.html#index-target_002c-multiple-in-pattern-rule-932">target, multiple in pattern rule</a>: <a href="Pattern-Intro.html#Pattern-Intro">Pattern Intro</a></li>
+<li><a href="Multiple-Rules.html#index-target_002c-multiple-rules-for-one-252">target, multiple rules for one</a>: <a href="Multiple-Rules.html#Multiple-Rules">Multiple Rules</a></li>
+<li><a href="Instead-of-Execution.html#index-target_002c-touching-691">target, touching</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Target_002dspecific.html#index-target_002dspecific-variables-528">target-specific variables</a>: <a href="Target_002dspecific.html#Target_002dspecific">Target-specific</a></li>
+<li><a href="Rule-Syntax.html#index-targets-131">targets</a>: <a href="Rule-Syntax.html#Rule-Syntax">Rule Syntax</a></li>
+<li><a href="Phony-Targets.html#index-targets-without-a-file-204">targets without a file</a>: <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a></li>
+<li><a href="Special-Targets.html#index-targets_002c-built_002din-special-219">targets, built-in special</a>: <a href="Special-Targets.html#Special-Targets">Special Targets</a></li>
+<li><a href="Empty-Targets.html#index-targets_002c-empty-212">targets, empty</a>: <a href="Empty-Targets.html#Empty-Targets">Empty Targets</a></li>
+<li><a href="Force-Targets.html#index-targets_002c-force-208">targets, force</a>: <a href="Force-Targets.html#Force-Targets">Force Targets</a></li>
+<li><a href="Rule-Introduction.html#index-targets_002c-introduction-to-13">targets, introduction to</a>: <a href="Rule-Introduction.html#Rule-Introduction">Rule Introduction</a></li>
+<li><a href="Multiple-Targets.html#index-targets_002c-multiple-246">targets, multiple</a>: <a href="Multiple-Targets.html#Multiple-Targets">Multiple Targets</a></li>
+<li><a href="Phony-Targets.html#index-targets_002c-phony-203">targets, phony</a>: <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a></li>
+<li><a href="Match_002dAnything-Rules.html#index-terminal-rule-992">terminal rule</a>: <a href="Match_002dAnything-Rules.html#Match_002dAnything-Rules">Match-Anything Rules</a></li>
+<li><a href="Goals.html#index-g_t_0040code_007btest_007d-_0040r_007b_0028standard-target_0029_007d-682"><code>test</code> <span class="roman">(standard target)</span></a>: <a href="Goals.html#Goals">Goals</a></li>
+<li><a href="Testing.html#index-testing-compilation-714">testing compilation</a>: <a href="Testing.html#Testing">Testing</a></li>
+<li><a href="Implicit-Variables.html#index-tex-890"><code>tex</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-tex-835"><code>tex</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-g_t_0040TeX_007b_007d_002c-rule-to-run-833">TeX, rule to run</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Implicit-Variables.html#index-texi2dvi-892"><code>texi2dvi</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-texi2dvi-847"><code>texi2dvi</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Texinfo_002c-rule-to-format-845">Texinfo, rule to format</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Wildcards.html#index-tilde-_0028_0040code_007b_007e_007d_0029-153">tilde (<code>~</code>)</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="Empty-Targets.html#index-g_t_0040code_007btouch_007d-_0028shell-command_0029-216"><code>touch</code> (shell command)</a>: <a href="Empty-Targets.html#Empty-Targets">Empty Targets</a></li>
+<li><a href="Wildcard-Examples.html#index-g_t_0040code_007btouch_007d-_0028shell-command_0029-158"><code>touch</code> (shell command)</a>: <a href="Wildcard-Examples.html#Wildcard-Examples">Wildcard Examples</a></li>
+<li><a href="Instead-of-Execution.html#index-touching-files-690">touching files</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Search-Algorithm.html#index-traditional-directory-search-_0028GPATH_0029-181">traditional directory search (GPATH)</a>: <a href="Search-Algorithm.html#Search-Algorithm">Search Algorithm</a></li>
+<li><a href="Prerequisite-Types.html#index-types-of-prerequisites-141">types of prerequisites</a>: <a href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a></li>
+<li><a href="Options-Summary.html#index-undefined-variables_002c-warning-message-786">undefined variables, warning message</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Undefine-Directive.html#index-undefining-variable-524">undefining variable</a>: <a href="Undefine-Directive.html#Undefine-Directive">Undefine Directive</a></li>
+<li><a href="Archive-Symbols.html#index-updating-archive-symbol-directories-1006">updating archive symbol directories</a>: <a href="Archive-Symbols.html#Archive-Symbols">Archive Symbols</a></li>
+<li><a href="Remaking-Makefiles.html#index-updating-makefiles-92">updating makefiles</a>: <a href="Remaking-Makefiles.html#Remaking-Makefiles">Remaking Makefiles</a></li>
+<li><a href="Call-Function.html#index-user-defined-functions-637">user defined functions</a>: <a href="Call-Function.html#Call-Function">Call Function</a></li>
+<li><a href="Using-Variables.html#index-value-461">value</a>: <a href="Using-Variables.html#Using-Variables">Using Variables</a></li>
+<li><a href="Values.html#index-value_002c-how-a-variable-gets-it-504">value, how a variable gets it</a>: <a href="Values.html#Values">Values</a></li>
+<li><a href="Using-Variables.html#index-variable-460">variable</a>: <a href="Using-Variables.html#Using-Variables">Using Variables</a></li>
+<li><a href="Makefile-Contents.html#index-variable-definition-53">variable definition</a>: <a href="Makefile-Contents.html#Makefile-Contents">Makefile Contents</a></li>
+<li><a href="Variables-in-Recipes.html#index-variable-references-in-recipes-301">variable references in recipes</a>: <a href="Variables-in-Recipes.html#Variables-in-Recipes">Variables in Recipes</a></li>
+<li><a href="Variables-Simplify.html#index-variables-33">variables</a>: <a href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a></li>
+<li><a href="Computed-Names.html#index-variables_002c-_0040samp_007b_0024_007d-in-name-500">variables, &lsquo;<samp><span class="samp">$</span></samp>&rsquo; in name</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Automatic-Variables.html#index-variables_002c-and-implicit-rule-935">variables, and implicit rule</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Appending.html#index-variables_002c-appending-to-512">variables, appending to</a>: <a href="Appending.html#Appending">Appending</a></li>
+<li><a href="Automatic-Variables.html#index-variables_002c-automatic-934">variables, automatic</a>: <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a></li>
+<li><a href="Overriding.html#index-variables_002c-command-line-713">variables, command line</a>: <a href="Overriding.html#Overriding">Overriding</a></li>
+<li><a href="Options_002fRecursion.html#index-variables_002c-command-line_002c-and-recursion-406">variables, command line, and recursion</a>: <a href="Options_002fRecursion.html#Options_002fRecursion">Options/Recursion</a></li>
+<li><a href="Computed-Names.html#index-variables_002c-computed-names-498">variables, computed names</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Flavors.html#index-variables_002c-conditional-assignment-486">variables, conditional assignment</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Multi_002dLine.html#index-variables_002c-defining-verbatim-522">variables, defining verbatim</a>: <a href="Multi_002dLine.html#Multi_002dLine">Multi-Line</a></li>
+<li><a href="Environment.html#index-variables_002c-environment-525">variables, environment</a>: <a href="Environment.html#Environment">Environment</a></li>
+<li><a href="Variables_002fRecursion.html#index-variables_002c-environment-390">variables, environment</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Variables_002fRecursion.html#index-variables_002c-exporting-391">variables, exporting</a>: <a href="Variables_002fRecursion.html#Variables_002fRecursion">Variables/Recursion</a></li>
+<li><a href="Flavor-Function.html#index-variables_002c-flavor-of-647">variables, flavor of</a>: <a href="Flavor-Function.html#Flavor-Function">Flavor Function</a></li>
+<li><a href="Flavors.html#index-variables_002c-flavors-471">variables, flavors</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Values.html#index-variables_002c-how-they-get-their-values-503">variables, how they get their values</a>: <a href="Values.html#Values">Values</a></li>
+<li><a href="Reference.html#index-variables_002c-how-to-reference-465">variables, how to reference</a>: <a href="Reference.html#Reference">Reference</a></li>
+<li><a href="Flavors.html#index-variables_002c-loops-in-expansion-476">variables, loops in expansion</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Substitution-Refs.html#index-variables_002c-modified-reference-491">variables, modified reference</a>: <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a></li>
+<li><a href="Multi_002dLine.html#index-variables_002c-multi_002dline-519">variables, multi-line</a>: <a href="Multi_002dLine.html#Multi_002dLine">Multi-Line</a></li>
+<li><a href="Computed-Names.html#index-variables_002c-nested-references-499">variables, nested references</a>: <a href="Computed-Names.html#Computed-Names">Computed Names</a></li>
+<li><a href="Origin-Function.html#index-variables_002c-origin-of-644">variables, origin of</a>: <a href="Origin-Function.html#Origin-Function">Origin Function</a></li>
+<li><a href="Override-Directive.html#index-variables_002c-overriding-515">variables, overriding</a>: <a href="Override-Directive.html#Override-Directive">Override Directive</a></li>
+<li><a href="Overriding.html#index-variables_002c-overriding-with-arguments-711">variables, overriding with arguments</a>: <a href="Overriding.html#Overriding">Overriding</a></li>
+<li><a href="Pattern_002dspecific.html#index-variables_002c-pattern_002dspecific-531">variables, pattern-specific</a>: <a href="Pattern_002dspecific.html#Pattern_002dspecific">Pattern-specific</a></li>
+<li><a href="Flavors.html#index-variables_002c-recursively-expanded-473">variables, recursively expanded</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Setting.html#index-variables_002c-setting-506">variables, setting</a>: <a href="Setting.html#Setting">Setting</a></li>
+<li><a href="Flavors.html#index-variables_002c-simply-expanded-478">variables, simply expanded</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Flavors.html#index-variables_002c-spaces-in-values-484">variables, spaces in values</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Substitution-Refs.html#index-variables_002c-substituting-suffix-in-493">variables, substituting suffix in</a>: <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a></li>
+<li><a href="Substitution-Refs.html#index-variables_002c-substitution-reference-492">variables, substitution reference</a>: <a href="Substitution-Refs.html#Substitution-Refs">Substitution Refs</a></li>
+<li><a href="Target_002dspecific.html#index-variables_002c-target_002dspecific-529">variables, target-specific</a>: <a href="Target_002dspecific.html#Target_002dspecific">Target-specific</a></li>
+<li><a href="Value-Function.html#index-variables_002c-unexpanded-value-639">variables, unexpanded value</a>: <a href="Value-Function.html#Value-Function">Value Function</a></li>
+<li><a href="Options-Summary.html#index-variables_002c-warning-for-undefined-785">variables, warning for undefined</a>: <a href="Options-Summary.html#Options-Summary">Options Summary</a></li>
+<li><a href="Static-Pattern.html#index-varying-prerequisites-256">varying prerequisites</a>: <a href="Static-Pattern.html#Static-Pattern">Static Pattern</a></li>
+<li><a href="Multi_002dLine.html#index-verbatim-variable-definition-520">verbatim variable definition</a>: <a href="Multi_002dLine.html#Multi_002dLine">Multi-Line</a></li>
+<li><a href="Directory-Search.html#index-vpath-169">vpath</a>: <a href="Directory-Search.html#Directory-Search">Directory Search</a></li>
+<li><a href="Implicit_002fSearch.html#index-g_t_0040code_007bVPATH_007d_002c-and-implicit-rules-186"><code>VPATH</code>, and implicit rules</a>: <a href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a></li>
+<li><a href="Libraries_002fSearch.html#index-g_t_0040code_007bVPATH_007d_002c-and-link-libraries-196"><code>VPATH</code>, and link libraries</a>: <a href="Libraries_002fSearch.html#Libraries_002fSearch">Libraries/Search</a></li>
+<li><a href="Make-Control-Functions.html#index-warnings_002c-printing-659">warnings, printing</a>: <a href="Make-Control-Functions.html#Make-Control-Functions">Make Control Functions</a></li>
+<li><a href="Implicit-Variables.html#index-weave-894"><code>weave</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-weave-837"><code>weave</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Web_002c-rule-to-run-834">Web, rule to run</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Instead-of-Execution.html#index-what-if-700">what if</a>: <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a></li>
+<li><a href="Flavors.html#index-whitespace_002c-in-variable-values-483">whitespace, in variable values</a>: <a href="Flavors.html#Flavors">Flavors</a></li>
+<li><a href="Text-Functions.html#index-whitespace_002c-stripping-567">whitespace, stripping</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Wildcards.html#index-wildcard-146">wildcard</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+<li><a href="Wildcard-Pitfall.html#index-wildcard-pitfalls-159">wildcard pitfalls</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="File-Name-Functions.html#index-wildcard_002c-function-621">wildcard, function</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Archive-Members.html#index-wildcard_002c-in-archive-member-1004">wildcard, in archive member</a>: <a href="Archive-Members.html#Archive-Members">Archive Members</a></li>
+<li><a href="Include.html#index-wildcard_002c-in-_0040code_007binclude_007d-77">wildcard, in <code>include</code></a>: <a href="Include.html#Include">Include</a></li>
+<li><a href="Wildcard-Pitfall.html#index-wildcards-and-MS_002dDOS_002fMS_002dWindows-backslashes-164">wildcards and MS-DOS/MS-Windows backslashes</a>: <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a></li>
+<li><a href="Choosing-the-Shell.html#index-Windows_002c-choosing-a-shell-in-334">Windows, choosing a shell in</a>: <a href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a></li>
+<li><a href="Text-Functions.html#index-word_002c-selecting-a-586">word, selecting a</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-extracting-first-594">words, extracting first</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-extracting-last-596">words, extracting last</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-filtering-576">words, filtering</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-filtering-out-579">words, filtering out</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-finding-number-592">words, finding number</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Foreach-Function.html#index-words_002c-iterating-over-634">words, iterating over</a>: <a href="Foreach-Function.html#Foreach-Function">Foreach Function</a></li>
+<li><a href="File-Name-Functions.html#index-words_002c-joining-lists-619">words, joining lists</a>: <a href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-removing-duplicates-584">words, removing duplicates</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Text-Functions.html#index-words_002c-selecting-lists-of-589">words, selecting lists of</a>: <a href="Text-Functions.html#Text-Functions">Text Functions</a></li>
+<li><a href="Recipes.html#index-writing-recipes-287">writing recipes</a>: <a href="Recipes.html#Recipes">Recipes</a></li>
+<li><a href="Rules.html#index-writing-rules-123">writing rules</a>: <a href="Rules.html#Rules">Rules</a></li>
+<li><a href="Implicit-Variables.html#index-yacc-884"><code>yacc</code></a>: <a href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a></li>
+<li><a href="Catalogue-of-Rules.html#index-yacc-824"><code>yacc</code></a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Canned-Recipes.html#index-g_t_0040code_007byacc_007d-453"><code>yacc</code></a>: <a href="Canned-Recipes.html#Canned-Recipes">Canned Recipes</a></li>
+<li><a href="Catalogue-of-Rules.html#index-Yacc_002c-rule-to-run-825">Yacc, rule to run</a>: <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a></li>
+<li><a href="Wildcards.html#index-g_t_0040code_007b_007e_007d-_0028tilde_0029-152"><code>~</code> (tilde)</a>: <a href="Wildcards.html#Wildcards">Wildcards</a></li>
+   </ul></body></html>
+

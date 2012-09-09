@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+<title>Using Implicit - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implicit-Rules.html#Implicit-Rules" title="Implicit Rules">
+<link rel="prev" href="Implicit-Rules.html#Implicit-Rules" title="Implicit Rules">
+<link rel="next" href="Catalogue-of-Rules.html#Catalogue-of-Rules" title="Catalogue of Rules">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Implicit"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>
+<hr>
+</div>
+
+<h3 class="section">10.1 Using Implicit Rules</h3>
+
+<p><a name="index-implicit-rule_002c-how-to-use-789"></a><a name="index-rule_002c-implicit_002c-how-to-use-790"></a>
+To allow <code>make</code> to find a customary method for updating a target
+file, all you have to do is refrain from specifying recipes yourself. 
+Either write a rule with no recipe, or don't write a rule at all. 
+Then <code>make</code> will figure out which implicit rule to use based on
+which kind of source file exists or can be made.
+
+   <p>For example, suppose the makefile looks like this:
+
+<pre class="example">     foo : foo.o bar.o
+             cc -o foo foo.o bar.o $(CFLAGS) $(LDFLAGS)
+</pre>
+   <p class="noindent">Because you mention <samp><span class="file">foo.o</span></samp> but do not give a rule for it, <code>make</code>
+will automatically look for an implicit rule that tells how to update it. 
+This happens whether or not the file <samp><span class="file">foo.o</span></samp> currently exists.
+
+   <p>If an implicit rule is found, it can supply both a recipe and one or
+more prerequisites (the source files).  You would want to write a rule
+for <samp><span class="file">foo.o</span></samp> with no recipe if you need to specify additional
+prerequisites, such as header files, that the implicit rule cannot
+supply.
+
+   <p>Each implicit rule has a target pattern and prerequisite patterns.  There may
+be many implicit rules with the same target pattern.  For example, numerous
+rules make &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; files: one, from a &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; file with the C compiler;
+another, from a &lsquo;<samp><span class="samp">.p</span></samp>&rsquo; file with the Pascal compiler; and so on.  The rule
+that actually applies is the one whose prerequisites exist or can be made. 
+So, if you have a file <samp><span class="file">foo.c</span></samp>, <code>make</code> will run the C compiler;
+otherwise, if you have a file <samp><span class="file">foo.p</span></samp>, <code>make</code> will run the Pascal
+compiler; and so on.
+
+   <p>Of course, when you write the makefile, you know which implicit rule you
+want <code>make</code> to use, and you know it will choose that one because you
+know which possible prerequisite files are supposed to exist. 
+See <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Implicit Rules</a>,
+for a catalogue of all the predefined implicit rules.
+
+   <p>Above, we said an implicit rule applies if the required prerequisites &ldquo;exist
+or can be made&rdquo;.  A file &ldquo;can be made&rdquo; if it is mentioned explicitly in
+the makefile as a target or a prerequisite, or if an implicit rule can be
+recursively found for how to make it.  When an implicit prerequisite is the
+result of another implicit rule, we say that <dfn>chaining</dfn> is occurring. 
+See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.
+
+   <p>In general, <code>make</code> searches for an implicit rule for each target, and
+for each double-colon rule, that has no recipe.  A file that is mentioned
+only as a prerequisite is considered a target whose rule specifies nothing,
+so implicit rule search happens for it.  See <a href="Implicit-Rule-Search.html#Implicit-Rule-Search">Implicit Rule Search Algorithm</a>, for the
+details of how the search is done.
+
+   <p>Note that explicit prerequisites do not influence implicit rule search. 
+For example, consider this explicit rule:
+
+<pre class="example">     foo.o: foo.p
+</pre>
+   <p class="noindent">The prerequisite on <samp><span class="file">foo.p</span></samp> does not necessarily mean that
+<code>make</code> will remake <samp><span class="file">foo.o</span></samp> according to the implicit rule to
+make an object file, a <samp><span class="file">.o</span></samp> file, from a Pascal source file, a
+<samp><span class="file">.p</span></samp> file.  For example, if <samp><span class="file">foo.c</span></samp> also exists, the implicit
+rule to make an object file from a C source file is used instead,
+because it appears before the Pascal rule in the list of predefined
+implicit rules (see <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Implicit Rules</a>).
+
+   <p>If you do not want an implicit rule to be used for a target that has no
+recipe, you can give that target an empty recipe by writing a semicolon
+(see <a href="Empty-Recipes.html#Empty-Recipes">Defining Empty Recipes</a>).
+
+   </body></html>
+

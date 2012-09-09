@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+<title>Implicit Rules - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Running.html#Running" title="Running">
+<link rel="next" href="Archives.html#Archives" title="Archives">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implicit-Rules"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Archives.html#Archives">Archives</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running.html#Running">Running</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">10 Using Implicit Rules</h2>
+
+<p><a name="index-implicit-rule-787"></a><a name="index-rule_002c-implicit-788"></a>
+Certain standard ways of remaking target files are used very often.  For
+example, one customary way to make an object file is from a C source file
+using the C compiler, <code>cc</code>.
+
+   <p><dfn>Implicit rules</dfn> tell <code>make</code> how to use customary techniques so
+that you do not have to specify them in detail when you want to use
+them.  For example, there is an implicit rule for C compilation.  File
+names determine which implicit rules are run.  For example, C
+compilation typically takes a <samp><span class="file">.c</span></samp> file and makes a <samp><span class="file">.o</span></samp> file. 
+So <code>make</code> applies the implicit rule for C compilation when it sees
+this combination of file name endings.
+
+   <p>A chain of implicit rules can apply in sequence; for example, <code>make</code>
+will remake a <samp><span class="file">.o</span></samp> file from a <samp><span class="file">.y</span></samp> file by way of a <samp><span class="file">.c</span></samp> file.
+
+   <p>The built-in implicit rules use several variables in their recipes so
+that, by changing the values of the variables, you can change the way the
+implicit rule works.  For example, the variable <code>CFLAGS</code> controls the
+flags given to the C compiler by the implicit rule for C compilation.
+
+   <p>You can define your own implicit rules by writing <dfn>pattern rules</dfn>.
+
+   <p><dfn>Suffix rules</dfn> are a more limited way to define implicit rules. 
+Pattern rules are more general and clearer, but suffix rules are
+retained for compatibility.
+
+<ul class="menu">
+<li><a accesskey="1" href="Using-Implicit.html#Using-Implicit">Using Implicit</a>:               How to use an existing implicit rule
+                                  to get the recipes for updating a file. 
+<li><a accesskey="2" href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Rules</a>:           A list of built-in implicit rules. 
+<li><a accesskey="3" href="Implicit-Variables.html#Implicit-Variables">Implicit Variables</a>:           How to change what predefined rules do. 
+<li><a accesskey="4" href="Chained-Rules.html#Chained-Rules">Chained Rules</a>:                How to use a chain of implicit rules. 
+<li><a accesskey="5" href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>:                How to define new implicit rules. 
+<li><a accesskey="6" href="Last-Resort.html#Last-Resort">Last Resort</a>:                  How to define recipes for rules which
+                                  cannot find any. 
+<li><a accesskey="7" href="Suffix-Rules.html#Suffix-Rules">Suffix Rules</a>:                 The old-fashioned style of implicit rule. 
+<li><a accesskey="8" href="Implicit-Rule-Search.html#Implicit-Rule-Search">Implicit Rule Search</a>:         The precise algorithm for applying
+                                  implicit rules. 
+</ul>
+
+   </body></html>
+

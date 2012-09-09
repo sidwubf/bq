@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+<title>Pattern Match - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Pattern-Rules.html#Pattern-Rules" title="Pattern Rules">
+<link rel="prev" href="Automatic-Variables.html#Automatic-Variables" title="Automatic Variables">
+<link rel="next" href="Match_002dAnything-Rules.html#Match_002dAnything-Rules" title="Match-Anything Rules">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pattern-Match"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Match_002dAnything-Rules.html#Match_002dAnything-Rules">Match-Anything Rules</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>
+<hr>
+</div>
+
+<h4 class="subsection">10.5.4 How Patterns Match</h4>
+
+<p><a name="index-stem-987"></a>A target pattern is composed of a &lsquo;<samp><span class="samp">%</span></samp>&rsquo; between a prefix and a suffix,
+either or both of which may be empty.  The pattern matches a file name only
+if the file name starts with the prefix and ends with the suffix, without
+overlap.  The text between the prefix and the suffix is called the
+<dfn>stem</dfn>.  Thus, when the pattern &lsquo;<samp><span class="samp">%.o</span></samp>&rsquo; matches the file name
+<samp><span class="file">test.o</span></samp>, the stem is &lsquo;<samp><span class="samp">test</span></samp>&rsquo;.  The pattern rule prerequisites are
+turned into actual file names by substituting the stem for the character
+&lsquo;<samp><span class="samp">%</span></samp>&rsquo;.  Thus, if in the same example one of the prerequisites is written
+as &lsquo;<samp><span class="samp">%.c</span></samp>&rsquo;, it expands to &lsquo;<samp><span class="samp">test.c</span></samp>&rsquo;.
+
+   <p>When the target pattern does not contain a slash (and it usually does
+not), directory names in the file names are removed from the file name
+before it is compared with the target prefix and suffix.  After the
+comparison of the file name to the target pattern, the directory
+names, along with the slash that ends them, are added on to the
+prerequisite file names generated from the pattern rule's prerequisite
+patterns and the file name.  The directories are ignored only for the
+purpose of finding an implicit rule to use, not in the application of
+that rule.  Thus, &lsquo;<samp><span class="samp">e%t</span></samp>&rsquo; matches the file name <samp><span class="file">src/eat</span></samp>,
+with &lsquo;<samp><span class="samp">src/a</span></samp>&rsquo; as the stem.  When prerequisites are turned into file
+names, the directories from the stem are added at the front, while the
+rest of the stem is substituted for the &lsquo;<samp><span class="samp">%</span></samp>&rsquo;.  The stem
+&lsquo;<samp><span class="samp">src/a</span></samp>&rsquo; with a prerequisite pattern &lsquo;<samp><span class="samp">c%r</span></samp>&rsquo; gives the file name
+<samp><span class="file">src/car</span></samp>.
+
+   <p><a name="index-pattern-rules_002c-order-of-988"></a><a name="index-order-of-pattern-rules-989"></a>A pattern rule can be used to build a given file only if there is a
+target pattern that matches the file name, <em>and</em> all
+prerequisites in that rule either exist or can be built.  The rules
+you write take precedence over those that are built in. Note however,
+that a rule whose prerequisites actually exist or are mentioned always
+takes priority over a rule with prerequisites that must be made by
+chaining other implicit rules.
+
+   <p><a name="index-stem_002c-shortest-990"></a>It is possible that more than one pattern rule will meet these
+criteria.  In that case, <code>make</code> will choose the rule with the
+shortest stem (that is, the pattern that matches most specifically). 
+If more than one pattern rule has the shortest stem, <code>make</code> will
+choose the first one found in the makefile.
+
+   <p>This algorithm results in more specific rules being preferred over
+more generic ones; for example:
+
+<pre class="example">     %.o: %.c
+             $(CC) -c $(CFLAGS) $(CPPFLAGS) $&lt; -o $@
+     
+     %.o : %.f
+             $(COMPILE.F) $(OUTPUT_OPTION) $&lt;
+     
+     lib/%.o: lib/%.c
+             $(CC) -fPIC -c $(CFLAGS) $(CPPFLAGS) $&lt; -o $@
+</pre>
+   <p>Given these rules and asked to build <samp><span class="file">bar.o</span></samp> where both
+<samp><span class="file">bar.c</span></samp> and <samp><span class="file">bar.f</span></samp> exist, <code>make</code> will choose the first
+rule and compile <samp><span class="file">bar.c</span></samp> into <samp><span class="file">bar.o</span></samp>.  In the same
+situation where <samp><span class="file">bar.c</span></samp> does not exist, then <code>make</code> will
+choose the second rule and compile <samp><span class="file">bar.f</span></samp> into <samp><span class="file">bar.o</span></samp>.
+
+   <p>If <code>make</code> is asked to build <samp><span class="file">lib/bar.o</span></samp> and both
+<samp><span class="file">lib/bar.c</span></samp> and <samp><span class="file">lib/bar.f</span></samp> exist, then the third rule will
+be chosen since the stem for this rule (&lsquo;<samp><span class="samp">bar</span></samp>&rsquo;) is shorter than
+the stem for the first rule (&lsquo;<samp><span class="samp">lib/bar</span></samp>&rsquo;).  If <samp><span class="file">lib/bar.c</span></samp>
+does not exist then the third rule is not eligible and the second rule
+will be used, even though the stem is longer.
+
+   </body></html>
+

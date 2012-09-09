@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+<title>Include - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="prev" href="Makefile-Names.html#Makefile-Names" title="Makefile Names">
+<link rel="next" href="MAKEFILES-Variable.html#MAKEFILES-Variable" title="MAKEFILES Variable">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Include"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="MAKEFILES-Variable.html#MAKEFILES-Variable">MAKEFILES Variable</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Makefile-Names.html#Makefile-Names">Makefile Names</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefiles.html#Makefiles">Makefiles</a>
+<hr>
+</div>
+
+<h3 class="section">3.3 Including Other Makefiles</h3>
+
+<p><a name="index-including-other-makefiles-72"></a><a name="index-makefile_002c-including-73"></a>
+<a name="index-include-74"></a>The <code>include</code> directive tells <code>make</code> to suspend reading the
+current makefile and read one or more other makefiles before continuing. 
+The directive is a line in the makefile that looks like this:
+
+<pre class="example">     include <var>filenames</var>...
+</pre>
+   <p class="noindent"><var>filenames</var> can contain shell file name patterns.  If
+<var>filenames</var> is empty, nothing is included and no error is printed. 
+<a name="index-shell-file-name-pattern-_0028in-_0040code_007binclude_007d_0029-75"></a><a name="index-shell-wildcards-_0028in-_0040code_007binclude_007d_0029-76"></a><a name="index-wildcard_002c-in-_0040code_007binclude_007d-77"></a>
+Extra spaces are allowed and ignored at the beginning of the line, but
+the first character must not be a tab (or the value of
+<code>.RECIPEPREFIX</code>)&mdash;if the line begins with a tab, it will be
+considered a recipe line.  Whitespace is required between
+<code>include</code> and the file names, and between file names; extra
+whitespace is ignored there and at the end of the directive.  A
+comment starting with &lsquo;<samp><span class="samp">#</span></samp>&rsquo; is allowed at the end of the line.  If
+the file names contain any variable or function references, they are
+expanded.  See <a href="Using-Variables.html#Using-Variables">How to Use Variables</a>.
+
+   <p>For example, if you have three <samp><span class="file">.mk</span></samp> files, <samp><span class="file">a.mk</span></samp>,
+<samp><span class="file">b.mk</span></samp>, and <samp><span class="file">c.mk</span></samp>, and <code>$(bar)</code> expands to
+<code>bish bash</code>, then the following expression
+
+<pre class="example">     include foo *.mk $(bar)
+</pre>
+   <p>is equivalent to
+
+<pre class="example">     include foo a.mk b.mk c.mk bish bash
+</pre>
+   <p>When <code>make</code> processes an <code>include</code> directive, it suspends
+reading of the containing makefile and reads from each listed file in
+turn.  When that is finished, <code>make</code> resumes reading the
+makefile in which the directive appears.
+
+   <p>One occasion for using <code>include</code> directives is when several programs,
+handled by individual makefiles in various directories, need to use a
+common set of variable definitions
+(see <a href="Setting.html#Setting">Setting Variables</a>) or pattern rules
+(see <a href="Pattern-Rules.html#Pattern-Rules">Defining and Redefining Pattern Rules</a>).
+
+   <p>Another such occasion is when you want to generate prerequisites from
+source files automatically; the prerequisites can be put in a file that
+is included by the main makefile.  This practice is generally cleaner
+than that of somehow appending the prerequisites to the end of the main
+makefile as has been traditionally done with other versions of
+<code>make</code>.  See <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a>. 
+<a name="index-prerequisites_002c-automatic-generation-78"></a><a name="index-automatic-generation-of-prerequisites-79"></a><a name="index-generating-prerequisites-automatically-80"></a>
+<a name="index-g_t_0040code_007b_002dI_007d-81"></a><a name="index-g_t_0040code_007b_002d_002dinclude_002ddir_007d-82"></a><a name="index-included-makefiles_002c-default-directories-83"></a><a name="index-default-directories-for-included-makefiles-84"></a><a name="index-g_t_002fusr_002fgnu_002finclude-85"></a><a name="index-g_t_002fusr_002flocal_002finclude-86"></a><a name="index-g_t_002fusr_002finclude-87"></a>If the specified name does not start with a slash, and the file is not
+found in the current directory, several other directories are searched. 
+First, any directories you have specified with the &lsquo;<samp><span class="samp">-I</span></samp>&rsquo; or
+&lsquo;<samp><span class="samp">--include-dir</span></samp>&rsquo; option are searched
+(see <a href="Options-Summary.html#Options-Summary">Summary of Options</a>). 
+Then the following directories (if they exist)
+are searched, in this order:
+<samp><var>prefix</var><span class="file">/include</span></samp> (normally <samp><span class="file">/usr/local/include</span></samp>
+<a rel="footnote" href="#fn-1" name="fnd-1"><sup>1</sup></a>)
+<samp><span class="file">/usr/gnu/include</span></samp>,
+<samp><span class="file">/usr/local/include</span></samp>, <samp><span class="file">/usr/include</span></samp>.
+
+   <p>If an included makefile cannot be found in any of these directories, a
+warning message is generated, but it is not an immediately fatal error;
+processing of the makefile containing the <code>include</code> continues. 
+Once it has finished reading makefiles, <code>make</code> will try to remake
+any that are out of date or don't exist. 
+See <a href="Remaking-Makefiles.html#Remaking-Makefiles">How Makefiles Are Remade</a>. 
+Only after it has tried to find a way to remake a makefile and failed,
+will <code>make</code> diagnose the missing makefile as a fatal error.
+
+   <p>If you want <code>make</code> to simply ignore a makefile which does not exist
+or cannot be remade, with no error message, use the <code>-include</code><!-- /@w -->
+directive instead of <code>include</code>, like this:
+
+<pre class="example">     -include <var>filenames</var>...
+</pre>
+   <p>This acts like <code>include</code> in every way except that there is no
+error (not even a warning) if any of the <var>filenames</var> (or any
+prerequisites of any of the <var>filenames</var>) do not exist or cannot be
+remade.
+
+   <p>For compatibility with some other <code>make</code> implementations,
+<code>sinclude</code> is another name for <code>-include</code><!-- /@w -->.
+
+   <div class="footnote">
+<hr>
+<h4>Footnotes</h4><p class="footnote"><small>[<a name="fn-1" href="#fnd-1">1</a>]</small> GNU Make compiled for MS-DOS and MS-Windows behaves as if
+<var>prefix</var> has been defined to be the root of the DJGPP tree
+hierarchy.</p>
+
+   <hr></div>
+
+   </body></html>
+

@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+<title>Instead of Execution - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running.html#Running" title="Running">
+<link rel="prev" href="Goals.html#Goals" title="Goals">
+<link rel="next" href="Avoiding-Compilation.html#Avoiding-Compilation" title="Avoiding Compilation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Instead-of-Execution"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Goals.html#Goals">Goals</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running.html#Running">Running</a>
+<hr>
+</div>
+
+<h3 class="section">9.3 Instead of Executing Recipes</h3>
+
+<p><a name="index-execution_002c-instead-of-683"></a><a name="index-recipes_002c-instead-of-executing-684"></a>
+The makefile tells <code>make</code> how to tell whether a target is up to date,
+and how to update each target.  But updating the targets is not always
+what you want.  Certain options specify other activities for <code>make</code>.
+
+<!-- Extra blank lines make it print better. -->
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-n</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--just-print</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--dry-run</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--recon</span></samp>&rsquo;<dd><a name="index-g_t_0040code_007b_002d_002djust_002dprint_007d-685"></a><a name="index-g_t_0040code_007b_002d_002ddry_002drun_007d-686"></a><a name="index-g_t_0040code_007b_002d_002drecon_007d-687"></a><a name="index-g_t_0040code_007b_002dn_007d-688"></a>
+&ldquo;No-op&rdquo;.  The activity is to print what recipe would be used to make
+the targets up to date, but not actually execute it.  Some recipes are
+still executed, even with this flag (see <a href="MAKE-Variable.html#MAKE-Variable">How the <code>MAKE</code> Variable Works</a>).
+
+     <br><dt>&lsquo;<samp><span class="samp">-t</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--touch</span></samp>&rsquo;<dd><a name="index-g_t_0040code_007b_002d_002dtouch_007d-689"></a><a name="index-touching-files-690"></a><a name="index-target_002c-touching-691"></a><a name="index-g_t_0040code_007b_002dt_007d-692"></a>
+&ldquo;Touch&rdquo;.  The activity is to mark the targets as up to date without
+actually changing them.  In other words, <code>make</code> pretends to compile
+the targets but does not really change their contents.
+
+     <br><dt>&lsquo;<samp><span class="samp">-q</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--question</span></samp>&rsquo;<dd><a name="index-g_t_0040code_007b_002d_002dquestion_007d-693"></a><a name="index-g_t_0040code_007b_002dq_007d-694"></a><a name="index-question-mode-695"></a>
+&ldquo;Question&rdquo;.  The activity is to find out silently whether the targets
+are up to date already; but execute no recipe in either case.  In other
+words, neither compilation nor output will occur.
+
+     <br><dt>&lsquo;<samp><span class="samp">-W </span><var>file</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--what-if=</span><var>file</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--assume-new=</span><var>file</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--new-file=</span><var>file</var></samp>&rsquo;<dd><a name="index-g_t_0040code_007b_002d_002dwhat_002dif_007d-696"></a><a name="index-g_t_0040code_007b_002dW_007d-697"></a><a name="index-g_t_0040code_007b_002d_002dassume_002dnew_007d-698"></a><a name="index-g_t_0040code_007b_002d_002dnew_002dfile_007d-699"></a><a name="index-what-if-700"></a><a name="index-files_002c-assuming-new-701"></a>
+&ldquo;What if&rdquo;.  Each &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; flag is followed by a file name.  The given
+files' modification times are recorded by <code>make</code> as being the present
+time, although the actual modification times remain the same. 
+You can use the &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; flag in conjunction with the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; flag
+to see what would happen if you were to modify specific files. 
+</dl>
+
+   <p>With the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; flag, <code>make</code> prints the recipe that it would
+normally execute but usually does not execute it.
+
+   <p>With the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; flag, <code>make</code> ignores the recipes in the rules
+and uses (in effect) the command <code>touch</code> for each target that needs to
+be remade.  The <code>touch</code> command is also printed, unless &lsquo;<samp><span class="samp">-s</span></samp>&rsquo; or
+<code>.SILENT</code> is used.  For speed, <code>make</code> does not actually invoke
+the program <code>touch</code>.  It does the work directly.
+
+   <p>With the &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; flag, <code>make</code> prints nothing and executes no
+recipes, but the exit status code it returns is zero if and only if the
+targets to be considered are already up to date.  If the exit status is
+one, then some updating needs to be done.  If <code>make</code> encounters an
+error, the exit status is two, so you can distinguish an error from a
+target that is not up to date.
+
+   <p>It is an error to use more than one of these three flags in the same
+invocation of <code>make</code>.
+
+   <p><a name="index-g_t_002b_002c-and-recipe-execution-702"></a>The &lsquo;<samp><span class="samp">-n</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-t</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; options do not affect recipe
+lines that begin with &lsquo;<samp><span class="samp">+</span></samp>&rsquo; characters or contain the strings
+&lsquo;<samp><span class="samp">$(MAKE)</span></samp>&rsquo; or &lsquo;<samp><span class="samp">${MAKE}</span></samp>&rsquo;.  Note that only the line containing
+the &lsquo;<samp><span class="samp">+</span></samp>&rsquo; character or the strings &lsquo;<samp><span class="samp">$(MAKE)</span></samp>&rsquo; or &lsquo;<samp><span class="samp">${MAKE}</span></samp>&rsquo;
+is run regardless of these options.  Other lines in the same rule are
+not run unless they too begin with &lsquo;<samp><span class="samp">+</span></samp>&rsquo; or contain &lsquo;<samp><span class="samp">$(MAKE)</span></samp>&rsquo; or
+&lsquo;<samp><span class="samp">${MAKE}</span></samp>&rsquo; (See <a href="MAKE-Variable.html#MAKE-Variable">How the <code>MAKE</code> Variable Works</a>.)
+
+   <p><a name="index-phony-targets-and-recipe-execution-703"></a>The &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; flag prevents phony targets (see <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a>) from
+being updated, unless there are recipe lines beginning with &lsquo;<samp><span class="samp">+</span></samp>&rsquo;
+or containing &lsquo;<samp><span class="samp">$(MAKE)</span></samp>&rsquo; or &lsquo;<samp><span class="samp">${MAKE}</span></samp>&rsquo;.
+
+   <p>The &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; flag provides two features:
+
+     <ul>
+<li>If you also use the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; flag, you can see what
+<code>make</code> would do if you were to modify some files.
+
+     <li>Without the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; flag, when <code>make</code> is actually
+executing recipes, the &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; flag can direct <code>make</code> to act as
+if some files had been modified, without actually running the recipes
+for those files. 
+</ul>
+
+   <p>Note that the options &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-v</span></samp>&rsquo; allow you to obtain other
+information about <code>make</code> or about the makefiles in use
+(see <a href="Options-Summary.html#Options-Summary">Summary of Options</a>).
+
+   </body></html>
+

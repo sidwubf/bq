@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+<title>Wildcard Examples - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Wildcards.html#Wildcards" title="Wildcards">
+<link rel="prev" href="Wildcards.html#Wildcards" title="Wildcards">
+<link rel="next" href="Wildcard-Pitfall.html#Wildcard-Pitfall" title="Wildcard Pitfall">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wildcard-Examples"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Wildcards.html#Wildcards">Wildcards</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Wildcards.html#Wildcards">Wildcards</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.4.1 Wildcard Examples</h4>
+
+<p>Wildcards can be used in the recipe of a rule, where they are expanded
+by the shell.  For example, here is a rule to delete all the object files:
+
+<pre class="example">     clean:
+             rm -f *.o
+</pre>
+   <p><a name="index-g_t_0040code_007brm_007d-_0028shell-command_0029-155"></a>
+Wildcards are also useful in the prerequisites of a rule.  With the
+following rule in the makefile, &lsquo;<samp><span class="samp">make print</span></samp>&rsquo; will print all the
+&lsquo;<samp><span class="samp">.c</span></samp>&rsquo; files that have changed since the last time you printed them:
+
+<pre class="example">     print: *.c
+             lpr -p $?
+             touch print
+</pre>
+   <p><a name="index-g_t_0040code_007bprint_007d-target-156"></a><a name="index-g_t_0040code_007blpr_007d-_0028shell-command_0029-157"></a><a name="index-g_t_0040code_007btouch_007d-_0028shell-command_0029-158"></a>This rule uses <samp><span class="file">print</span></samp> as an empty target file; see <a href="Empty-Targets.html#Empty-Targets">Empty Target Files to Record Events</a>.  (The automatic variable
+&lsquo;<samp><span class="samp">$?</span></samp>&rsquo; is used to print only those files that have changed; see
+<a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>.)
+
+   <p>Wildcard expansion does not happen when you define a variable.  Thus, if
+you write this:
+
+<pre class="example">     objects = *.o
+</pre>
+   <p class="noindent">then the value of the variable <code>objects</code> is the actual string
+&lsquo;<samp><span class="samp">*.o</span></samp>&rsquo;.  However, if you use the value of <code>objects</code> in a
+target or prerequisite, wildcard expansion will take place there.  If
+you use the value of <code>objects</code> in a recipe, the shell may perform
+wildcard expansion when the recipe runs.  To set <code>objects</code> to the
+expansion, instead use:
+
+<pre class="example">     objects := $(wildcard *.o)
+</pre>
+   <p class="noindent">See <a href="Wildcard-Function.html#Wildcard-Function">Wildcard Function</a>.
+
+   </body></html>
+

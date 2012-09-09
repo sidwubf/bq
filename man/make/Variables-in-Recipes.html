@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+<title>Variables in Recipes - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recipe-Syntax.html#Recipe-Syntax" title="Recipe Syntax">
+<link rel="prev" href="Splitting-Lines.html#Splitting-Lines" title="Splitting Lines">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Variables-in-Recipes"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Splitting-Lines.html#Splitting-Lines">Splitting Lines</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.1.2 Using Variables in Recipes</h4>
+
+<p><a name="index-variable-references-in-recipes-301"></a><a name="index-recipes_002c-using-variables-in-302"></a>
+The other way in which <code>make</code> processes recipes is by expanding
+any variable references in them (see <a href="Reference.html#Reference">Basics of Variable References</a>).  This occurs after make has finished reading all the
+makefiles and the target is determined to be out of date; so, the
+recipes for targets which are not rebuilt are never expanded.
+
+   <p>Variable and function references in recipes have identical syntax and
+semantics to references elsewhere in the makefile.  They also have the
+same quoting rules: if you want a dollar sign to appear in your
+recipe, you must double it (&lsquo;<samp><span class="samp">$$</span></samp>&rsquo;).  For shells like the default
+shell, that use dollar signs to introduce variables, it's important to
+keep clear in your mind whether the variable you want to reference is
+a <code>make</code> variable (use a single dollar sign) or a shell variable
+(use two dollar signs).  For example:
+
+<pre class="example">     LIST = one two three
+     all:
+             for i in $(LIST); do \
+                 echo $$i; \
+             done
+</pre>
+   <p class="noindent">results in the following command being passed to the shell:
+
+<pre class="example">     for i in one two three; do \
+         echo $i; \
+     done
+</pre>
+   <p class="noindent">which generates the expected result:
+
+<pre class="example">     one
+     two
+     three
+</pre>
+   </body></html>
+

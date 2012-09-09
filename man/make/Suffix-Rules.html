@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+<title>Suffix Rules - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implicit-Rules.html#Implicit-Rules" title="Implicit Rules">
+<link rel="prev" href="Last-Resort.html#Last-Resort" title="Last Resort">
+<link rel="next" href="Implicit-Rule-Search.html#Implicit-Rule-Search" title="Implicit Rule Search">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Suffix-Rules"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implicit-Rule-Search.html#Implicit-Rule-Search">Implicit Rule Search</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Last-Resort.html#Last-Resort">Last Resort</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>
+<hr>
+</div>
+
+<h3 class="section">10.7 Old-Fashioned Suffix Rules</h3>
+
+<p><a name="index-old_002dfashioned-suffix-rules-996"></a><a name="index-suffix-rule-997"></a>
+<dfn>Suffix rules</dfn> are the old-fashioned way of defining implicit rules for
+<code>make</code>.  Suffix rules are obsolete because pattern rules are more
+general and clearer.  They are supported in GNU <code>make</code> for
+compatibility with old makefiles.  They come in two kinds:
+<dfn>double-suffix</dfn> and <dfn>single-suffix</dfn>.
+
+   <p>A double-suffix rule is defined by a pair of suffixes: the target suffix
+and the source suffix.  It matches any file whose name ends with the
+target suffix.  The corresponding implicit prerequisite is made by
+replacing the target suffix with the source suffix in the file name.  A
+two-suffix rule whose target and source suffixes are &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">.c</span></samp>&rsquo; is equivalent to the pattern rule &lsquo;<samp><span class="samp">%.o : %.c</span></samp>&rsquo;.
+
+   <p>A single-suffix rule is defined by a single suffix, which is the source
+suffix.  It matches any file name, and the corresponding implicit
+prerequisite name is made by appending the source suffix.  A single-suffix
+rule whose source suffix is &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; is equivalent to the pattern rule
+&lsquo;<samp><span class="samp">% : %.c</span></samp>&rsquo;.
+
+   <p>Suffix rule definitions are recognized by comparing each rule's target
+against a defined list of known suffixes.  When <code>make</code> sees a rule
+whose target is a known suffix, this rule is considered a single-suffix
+rule.  When <code>make</code> sees a rule whose target is two known suffixes
+concatenated, this rule is taken as a double-suffix rule.
+
+   <p>For example, &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; and &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; are both on the default list of
+known suffixes.  Therefore, if you define a rule whose target is
+&lsquo;<samp><span class="samp">.c.o</span></samp>&rsquo;, <code>make</code> takes it to be a double-suffix rule with source
+suffix &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; and target suffix &lsquo;<samp><span class="samp">.o</span></samp>&rsquo;.  Here is the old-fashioned
+way to define the rule for compiling a C source file:
+
+<pre class="example">     .c.o:
+             $(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ $&lt;
+</pre>
+   <p>Suffix rules cannot have any prerequisites of their own.  If they have any,
+they are treated as normal files with funny names, not as suffix rules. 
+Thus, the rule:
+
+<pre class="example">     .c.o: foo.h
+             $(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ $&lt;
+</pre>
+   <p class="noindent">tells how to make the file <samp><span class="file">.c.o</span></samp> from the prerequisite file
+<samp><span class="file">foo.h</span></samp>, and is not at all like the pattern rule:
+
+<pre class="example">     %.o: %.c foo.h
+             $(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ $&lt;
+</pre>
+   <p class="noindent">which tells how to make &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; files from &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; files, and makes all
+&lsquo;<samp><span class="samp">.o</span></samp>&rsquo; files using this pattern rule also depend on <samp><span class="file">foo.h</span></samp>.
+
+   <p>Suffix rules with no recipe are also meaningless.  They do not remove
+previous rules as do pattern rules with no recipe (see <a href="Canceling-Rules.html#Canceling-Rules">Canceling Implicit Rules</a>).  They simply enter the suffix or
+pair of suffixes concatenated as a target in the data base.
+
+   <p><a name="index-g_t_002eSUFFIXES-998"></a>The known suffixes are simply the names of the prerequisites of the special
+target <code>.SUFFIXES</code>.  You can add your own suffixes by writing a rule
+for <code>.SUFFIXES</code> that adds more prerequisites, as in:
+
+<pre class="example">     .SUFFIXES: .hack .win
+</pre>
+   <p class="noindent">which adds &lsquo;<samp><span class="samp">.hack</span></samp>&rsquo; and &lsquo;<samp><span class="samp">.win</span></samp>&rsquo; to the end of the list of suffixes.
+
+   <p>If you wish to eliminate the default known suffixes instead of just adding
+to them, write a rule for <code>.SUFFIXES</code> with no prerequisites.  By
+special dispensation, this eliminates all existing prerequisites of
+<code>.SUFFIXES</code>.  You can then write another rule to add the suffixes you
+want.  For example,
+
+<pre class="example">     .SUFFIXES:            # <span class="roman">Delete the default suffixes</span>
+     .SUFFIXES: .c .o .h   # <span class="roman">Define our suffix list</span>
+</pre>
+   <p>The &lsquo;<samp><span class="samp">-r</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--no-builtin-rules</span></samp>&rsquo; flag causes the default
+list of suffixes to be empty.
+
+   <p><a name="index-SUFFIXES-999"></a>The variable <code>SUFFIXES</code> is defined to the default list of suffixes
+before <code>make</code> reads any makefiles.  You can change the list of suffixes
+with a rule for the special target <code>.SUFFIXES</code>, but that does not alter
+this variable.
+
+   </body></html>
+

@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+<title>Goals - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running.html#Running" title="Running">
+<link rel="prev" href="Makefile-Arguments.html#Makefile-Arguments" title="Makefile Arguments">
+<link rel="next" href="Instead-of-Execution.html#Instead-of-Execution" title="Instead of Execution">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Goals"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Instead-of-Execution.html#Instead-of-Execution">Instead of Execution</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Makefile-Arguments.html#Makefile-Arguments">Makefile Arguments</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running.html#Running">Running</a>
+<hr>
+</div>
+
+<h3 class="section">9.2 Arguments to Specify the Goals</h3>
+
+<p><a name="index-goal_002c-how-to-specify-667"></a>
+The <dfn>goals</dfn> are the targets that <code>make</code> should strive ultimately
+to update.  Other targets are updated as well if they appear as
+prerequisites of goals, or prerequisites of prerequisites of goals, etc.
+
+   <p>By default, the goal is the first target in the makefile (not counting
+targets that start with a period).  Therefore, makefiles are usually
+written so that the first target is for compiling the entire program or
+programs they describe.  If the first rule in the makefile has several
+targets, only the first target in the rule becomes the default goal, not
+the whole list.  You can manage the selection of the default goal from
+within your makefile using the <code>.DEFAULT_GOAL</code> variable
+(see <a href="Special-Variables.html#Special-Variables">Other Special Variables</a>).
+
+   <p>You can also specify a different goal or goals with command line
+arguments to <code>make</code>.  Use the name of the goal as an argument. 
+If you specify several goals, <code>make</code> processes each of them in
+turn, in the order you name them.
+
+   <p>Any target in the makefile may be specified as a goal (unless it
+starts with &lsquo;<samp><span class="samp">-</span></samp>&rsquo; or contains an &lsquo;<samp><span class="samp">=</span></samp>&rsquo;, in which case it will be
+parsed as a switch or variable definition, respectively).  Even
+targets not in the makefile may be specified, if <code>make</code> can find
+implicit rules that say how to make them.
+
+   <p><a name="index-MAKECMDGOALS-668"></a><code>Make</code> will set the special variable <code>MAKECMDGOALS</code> to the
+list of goals you specified on the command line.  If no goals were given
+on the command line, this variable is empty.  Note that this variable
+should be used only in special circumstances.
+
+   <p>An example of appropriate use is to avoid including <samp><span class="file">.d</span></samp> files
+during <code>clean</code> rules (see <a href="Automatic-Prerequisites.html#Automatic-Prerequisites">Automatic Prerequisites</a>), so
+<code>make</code> won't create them only to immediately remove them
+again:
+
+<pre class="example">     sources = foo.c bar.c
+     
+     ifneq ($(MAKECMDGOALS),clean)
+     include $(sources:.c=.d)
+     endif
+</pre>
+   <p>One use of specifying a goal is if you want to compile only a part of
+the program, or only one of several programs.  Specify as a goal each
+file that you wish to remake.  For example, consider a directory containing
+several programs, with a makefile that starts like this:
+
+<pre class="example">     .PHONY: all
+     all: size nm ld ar as
+</pre>
+   <p>If you are working on the program <code>size</code>, you might want to say
+&lsquo;<samp><span class="samp">make&nbsp;size</span></samp>&rsquo;<!-- /@w --> so that only the files of that program are recompiled.
+
+   <p>Another use of specifying a goal is to make files that are not normally
+made.  For example, there may be a file of debugging output, or a
+version of the program that is compiled specially for testing, which has
+a rule in the makefile but is not a prerequisite of the default goal.
+
+   <p>Another use of specifying a goal is to run the recipe associated with
+a phony target (see <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a>) or empty target (see <a href="Empty-Targets.html#Empty-Targets">Empty Target Files to Record Events</a>).  Many makefiles contain
+a phony target named <samp><span class="file">clean</span></samp> which deletes everything except source
+files.  Naturally, this is done only if you request it explicitly with
+&lsquo;<samp><span class="samp">make&nbsp;clean</span></samp>&rsquo;<!-- /@w -->.  Following is a list of typical phony and empty
+target names.  See <a href="Standard-Targets.html#Standard-Targets">Standard Targets</a>, for a detailed list of all the
+standard target names which GNU software packages use.
+
+     <dl>
+<dt><samp><span class="file">all</span></samp><dd><a name="index-g_t_0040code_007ball_007d-_0040r_007b_0028standard-target_0029_007d-669"></a>Make all the top-level targets the makefile knows about.
+
+     <br><dt><samp><span class="file">clean</span></samp><dd><a name="index-g_t_0040code_007bclean_007d-_0040r_007b_0028standard-target_0029_007d-670"></a>Delete all files that are normally created by running <code>make</code>.
+
+     <br><dt><samp><span class="file">mostlyclean</span></samp><dd><a name="index-g_t_0040code_007bmostlyclean_007d-_0040r_007b_0028standard-target_0029_007d-671"></a>Like &lsquo;<samp><span class="samp">clean</span></samp>&rsquo;, but may refrain from deleting a few files that people
+normally don't want to recompile.  For example, the &lsquo;<samp><span class="samp">mostlyclean</span></samp>&rsquo;
+target for GCC does not delete <samp><span class="file">libgcc.a</span></samp>, because recompiling it
+is rarely necessary and takes a lot of time.
+
+     <br><dt><samp><span class="file">distclean</span></samp><dd><a name="index-g_t_0040code_007bdistclean_007d-_0040r_007b_0028standard-target_0029_007d-672"></a><dt><samp><span class="file">realclean</span></samp><dd><a name="index-g_t_0040code_007brealclean_007d-_0040r_007b_0028standard-target_0029_007d-673"></a><dt><samp><span class="file">clobber</span></samp><dd><a name="index-g_t_0040code_007bclobber_007d-_0040r_007b_0028standard-target_0029_007d-674"></a>Any of these targets might be defined to delete <em>more</em> files than
+&lsquo;<samp><span class="samp">clean</span></samp>&rsquo; does.  For example, this would delete configuration files
+or links that you would normally create as preparation for compilation,
+even if the makefile itself cannot create these files.
+
+     <br><dt><samp><span class="file">install</span></samp><dd><a name="index-g_t_0040code_007binstall_007d-_0040r_007b_0028standard-target_0029_007d-675"></a>Copy the executable file into a directory that users typically search
+for commands; copy any auxiliary files that the executable uses into
+the directories where it will look for them.
+
+     <br><dt><samp><span class="file">print</span></samp><dd><a name="index-g_t_0040code_007bprint_007d-_0040r_007b_0028standard-target_0029_007d-676"></a>Print listings of the source files that have changed.
+
+     <br><dt><samp><span class="file">tar</span></samp><dd><a name="index-g_t_0040code_007btar_007d-_0040r_007b_0028standard-target_0029_007d-677"></a>Create a tar file of the source files.
+
+     <br><dt><samp><span class="file">shar</span></samp><dd><a name="index-g_t_0040code_007bshar_007d-_0040r_007b_0028standard-target_0029_007d-678"></a>Create a shell archive (shar file) of the source files.
+
+     <br><dt><samp><span class="file">dist</span></samp><dd><a name="index-g_t_0040code_007bdist_007d-_0040r_007b_0028standard-target_0029_007d-679"></a>Create a distribution file of the source files.  This might
+be a tar file, or a shar file, or a compressed version of one of the
+above, or even more than one of the above.
+
+     <br><dt><samp><span class="file">TAGS</span></samp><dd><a name="index-g_t_0040code_007bTAGS_007d-_0040r_007b_0028standard-target_0029_007d-680"></a>Update a tags table for this program.
+
+     <br><dt><samp><span class="file">check</span></samp><dd><a name="index-g_t_0040code_007bcheck_007d-_0040r_007b_0028standard-target_0029_007d-681"></a><dt><samp><span class="file">test</span></samp><dd><a name="index-g_t_0040code_007btest_007d-_0040r_007b_0028standard-target_0029_007d-682"></a>Perform self tests on the program this makefile builds. 
+</dl>
+
+   </body></html>
+

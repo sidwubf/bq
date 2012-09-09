@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+<title>Pattern Intro - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Pattern-Rules.html#Pattern-Rules" title="Pattern Rules">
+<link rel="prev" href="Pattern-Rules.html#Pattern-Rules" title="Pattern Rules">
+<link rel="next" href="Pattern-Examples.html#Pattern-Examples" title="Pattern Examples">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pattern-Intro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pattern-Examples.html#Pattern-Examples">Pattern Examples</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>
+<hr>
+</div>
+
+<h4 class="subsection">10.5.1 Introduction to Pattern Rules</h4>
+
+<p><a name="index-pattern-rule-926"></a><a name="index-rule_002c-pattern-927"></a>
+A pattern rule contains the character &lsquo;<samp><span class="samp">%</span></samp>&rsquo; (exactly one of them)
+in the target; otherwise, it looks exactly like an ordinary rule.  The
+target is a pattern for matching file names; the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; matches any
+nonempty substring, while other characters match only themselves. 
+<a name="index-target-pattern_002c-implicit-928"></a><a name="index-g_t_0040code_007b_0025_007d_002c-in-pattern-rules-929"></a>
+For example, &lsquo;<samp><span class="samp">%.c</span></samp>&rsquo; as a pattern matches any file name that ends in
+&lsquo;<samp><span class="samp">.c</span></samp>&rsquo;.  &lsquo;<samp><span class="samp">s.%.c</span></samp>&rsquo; as a pattern matches any file name that starts
+with &lsquo;<samp><span class="samp">s.</span></samp>&rsquo;, ends in &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; and is at least five characters long. 
+(There must be at least one character to match the &lsquo;<samp><span class="samp">%</span></samp>&rsquo;.)  The substring
+that the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; matches is called the <dfn>stem</dfn>.
+
+   <p>&lsquo;<samp><span class="samp">%</span></samp>&rsquo; in a prerequisite of a pattern rule stands for the same stem
+that was matched by the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; in the target.  In order for the
+pattern rule to apply, its target pattern must match the file name
+under consideration and all of its prerequisites (after pattern
+substitution) must name files that exist or can be made.  These files
+become prerequisites of the target. 
+<a name="index-prerequisite-pattern_002c-implicit-930"></a>
+Thus, a rule of the form
+
+<pre class="example">     %.o : %.c ; <var>recipe</var>...
+</pre>
+   <p class="noindent">specifies how to make a file <samp><var>n</var><span class="file">.o</span></samp>, with another file
+<samp><var>n</var><span class="file">.c</span></samp> as its prerequisite, provided that <samp><var>n</var><span class="file">.c</span></samp>
+exists or can be made.
+
+   <p>There may also be prerequisites that do not use &lsquo;<samp><span class="samp">%</span></samp>&rsquo;; such a prerequisite
+attaches to every file made by this pattern rule.  These unvarying
+prerequisites are useful occasionally.
+
+   <p>A pattern rule need not have any prerequisites that contain &lsquo;<samp><span class="samp">%</span></samp>&rsquo;, or
+in fact any prerequisites at all.  Such a rule is effectively a general
+wildcard.  It provides a way to make any file that matches the target
+pattern.  See <a href="Last-Resort.html#Last-Resort">Last Resort</a>.
+
+   <p>More than one pattern rule may match a target.  In this case
+<code>make</code> will choose the &ldquo;best fit&rdquo; rule.  See <a href="Pattern-Match.html#Pattern-Match">How Patterns Match</a>.
+
+<!-- !!! The end of of this paragraph should be rewritten.  -bob -->
+   <p>Pattern rules may have more than one target.  Unlike normal rules,
+this does not act as many different rules with the same prerequisites
+and recipe.  If a pattern rule has multiple targets, <code>make</code> knows
+that the rule's recipe is responsible for making all of the targets. 
+The recipe is executed only once to make all the targets.  When
+searching for a pattern rule to match a target, the target patterns of
+a rule other than the one that matches the target in need of a rule
+are incidental: <code>make</code> worries only about giving a recipe and
+prerequisites to the file presently in question.  However, when this
+file's recipe is run, the other targets are marked as having been
+updated themselves. 
+<a name="index-multiple-targets_002c-in-pattern-rule-931"></a><a name="index-target_002c-multiple-in-pattern-rule-932"></a>
+
+   </body></html>
+

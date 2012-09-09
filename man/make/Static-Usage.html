@@ -1,0 +1,144 @@
+<html lang="en">
+<head>
+<title>Static Usage - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Static-Pattern.html#Static-Pattern" title="Static Pattern">
+<link rel="prev" href="Static-Pattern.html#Static-Pattern" title="Static Pattern">
+<link rel="next" href="Static-versus-Implicit.html#Static-versus-Implicit" title="Static versus Implicit">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Static-Usage"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Static-versus-Implicit.html#Static-versus-Implicit">Static versus Implicit</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Static-Pattern.html#Static-Pattern">Static Pattern</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Static-Pattern.html#Static-Pattern">Static Pattern</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.12.1 Syntax of Static Pattern Rules</h4>
+
+<p><a name="index-static-pattern-rule_002c-syntax-of-258"></a><a name="index-pattern-rules_002c-static_002c-syntax-of-259"></a>
+Here is the syntax of a static pattern rule:
+
+<pre class="example">     <var>targets</var> ...: <var>target-pattern</var>: <var>prereq-patterns</var> ...
+             <var>recipe</var>
+             ...
+</pre>
+   <p class="noindent">The <var>targets</var> list specifies the targets that the rule applies to. 
+The targets can contain wildcard characters, just like the targets of
+ordinary rules (see <a href="Wildcards.html#Wildcards">Using Wildcard Characters in File Names</a>).
+
+   <p><a name="index-target-pattern_002c-static-_0028not-implicit_0029-260"></a><a name="index-stem-261"></a>The <var>target-pattern</var> and <var>prereq-patterns</var> say how to compute the
+prerequisites of each target.  Each target is matched against the
+<var>target-pattern</var> to extract a part of the target name, called the
+<dfn>stem</dfn>.  This stem is substituted into each of the <var>prereq-patterns</var>
+to make the prerequisite names (one from each <var>prereq-pattern</var>).
+
+   <p>Each pattern normally contains the character &lsquo;<samp><span class="samp">%</span></samp>&rsquo; just once.  When the
+<var>target-pattern</var> matches a target, the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; can match any part of
+the target name; this part is called the <dfn>stem</dfn>.  The rest of the
+pattern must match exactly.  For example, the target <samp><span class="file">foo.o</span></samp> matches
+the pattern &lsquo;<samp><span class="samp">%.o</span></samp>&rsquo;, with &lsquo;<samp><span class="samp">foo</span></samp>&rsquo; as the stem.  The targets
+<samp><span class="file">foo.c</span></samp> and <samp><span class="file">foo.out</span></samp> do not match that pattern.
+
+   <p><a name="index-prerequisite-pattern_002c-static-_0028not-implicit_0029-262"></a>The prerequisite names for each target are made by substituting the stem
+for the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; in each prerequisite pattern.  For example, if one
+prerequisite pattern is <samp><span class="file">%.c</span></samp>, then substitution of the stem
+&lsquo;<samp><span class="samp">foo</span></samp>&rsquo; gives the prerequisite name <samp><span class="file">foo.c</span></samp>.  It is legitimate
+to write a prerequisite pattern that does not contain &lsquo;<samp><span class="samp">%</span></samp>&rsquo;; then this
+prerequisite is the same for all targets.
+
+   <p><a name="index-g_t_0040code_007b_0025_007d_002c-quoting-in-static-pattern-263"></a><a name="index-g_t_0040code_007b_0025_007d_002c-quoting-with-_0040code_007b_005c_007d-_0028backslash_0029-264"></a><a name="index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-to-quote-_0040code_007b_0025_007d-265"></a><a name="index-backslash-_0028_0040code_007b_005c_007d_0029_002c-to-quote-_0040code_007b_0025_007d-266"></a><a name="index-quoting-_0040code_007b_0025_007d_002c-in-static-pattern-267"></a>&lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters in pattern rules can be quoted with preceding
+backslashes (&lsquo;<samp><span class="samp">\</span></samp>&rsquo;).  Backslashes that would otherwise quote &lsquo;<samp><span class="samp">%</span></samp>&rsquo;
+characters can be quoted with more backslashes.  Backslashes that quote
+&lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters or other backslashes are removed from the pattern
+before it is compared to file names or has a stem substituted into it. 
+Backslashes that are not in danger of quoting &lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters go
+unmolested.  For example, the pattern <samp><span class="file">the\%weird\\%pattern\\</span></samp> has
+&lsquo;<samp><span class="samp">the%weird\</span></samp>&rsquo; preceding the operative &lsquo;<samp><span class="samp">%</span></samp>&rsquo; character, and
+&lsquo;<samp><span class="samp">pattern\\</span></samp>&rsquo; following it.  The final two backslashes are left alone
+because they cannot affect any &lsquo;<samp><span class="samp">%</span></samp>&rsquo; character.
+
+   <p>Here is an example, which compiles each of <samp><span class="file">foo.o</span></samp> and <samp><span class="file">bar.o</span></samp>
+from the corresponding <samp><span class="file">.c</span></samp> file:
+
+<pre class="example">     objects = foo.o bar.o
+     
+     all: $(objects)
+     
+     $(objects): %.o: %.c
+             $(CC) -c $(CFLAGS) $&lt; -o $@
+</pre>
+   <p class="noindent">Here &lsquo;<samp><span class="samp">$&lt;</span></samp>&rsquo; is the automatic variable that holds the name of the
+prerequisite and &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is the automatic variable that holds the name
+of the target; see <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>.
+
+   <p>Each target specified must match the target pattern; a warning is issued
+for each target that does not.  If you have a list of files, only some of
+which will match the pattern, you can use the <code>filter</code> function to
+remove nonmatching file names (see <a href="Text-Functions.html#Text-Functions">Functions for String Substitution and Analysis</a>):
+
+<pre class="example">     files = foo.elc bar.o lose.o
+     
+     $(filter %.o,$(files)): %.o: %.c
+             $(CC) -c $(CFLAGS) $&lt; -o $@
+     $(filter %.elc,$(files)): %.elc: %.el
+             emacs -f batch-byte-compile $&lt;
+</pre>
+   <p class="noindent">In this example the result of &lsquo;<samp><span class="samp">$(filter %.o,$(files))</span></samp>&rsquo; is
+<samp><span class="file">bar.o lose.o</span></samp>, and the first static pattern rule causes each of
+these object files to be updated by compiling the corresponding C source
+file.  The result of &lsquo;<samp><span class="samp">$(filter&nbsp;%.elc,$(files))</span></samp>&rsquo;<!-- /@w --> is
+<samp><span class="file">foo.elc</span></samp>, so that file is made from <samp><span class="file">foo.el</span></samp>.
+
+   <p>Another example shows how to use <code>$*</code> in static pattern rules:
+<a name="index-g_t_0024_002a_0040r_007b_002c-and-static-pattern_007d-268"></a>
+<pre class="example">     bigoutput littleoutput : %output : text.g
+             generate text.g -$* &gt; $@
+</pre>
+   <p class="noindent">When the <code>generate</code> command is run, <code>$*</code> will expand to the
+stem, either &lsquo;<samp><span class="samp">big</span></samp>&rsquo; or &lsquo;<samp><span class="samp">little</span></samp>&rsquo;.
+
+   </body></html>
+

@@ -1,0 +1,124 @@
+<html lang="en">
+<head>
+<title>Target-specific - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-Variables.html#Using-Variables" title="Using Variables">
+<link rel="prev" href="Environment.html#Environment" title="Environment">
+<link rel="next" href="Pattern_002dspecific.html#Pattern_002dspecific" title="Pattern-specific">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Target-specific"></a>
+<a name="Target_002dspecific"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pattern_002dspecific.html#Pattern_002dspecific">Pattern-specific</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Environment.html#Environment">Environment</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-Variables.html#Using-Variables">Using Variables</a>
+<hr>
+</div>
+
+<h3 class="section">6.11 Target-specific Variable Values</h3>
+
+<p><a name="index-target_002dspecific-variables-528"></a><a name="index-variables_002c-target_002dspecific-529"></a>
+Variable values in <code>make</code> are usually global; that is, they are the
+same regardless of where they are evaluated (unless they're reset, of
+course).  One exception to that is automatic variables
+(see <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>).
+
+   <p>The other exception is <dfn>target-specific variable values</dfn>.  This
+feature allows you to define different values for the same variable,
+based on the target that <code>make</code> is currently building.  As with
+automatic variables, these values are only available within the context
+of a target's recipe (and in other target-specific assignments).
+
+   <p>Set a target-specific variable value like this:
+
+<pre class="example">     <var>target</var> ... : <var>variable-assignment</var>
+</pre>
+   <p>Target-specific variable assignments can be prefixed with any or all of the
+special keywords <code>export</code>, <code>override</code>, or <code>private</code>;
+these apply their normal behavior to this instance of the variable only.
+
+   <p>Multiple <var>target</var> values create a target-specific variable value for
+each member of the target list individually.
+
+   <p>The <var>variable-assignment</var> can be any valid form of assignment;
+recursive (&lsquo;<samp><span class="samp">=</span></samp>&rsquo;), static (&lsquo;<samp><span class="samp">:=</span></samp>&rsquo;), appending (&lsquo;<samp><span class="samp">+=</span></samp>&rsquo;), or
+conditional (&lsquo;<samp><span class="samp">?=</span></samp>&rsquo;).  All variables that appear within the
+<var>variable-assignment</var> are evaluated within the context of the
+target: thus, any previously-defined target-specific variable values
+will be in effect.  Note that this variable is actually distinct from
+any &ldquo;global&rdquo; value: the two variables do not have to have the same
+flavor (recursive vs. static).
+
+   <p>Target-specific variables have the same priority as any other makefile
+variable.  Variables provided on the command line (and in the
+environment if the &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; option is in force) will take precedence. 
+Specifying the <code>override</code> directive will allow the target-specific
+variable value to be preferred.
+
+   <p>There is one more special feature of target-specific variables: when
+you define a target-specific variable that variable value is also in
+effect for all prerequisites of this target, and all their
+prerequisites, etc. (unless those prerequisites override that variable
+with their own target-specific variable value).  So, for example, a
+statement like this:
+
+<pre class="example">     prog : CFLAGS = -g
+     prog : prog.o foo.o bar.o
+</pre>
+   <p class="noindent">will set <code>CFLAGS</code> to &lsquo;<samp><span class="samp">-g</span></samp>&rsquo; in the recipe for <samp><span class="file">prog</span></samp>, but
+it will also set <code>CFLAGS</code> to &lsquo;<samp><span class="samp">-g</span></samp>&rsquo; in the recipes that create
+<samp><span class="file">prog.o</span></samp>, <samp><span class="file">foo.o</span></samp>, and <samp><span class="file">bar.o</span></samp>, and any recipes which
+create their prerequisites.
+
+   <p>Be aware that a given prerequisite will only be built once per
+invocation of make, at most.  If the same file is a prerequisite of
+multiple targets, and each of those targets has a different value for
+the same target-specific variable, then the first target to be built
+will cause that prerequisite to be built and the prerequisite will
+inherit the target-specific value from the first target.  It will
+ignore the target-specific values from any other targets.
+
+   </body></html>
+

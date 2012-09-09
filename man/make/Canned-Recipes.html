@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+<title>Canned Recipes - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recipes.html#Recipes" title="Recipes">
+<link rel="prev" href="Recursion.html#Recursion" title="Recursion">
+<link rel="next" href="Empty-Recipes.html#Empty-Recipes" title="Empty Recipes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Canned-Recipes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Empty-Recipes.html#Empty-Recipes">Empty Recipes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Recursion.html#Recursion">Recursion</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recipes.html#Recipes">Recipes</a>
+<hr>
+</div>
+
+<h3 class="section">5.8 Defining Canned Recipes</h3>
+
+<p><a name="index-canned-recipes-449"></a><a name="index-recipes_002c-canned-450"></a><a name="index-sequences-of-commands-451"></a><a name="index-commands_002c-sequences-of-452"></a>
+When the same sequence of commands is useful in making various
+targets, you can define it as a canned sequence with the <code>define</code>
+directive, and refer to the canned sequence from the recipes for those
+targets.  The canned sequence is actually a variable, so the name must
+not conflict with other variable names.
+
+   <p>Here is an example of defining a canned recipe:
+
+<pre class="example">     define run-yacc =
+     yacc $(firstword $^)
+     mv y.tab.c $@
+     endef
+</pre>
+   <p><a name="index-g_t_0040code_007byacc_007d-453"></a>
+Here <code>run-yacc</code> is the name of the variable being defined;
+<code>endef</code> marks the end of the definition; the lines in between are the
+commands.  The <code>define</code> directive does not expand variable references
+and function calls in the canned sequence; the &lsquo;<samp><span class="samp">$</span></samp>&rsquo; characters,
+parentheses, variable names, and so on, all become part of the value of the
+variable you are defining. 
+See <a href="Multi_002dLine.html#Multi_002dLine">Defining Multi-Line Variables</a>,
+for a complete explanation of <code>define</code>.
+
+   <p>The first command in this example runs Yacc on the first prerequisite of
+whichever rule uses the canned sequence.  The output file from Yacc is
+always named <samp><span class="file">y.tab.c</span></samp>.  The second command moves the output to the
+rule's target file name.
+
+   <p>To use the canned sequence, substitute the variable into the recipe of a
+rule.  You can substitute it like any other variable
+(see <a href="Reference.html#Reference">Basics of Variable References</a>). 
+Because variables defined by <code>define</code> are recursively expanded
+variables, all the variable references you wrote inside the <code>define</code>
+are expanded now.  For example:
+
+<pre class="example">     foo.c : foo.y
+             $(run-yacc)
+</pre>
+   <p class="noindent">&lsquo;<samp><span class="samp">foo.y</span></samp>&rsquo; will be substituted for the variable &lsquo;<samp><span class="samp">$^</span></samp>&rsquo; when it occurs in
+<code>run-yacc</code>'s value, and &lsquo;<samp><span class="samp">foo.c</span></samp>&rsquo; for &lsquo;<samp><span class="samp">$@</span></samp>&rsquo;.
+
+   <p>This is a realistic example, but this particular one is not needed in
+practice because <code>make</code> has an implicit rule to figure out these
+commands based on the file names involved
+(see <a href="Implicit-Rules.html#Implicit-Rules">Using Implicit Rules</a>).
+
+   <p><a name="index-g_t_0040_0040_002c-and-_0040code_007bdefine_007d-454"></a><a name="index-g_t_002d_002c-and-_0040code_007bdefine_007d-455"></a><a name="index-g_t_002b_002c-and-_0040code_007bdefine_007d-456"></a>In recipe execution, each line of a canned sequence is treated just as
+if the line appeared on its own in the rule, preceded by a tab.  In
+particular, <code>make</code> invokes a separate subshell for each line.  You
+can use the special prefix characters that affect command lines
+(&lsquo;<samp><span class="samp">@</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">+</span></samp>&rsquo;) on each line of a canned sequence. 
+See <a href="Recipes.html#Recipes">Writing Recipes in Rules</a>. 
+For example, using this canned sequence:
+
+<pre class="example">     define frobnicate =
+     @echo "frobnicating target $@"
+     frob-step-1 $&lt; -o $@-step-1
+     frob-step-2 $@-step-1 -o $@
+     endef
+</pre>
+   <p class="noindent"><code>make</code> will not echo the first line, the <code>echo</code> command. 
+But it <em>will</em> echo the following two recipe lines.
+
+   <p>On the other hand, prefix characters on the recipe line that refers to
+a canned sequence apply to every line in the sequence.  So the rule:
+
+<pre class="example">     frob.out: frob.in
+             @$(frobnicate)
+</pre>
+   <p class="noindent">does not echo <em>any</em> recipe lines. 
+(See <a href="Echoing.html#Echoing">Recipe Echoing</a>, for a full explanation of &lsquo;<samp><span class="samp">@</span></samp>&rsquo;.)
+
+   </body></html>
+

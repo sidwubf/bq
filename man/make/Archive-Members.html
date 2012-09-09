@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+<title>Archive Members - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Archives.html#Archives" title="Archives">
+<link rel="prev" href="Archives.html#Archives" title="Archives">
+<link rel="next" href="Archive-Update.html#Archive-Update" title="Archive Update">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Archive-Members"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Archive-Update.html#Archive-Update">Archive Update</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Archives.html#Archives">Archives</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Archives.html#Archives">Archives</a>
+<hr>
+</div>
+
+<h3 class="section">11.1 Archive Members as Targets</h3>
+
+<p><a name="index-archive-member-targets-1003"></a>
+An individual member of an archive file can be used as a target or
+prerequisite in <code>make</code>.  You specify the member named <var>member</var> in
+archive file <var>archive</var> as follows:
+
+<pre class="example">     <var>archive</var>(<var>member</var>)
+</pre>
+   <p class="noindent">This construct is available only in targets and prerequisites, not in
+recipes!  Most programs that you might use in recipes do not support
+this syntax and cannot act directly on archive members.  Only
+<code>ar</code> and other programs specifically designed to operate on
+archives can do so.  Therefore, valid recipes to update an archive
+member target probably must use <code>ar</code>.  For example, this rule
+says to create a member <samp><span class="file">hack.o</span></samp> in archive <samp><span class="file">foolib</span></samp> by
+copying the file <samp><span class="file">hack.o</span></samp>:
+
+<pre class="example">     foolib(hack.o) : hack.o
+             ar cr foolib hack.o
+</pre>
+   <p>In fact, nearly all archive member targets are updated in just this way
+and there is an implicit rule to do it for you.  <strong>Please note:</strong> The
+&lsquo;<samp><span class="samp">c</span></samp>&rsquo; flag to <code>ar</code> is required if the archive file does not
+already exist.
+
+   <p>To specify several members in the same archive, you can write all the
+member names together between the parentheses.  For example:
+
+<pre class="example">     foolib(hack.o kludge.o)
+</pre>
+   <p class="noindent">is equivalent to:
+
+<pre class="example">     foolib(hack.o) foolib(kludge.o)
+</pre>
+   <p><a name="index-wildcard_002c-in-archive-member-1004"></a>You can also use shell-style wildcards in an archive member reference. 
+See <a href="Wildcards.html#Wildcards">Using Wildcard Characters in File Names</a>.  For
+example, &lsquo;<samp><span class="samp">foolib(*.o)</span></samp>&rsquo;<!-- /@w --> expands to all existing members of the
+<samp><span class="file">foolib</span></samp> archive whose names end in &lsquo;<samp><span class="samp">.o</span></samp>&rsquo;; perhaps
+&lsquo;<samp><span class="samp">foolib(hack.o)<!-- /@w --> foolib(kludge.o)<!-- /@w --></span></samp>&rsquo;.
+
+   </body></html>
+

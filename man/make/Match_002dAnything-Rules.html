@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+<title>Match-Anything Rules - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Pattern-Rules.html#Pattern-Rules" title="Pattern Rules">
+<link rel="prev" href="Pattern-Match.html#Pattern-Match" title="Pattern Match">
+<link rel="next" href="Canceling-Rules.html#Canceling-Rules" title="Canceling Rules">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Match-Anything-Rules"></a>
+<a name="Match_002dAnything-Rules"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Canceling-Rules.html#Canceling-Rules">Canceling Rules</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pattern-Match.html#Pattern-Match">Pattern Match</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>
+<hr>
+</div>
+
+<h4 class="subsection">10.5.5 Match-Anything Pattern Rules</h4>
+
+<p><a name="index-match_002danything-rule-991"></a><a name="index-terminal-rule-992"></a>When a pattern rule's target is just &lsquo;<samp><span class="samp">%</span></samp>&rsquo;, it matches any file name
+whatever.  We call these rules <dfn>match-anything</dfn> rules.  They are very
+useful, but it can take a lot of time for <code>make</code> to think about them,
+because it must consider every such rule for each file name listed either
+as a target or as a prerequisite.
+
+   <p>Suppose the makefile mentions <samp><span class="file">foo.c</span></samp>.  For this target, <code>make</code>
+would have to consider making it by linking an object file <samp><span class="file">foo.c.o</span></samp>,
+or by C compilation-and-linking in one step from <samp><span class="file">foo.c.c</span></samp>, or by
+Pascal compilation-and-linking from <samp><span class="file">foo.c.p</span></samp>, and many other
+possibilities.
+
+   <p>We know these possibilities are ridiculous since <samp><span class="file">foo.c</span></samp> is a C source
+file, not an executable.  If <code>make</code> did consider these possibilities,
+it would ultimately reject them, because files such as <samp><span class="file">foo.c.o</span></samp> and
+<samp><span class="file">foo.c.p</span></samp> would not exist.  But these possibilities are so
+numerous that <code>make</code> would run very slowly if it had to consider
+them.
+
+   <p>To gain speed, we have put various constraints on the way <code>make</code>
+considers match-anything rules.  There are two different constraints that
+can be applied, and each time you define a match-anything rule you must
+choose one or the other for that rule.
+
+   <p>One choice is to mark the match-anything rule as <dfn>terminal</dfn> by defining
+it with a double colon.  When a rule is terminal, it does not apply unless
+its prerequisites actually exist.  Prerequisites that could be made with
+other implicit rules are not good enough.  In other words, no further
+chaining is allowed beyond a terminal rule.
+
+   <p>For example, the built-in implicit rules for extracting sources from RCS
+and SCCS files are terminal; as a result, if the file <samp><span class="file">foo.c,v</span></samp> does
+not exist, <code>make</code> will not even consider trying to make it as an
+intermediate file from <samp><span class="file">foo.c,v.o</span></samp> or from <samp><span class="file">RCS/SCCS/s.foo.c,v</span></samp>. 
+RCS and SCCS files are generally ultimate source files, which should not be
+remade from any other files; therefore, <code>make</code> can save time by not
+looking for ways to remake them.
+
+   <p>If you do not mark the match-anything rule as terminal, then it is
+nonterminal.  A nonterminal match-anything rule cannot apply to a file name
+that indicates a specific type of data.  A file name indicates a specific
+type of data if some non-match-anything implicit rule target matches it.
+
+   <p>For example, the file name <samp><span class="file">foo.c</span></samp> matches the target for the pattern
+rule &lsquo;<samp><span class="samp">%.c : %.y</span></samp>&rsquo; (the rule to run Yacc).  Regardless of whether this
+rule is actually applicable (which happens only if there is a file
+<samp><span class="file">foo.y</span></samp>), the fact that its target matches is enough to prevent
+consideration of any nonterminal match-anything rules for the file
+<samp><span class="file">foo.c</span></samp>.  Thus, <code>make</code> will not even consider trying to make
+<samp><span class="file">foo.c</span></samp> as an executable file from <samp><span class="file">foo.c.o</span></samp>, <samp><span class="file">foo.c.c</span></samp>,
+<samp><span class="file">foo.c.p</span></samp>, etc.
+
+   <p>The motivation for this constraint is that nonterminal match-anything
+rules are used for making files containing specific types of data (such as
+executable files) and a file name with a recognized suffix indicates some
+other specific type of data (such as a C source file).
+
+   <p>Special built-in dummy pattern rules are provided solely to recognize
+certain file names so that nonterminal match-anything rules will not be
+considered.  These dummy rules have no prerequisites and no recipes, and
+they are ignored for all other purposes.  For example, the built-in
+implicit rule
+
+<pre class="example">     %.p :
+</pre>
+   <p class="noindent">exists to make sure that Pascal source files such as <samp><span class="file">foo.p</span></samp> match a
+specific target pattern and thereby prevent time from being wasted looking
+for <samp><span class="file">foo.p.o</span></samp> or <samp><span class="file">foo.p.c</span></samp>.
+
+   <p>Dummy pattern rules such as the one for &lsquo;<samp><span class="samp">%.p</span></samp>&rsquo; are made for every
+suffix listed as valid for use in suffix rules (see <a href="Suffix-Rules.html#Suffix-Rules">Old-Fashioned Suffix Rules</a>).
+
+   </body></html>
+

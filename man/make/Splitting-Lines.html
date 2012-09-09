@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+<title>Splitting Lines - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recipe-Syntax.html#Recipe-Syntax" title="Recipe Syntax">
+<link rel="prev" href="Recipe-Syntax.html#Recipe-Syntax" title="Recipe Syntax">
+<link rel="next" href="Variables-in-Recipes.html#Variables-in-Recipes" title="Variables in Recipes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Splitting-Lines"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Variables-in-Recipes.html#Variables-in-Recipes">Variables in Recipes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recipe-Syntax.html#Recipe-Syntax">Recipe Syntax</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.1.1 Splitting Recipe Lines</h4>
+
+<p><a name="index-recipes_002c-splitting-293"></a><a name="index-splitting-recipes-294"></a><a name="index-recipes_002c-backslash-_0028_0040code_007b_005c_007d_0029-in-295"></a><a name="index-recipes_002c-quoting-newlines-in-296"></a><a name="index-backslash-_0028_0040code_007b_005c_007d_0029_002c-in-recipes-297"></a><a name="index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-in-recipes-298"></a><a name="index-quoting-newline_002c-in-recipes-299"></a><a name="index-newline_002c-quoting_002c-in-recipes-300"></a>
+One of the few ways in which <code>make</code> does interpret recipes is
+checking for a backslash just before the newline.  As in normal
+makefile syntax, a single logical recipe line can be split into
+multiple physical lines in the makefile by placing a backslash before
+each newline.  A sequence of lines like this is considered a single
+recipe line, and one instance of the shell will be invoked to run it.
+
+   <p>However, in contrast to how they are treated in other places in a
+makefile, backslash-newline pairs are <em>not</em> removed from the
+recipe.  Both the backslash and the newline characters are preserved
+and passed to the shell.  How the backslash-newline is interpreted
+depends on your shell.  If the first character of the next line after
+the backslash-newline is the recipe prefix character (a tab by
+default; see <a href="Special-Variables.html#Special-Variables">Special Variables</a>), then that character (and only
+that character) is removed.  Whitespace is never added to the recipe.
+
+   <p>For example, the recipe for the all target in this makefile:
+
+<pre class="example">     all :
+             @echo no\
+     space
+             @echo no\
+             space
+             @echo one \
+             space
+             @echo one\
+              space
+</pre>
+   <p class="noindent">consists of four separate shell commands where the output is:
+
+<pre class="example">     nospace
+     nospace
+     one space
+     one space
+</pre>
+   <p>As a more complex example, this makefile:
+
+<pre class="example">     all : ; @echo 'hello \
+             world' ; echo "hello \
+         world"
+</pre>
+   <p class="noindent">will invoke one shell with a command of:
+
+<pre class="example">     echo 'hello \
+     world' ; echo "hello \
+         world"
+</pre>
+   <p class="noindent">which, according to shell quoting rules, will yield the following output:
+
+<pre class="example">     hello \
+     world
+     hello     world
+</pre>
+   <p class="noindent">Notice how the backslash/newline pair was removed inside the string
+quoted with double quotes (<code>"..."</code>), but not from the string
+quoted with single quotes (<code>'...'</code>).  This is the way the
+default shell (<samp><span class="file">/bin/sh</span></samp>) handles backslash/newline pairs.  If
+you specify a different shell in your makefiles it may treat them
+differently.
+
+   <p>Sometimes you want to split a long line inside of single quotes, but
+you don't want the backslash-newline to appear in the quoted content. 
+This is often the case when passing scripts to languages such as Perl,
+where extraneous backslashes inside the script can change its meaning
+or even be a syntax error.  One simple way of handling this is to
+place the quoted string, or even the entire command, into a
+<code>make</code> variable then use the variable in the recipe.  In this
+situation the newline quoting rules for makefiles will be used, and
+the backslash-newline will be removed.  If we rewrite our example
+above using this method:
+
+<pre class="example">     HELLO = 'hello \
+     world'
+     
+     all : ; @echo $(HELLO)
+</pre>
+   <p class="noindent">we will get output like this:
+
+<pre class="example">     hello world
+</pre>
+   <p>If you like, you can also use target-specific variables
+(see <a href="Target_002dspecific.html#Target_002dspecific">Target-specific Variable Values</a>) to obtain
+a tighter correspondence between the variable and the recipe that
+uses it.
+
+   </body></html>
+

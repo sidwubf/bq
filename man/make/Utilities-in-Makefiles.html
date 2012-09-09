@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+<title>Utilities in Makefiles - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefile-Conventions.html#Makefile-Conventions" title="Makefile Conventions">
+<link rel="prev" href="Makefile-Basics.html#Makefile-Basics" title="Makefile Basics">
+<link rel="next" href="Command-Variables.html#Command-Variables" title="Command Variables">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Utilities-in-Makefiles"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Command-Variables.html#Command-Variables">Command Variables</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Makefile-Basics.html#Makefile-Basics">Makefile Basics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>
+<hr>
+</div>
+
+<h3 class="section">14.2 Utilities in Makefiles</h3>
+
+<p>Write the Makefile commands (and any shell scripts, such as
+<code>configure</code>) to run under <code>sh</code> (both the traditional Bourne
+shell and the <span class="sc">posix</span> shell), not <code>csh</code>.  Don't use any
+special features of <code>ksh</code> or <code>bash</code>, or <span class="sc">posix</span> features
+not widely supported in traditional Bourne <code>sh</code>.
+
+   <p>The <code>configure</code> script and the Makefile rules for building and
+installation should not use any utilities directly except these:
+
+<!-- dd find -->
+<!-- gunzip gzip md5sum -->
+<!-- mkfifo mknod tee uname -->
+<pre class="example">     awk cat cmp cp diff echo egrep expr false grep install-info ln ls
+     mkdir mv printf pwd rm rmdir sed sleep sort tar test touch tr true
+</pre>
+   <p>Compression programs such as <code>gzip</code> can be used in the
+<code>dist</code> rule.
+
+   <p>Generally, stick to the widely-supported (usually
+<span class="sc">posix</span>-specified) options and features of these programs.  For
+example, don't use &lsquo;<samp><span class="samp">mkdir -p</span></samp>&rsquo;, convenient as it may be, because a
+few systems don't support it at all and with others, it is not safe
+for parallel execution.  For a list of known incompatibilities, see
+<a href="../autoconf/Portable-Shell.html#Portable-Shell">Portable Shell Programming</a>.
+
+   <p>It is a good idea to avoid creating symbolic links in makefiles, since a
+few file systems don't support them.
+
+   <p>The Makefile rules for building and installation can also use compilers
+and related programs, but should do so via <code>make</code> variables so that the
+user can substitute alternatives.  Here are some of the programs we
+mean:
+
+<pre class="example">     ar bison cc flex install ld ldconfig lex
+     make makeinfo ranlib texi2dvi yacc
+</pre>
+   <p>Use the following <code>make</code> variables to run those programs:
+
+<pre class="example">     $(AR) $(BISON) $(CC) $(FLEX) $(INSTALL) $(LD) $(LDCONFIG) $(LEX)
+     $(MAKE) $(MAKEINFO) $(RANLIB) $(TEXI2DVI) $(YACC)
+</pre>
+   <p>When you use <code>ranlib</code> or <code>ldconfig</code>, you should make sure
+nothing bad happens if the system does not have the program in question. 
+Arrange to ignore an error from that command, and print a message before
+the command to tell the user that failure of this command does not mean
+a problem.  (The Autoconf &lsquo;<samp><span class="samp">AC_PROG_RANLIB</span></samp>&rsquo; macro can help with
+this.)
+
+   <p>If you use symbolic links, you should implement a fallback for systems
+that don't have symbolic links.
+
+   <p>Additional utilities that can be used via Make variables are:
+
+<pre class="example">     chgrp chmod chown mknod
+</pre>
+   <p>It is ok to use other utilities in Makefile portions (or scripts)
+intended only for particular systems where you know those utilities
+exist.
+
+   </body></html>
+

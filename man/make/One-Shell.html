@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+<title>One Shell - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Execution.html#Execution" title="Execution">
+<link rel="prev" href="Execution.html#Execution" title="Execution">
+<link rel="next" href="Choosing-the-Shell.html#Choosing-the-Shell" title="Choosing the Shell">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="One-Shell"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Execution.html#Execution">Execution</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Execution.html#Execution">Execution</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.3.1 Using One Shell</h4>
+
+<p><a name="index-recipe-lines_002c-single-shell-322"></a><a name="index-g_t_0040code_007b_002eONESHELL_007d_002c-use-of-323"></a><a name="index-g_t_002eONESHELL-324"></a>
+Sometimes you would prefer that all the lines in the recipe be passed
+to a single invocation of the shell.  There are generally two
+situations where this is useful: first, it can improve performance in
+makefiles where recipes consist of many command lines, by avoiding
+extra processes.  Second, you might want newlines to be included in
+your recipe command (for example perhaps you are using a very
+different interpreter as your <code>SHELL</code>).  If the <code>.ONESHELL</code>
+special target appears anywhere in the makefile then <em>all</em>
+recipe lines for each target will be provided to a single invocation
+of the shell.  Newlines between recipe lines will be preserved.  For
+example:
+
+<pre class="example">     .ONESHELL:
+     foo : bar/lose
+             cd $(@D)
+             gobble $(@F) &gt; ../$@
+</pre>
+   <p class="noindent">would now work as expected even though the commands are on different
+recipe lines.
+
+   <p>If <code>.ONESHELL</code> is provided, then only the first line of the
+recipe will be checked for the special prefix characters (&lsquo;<samp><span class="samp">@</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">+</span></samp>&rsquo;).  Subsequent lines will include the special
+characters in the recipe line when the <code>SHELL</code> is invoked.  If
+you want your recipe to start with one of these special characters
+you'll need to arrange for them to not be the first characters on the
+first line, perhaps by adding a comment or similar.  For example, this
+would be a syntax error in Perl because the first &lsquo;<samp><span class="samp">@</span></samp>&rsquo; is removed
+by make:
+
+<pre class="example">     .ONESHELL:
+     SHELL = /usr/bin/perl
+     .SHELLFLAGS = -e
+     show :
+             @f = qw(a b c);
+             print "@f\n";
+</pre>
+   <p class="noindent">However, either of these alternatives would work properly:
+
+<pre class="example">     .ONESHELL:
+     SHELL = /usr/bin/perl
+     .SHELLFLAGS = -e
+     show :
+             # Make sure "@" is not the first character on the first line
+             @f = qw(a b c);
+             print "@f\n";
+</pre>
+   <p class="noindent">or
+
+<pre class="example">     .ONESHELL:
+     SHELL = /usr/bin/perl
+     .SHELLFLAGS = -e
+     show :
+             my @f = qw(a b c);
+             print "@f\n";
+</pre>
+   <p>As a special feature, if <code>SHELL</code> is determined to be a
+POSIX-style shell, the special prefix characters in &ldquo;internal&rdquo;
+recipe lines will <em>removed</em> before the recipe is processed.  This
+feature is intended to allow existing makefiles to add the
+<code>.ONESHELL</code> special target and still run properly without
+extensive modifications.  Since the special prefix characters are not
+legal at the beginning of a line in a POSIX shell script this is not a
+loss in functionality.  For example, this works as expected:
+
+<pre class="example">     .ONESHELL:
+     foo : bar/lose
+             @cd $(@D)
+             @gobble $(@F) &gt; ../$@
+</pre>
+   <p>Even with this special feature, however, makefiles with
+<code>.ONESHELL</code> will behave differently in ways that could be
+noticeable.  For example, normally if any line in the recipe fails,
+that causes the rule to fail and no more recipe lines are processed. 
+Under <code>.ONESHELL</code> a failure of any but the final recipe line will
+not be noticed by <code>make</code>.  You can modify <code>.SHELLFLAGS</code> to
+add the <code>-e</code> option to the shell which will cause any failure
+anywhere in the command line to cause the shell to fail, but this
+could itself cause your recipe to behave differently.  Ultimately you
+may need to harden your recipe lines to allow them to work with
+<code>.ONESHELL</code>.
+
+   </body></html>
+

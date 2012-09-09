@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+<title>Overriding - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running.html#Running" title="Running">
+<link rel="prev" href="Avoiding-Compilation.html#Avoiding-Compilation" title="Avoiding Compilation">
+<link rel="next" href="Testing.html#Testing" title="Testing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Overriding"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Testing.html#Testing">Testing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Compilation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running.html#Running">Running</a>
+<hr>
+</div>
+
+<h3 class="section">9.5 Overriding Variables</h3>
+
+<p><a name="index-overriding-variables-with-arguments-710"></a><a name="index-variables_002c-overriding-with-arguments-711"></a><a name="index-command-line-variables-712"></a><a name="index-variables_002c-command-line-713"></a>
+An argument that contains &lsquo;<samp><span class="samp">=</span></samp>&rsquo; specifies the value of a variable:
+&lsquo;<samp><var>v</var><span class="samp">=</span><var>x</var></samp>&rsquo; sets the value of the variable <var>v</var> to <var>x</var>. 
+If you specify a value in this way, all ordinary assignments of the same
+variable in the makefile are ignored; we say they have been
+<dfn>overridden</dfn> by the command line argument.
+
+   <p>The most common way to use this facility is to pass extra flags to
+compilers.  For example, in a properly written makefile, the variable
+<code>CFLAGS</code> is included in each recipe that runs the C compiler, so a
+file <samp><span class="file">foo.c</span></samp> would be compiled something like this:
+
+<pre class="example">     cc -c $(CFLAGS) foo.c
+</pre>
+   <p>Thus, whatever value you set for <code>CFLAGS</code> affects each compilation
+that occurs.  The makefile probably specifies the usual value for
+<code>CFLAGS</code>, like this:
+
+<pre class="example">     CFLAGS=-g
+</pre>
+   <p>Each time you run <code>make</code>, you can override this value if you
+wish.  For example, if you say &lsquo;<samp><span class="samp">make CFLAGS='-g -O'</span></samp>&rsquo;, each C
+compilation will be done with &lsquo;<samp><span class="samp">cc -c -g -O</span></samp>&rsquo;.  (This also
+illustrates how you can use quoting in the shell to enclose spaces and
+other special characters in the value of a variable when you override
+it.)
+
+   <p>The variable <code>CFLAGS</code> is only one of many standard variables that
+exist just so that you can change them this way.  See <a href="Implicit-Variables.html#Implicit-Variables">Variables Used by Implicit Rules</a>, for a complete list.
+
+   <p>You can also program the makefile to look at additional variables of your
+own, giving the user the ability to control other aspects of how the
+makefile works by changing the variables.
+
+   <p>When you override a variable with a command line argument, you can
+define either a recursively-expanded variable or a simply-expanded
+variable.  The examples shown above make a recursively-expanded
+variable; to make a simply-expanded variable, write &lsquo;<samp><span class="samp">:=</span></samp>&rsquo; instead
+of &lsquo;<samp><span class="samp">=</span></samp>&rsquo;.  But, unless you want to include a variable reference or
+function call in the <em>value</em> that you specify, it makes no
+difference which kind of variable you create.
+
+   <p>There is one way that the makefile can change a variable that you have
+overridden.  This is to use the <code>override</code> directive, which is a line
+that looks like this: &lsquo;<samp><span class="samp">override </span><var>variable</var><span class="samp"> = </span><var>value</var></samp>&rsquo;
+(see <a href="Override-Directive.html#Override-Directive">The <code>override</code> Directive</a>).
+
+   </body></html>
+

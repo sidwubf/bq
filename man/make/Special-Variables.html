@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+<title>Special Variables - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-Variables.html#Using-Variables" title="Using Variables">
+<link rel="prev" href="Suppressing-Inheritance.html#Suppressing-Inheritance" title="Suppressing Inheritance">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Special-Variables"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Suppressing-Inheritance.html#Suppressing-Inheritance">Suppressing Inheritance</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-Variables.html#Using-Variables">Using Variables</a>
+<hr>
+</div>
+
+<!-- node-name,  next,  previous,  up -->
+<h3 class="section">6.14 Other Special Variables</h3>
+
+<p><a name="index-makefiles_002c-and-special-variables-535"></a><a name="index-special-variables-536"></a>
+GNU <code>make</code> supports some variables that have special properties.
+
+     
+<a name="index-MAKEFILE_005fLIST-_0040r_007b_0028list-of-parsed-makefiles_0029_007d-537"></a>
+<a name="index-makefiles_002c-and-_0040code_007bMAKEFILE_005fLIST_007d-variable-538"></a>
+<a name="index-including-_0028_0040code_007bMAKEFILE_005fLIST_007d-variable_0029-539"></a>
+<dl><dt><code>MAKEFILE_LIST</code><dd>Contains the name of each makefile that is parsed by <code>make</code>, in
+the order in which it was parsed.  The name is appended just
+before <code>make</code> begins to parse the makefile.  Thus, if the first
+thing a makefile does is examine the last word in this variable, it
+will be the name of the current makefile.  Once the current makefile
+has used <code>include</code>, however, the last word will be the
+just-included makefile.
+
+     <p>If a makefile named <code>Makefile</code> has this content:
+
+     <pre class="example">          name1 := $(lastword $(MAKEFILE_LIST))
+          
+          include inc.mk
+          
+          name2 := $(lastword $(MAKEFILE_LIST))
+          
+          all:
+                  @echo name1 = $(name1)
+                  @echo name2 = $(name2)
+</pre>
+     <p class="noindent">then you would expect to see this output:
+
+     <pre class="example">          name1 = Makefile
+          name2 = inc.mk
+</pre>
+     <p><a name="index-g_t_002eDEFAULT_005fGOAL-_0040r_007b_0028define-default-goal_0029_007d-540"></a><br><dt><code>.DEFAULT_GOAL</code><dd>Sets the default goal to be used if no targets were specified on the
+command line (see <a href="Goals.html#Goals">Arguments to Specify the Goals</a>).  The
+<code>.DEFAULT_GOAL</code> variable allows you to discover the current
+default goal, restart the default goal selection algorithm by clearing
+its value, or to explicitly set the default goal.  The following
+example illustrates these cases:
+
+     <pre class="example">          # Query the default goal.
+          ifeq ($(.DEFAULT_GOAL),)
+            $(warning no default goal is set)
+          endif
+          
+          .PHONY: foo
+          foo: ; @echo $@
+          
+          $(warning default goal is $(.DEFAULT_GOAL))
+          
+          # Reset the default goal.
+          .DEFAULT_GOAL :=
+          
+          .PHONY: bar
+          bar: ; @echo $@
+          
+          $(warning default goal is $(.DEFAULT_GOAL))
+          
+          # Set our own.
+          .DEFAULT_GOAL := foo
+</pre>
+     <p>This makefile prints:
+
+     <pre class="example">          no default goal is set
+          default goal is foo
+          default goal is bar
+          foo
+</pre>
+     <p>Note that assigning more than one target name to <code>.DEFAULT_GOAL</code> is
+illegal and will result in an error.
+
+     <p><a name="index-MAKE_005fRESTARTS-_0040r_007b_0028number-of-times-_0040code_007bmake_007d-has-restarted_0029_007d-541"></a><br><dt><code>MAKE_RESTARTS</code><dd>This variable is set only if this instance of <code>make</code> has
+restarted (see <a href="Remaking-Makefiles.html#Remaking-Makefiles">How Makefiles Are Remade</a>): it
+will contain the number of times this instance has restarted.  Note
+this is not the same as recursion (counted by the <code>MAKELEVEL</code>
+variable).  You should not set, modify, or export this variable.
+
+     <p><a name="index-g_t_002eRECIPEPREFIX-_0040r_007b_0028change-the-recipe-prefix-character_0029_007d-542"></a><br><dt><code>.RECIPEPREFIX</code><dd>The first character of the value of this variable is used as the
+character make assumes is introducing a recipe line.  If the variable
+is empty (as it is by default) that character is the standard tab
+character.  For example, this is a valid makefile:
+
+     <pre class="example">          .RECIPEPREFIX = &gt;
+          all:
+          &gt; @echo Hello, world
+</pre>
+     <p>The value of <code>.RECIPEPREFIX</code> can be changed multiple times; once set
+it stays in effect for all rules parsed until it is modified.
+
+     <p><a name="index-g_t_002eVARIABLES-_0040r_007b_0028list-of-variables_0029_007d-543"></a><br><dt><code>.VARIABLES</code><dd>Expands to a list of the <em>names</em> of all global variables defined
+so far.  This includes variables which have empty values, as well as
+built-in variables (see <a href="Implicit-Variables.html#Implicit-Variables">Variables Used by Implicit Rules</a>), but does not include any variables which are only
+defined in a target-specific context.  Note that any value you assign
+to this variable will be ignored; it will always return its special
+value.
+
+     <!-- @vindex .TARGETS @r{(list of targets)} -->
+     <!-- @item .TARGETS -->
+     <!-- The second special variable is @code{.TARGETS}.  When expanded, the -->
+     <!-- value consists of a list of all targets defined in all makefiles read -->
+     <!-- up until that point.  Note it's not enough for a file to be simply -->
+     <!-- mentioned in the makefile to be listed in this variable, even if it -->
+     <!-- would match an implicit rule and become an ``implicit target''.  The -->
+     <!-- file must appear as a target, on the left-hand side of a ``:'', to be -->
+     <!-- considered a target for the purposes of this variable. -->
+     <p><a name="index-g_t_002eFEATURES-_0040r_007b_0028list-of-supported-features_0029_007d-544"></a><br><dt><code>.FEATURES</code><dd>Expands to a list of special features supported by this version of
+<code>make</code>.  Possible values include:
+
+          <dl>
+<dt>&lsquo;<samp><span class="samp">archives</span></samp>&rsquo;<dd>Supports <code>ar</code> (archive) files using special filename syntax. 
+See <a href="Archives.html#Archives">Using <code>make</code> to Update Archive Files</a>.
+
+          <br><dt>&lsquo;<samp><span class="samp">check-symlink</span></samp>&rsquo;<dd>Supports the <code>-L</code> (<code>--check-symlink-times</code>) flag. 
+See <a href="Options-Summary.html#Options-Summary">Summary of Options</a>.
+
+          <br><dt>&lsquo;<samp><span class="samp">else-if</span></samp>&rsquo;<dd>Supports &ldquo;else if&rdquo; non-nested conditionals.  See <a href="Conditional-Syntax.html#Conditional-Syntax">Syntax of Conditionals</a>.
+
+          <br><dt>&lsquo;<samp><span class="samp">jobserver</span></samp>&rsquo;<dd>Supports &ldquo;job server&rdquo; enhanced parallel builds.  See <a href="Parallel.html#Parallel">Parallel Execution</a>.
+
+          <br><dt>&lsquo;<samp><span class="samp">second-expansion</span></samp>&rsquo;<dd>Supports secondary expansion of prerequisite lists.
+
+          <br><dt>&lsquo;<samp><span class="samp">order-only</span></samp>&rsquo;<dd>Supports order-only prerequisites.  See <a href="Prerequisite-Types.html#Prerequisite-Types">Types of Prerequisites</a>.
+
+          <br><dt>&lsquo;<samp><span class="samp">target-specific</span></samp>&rsquo;<dd>Supports target-specific and pattern-specific variable assignments. 
+See <a href="Target_002dspecific.html#Target_002dspecific">Target-specific Variable Values</a>.
+
+     </dl>
+
+     <p><a name="index-g_t_002eINCLUDE_005fDIRS-_0040r_007b_0028list-of-include-directories_0029_007d-545"></a><br><dt><code>.INCLUDE_DIRS</code><dd>Expands to a list of directories that <code>make</code> searches for
+included makefiles (see <a href="Include.html#Include">Including Other Makefiles</a>).
+
+   </dl>
+
+   </body></html>
+

@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+<title>Syntax of Functions - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Functions.html#Functions" title="Functions">
+<link rel="next" href="Text-Functions.html#Text-Functions" title="Text Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Syntax-of-Functions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text-Functions.html#Text-Functions">Text Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Functions.html#Functions">Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h3 class="section">8.1 Function Call Syntax</h3>
+
+<p><a name="index-g_t_0040code_007b_0024_007d_002c-in-function-call-554"></a><a name="index-dollar-sign-_0028_0040code_007b_0024_007d_0029_002c-in-function-call-555"></a><a name="index-arguments-of-functions-556"></a><a name="index-functions_002c-syntax-of-557"></a>
+A function call resembles a variable reference.  It looks like this:
+
+<pre class="example">     $(<var>function</var> <var>arguments</var>)
+</pre>
+   <p class="noindent">or like this:
+
+<pre class="example">     ${<var>function</var> <var>arguments</var>}
+</pre>
+   <p>Here <var>function</var> is a function name; one of a short list of names
+that are part of <code>make</code>.  You can also essentially create your own
+functions by using the <code>call</code> builtin function.
+
+   <p>The <var>arguments</var> are the arguments of the function.  They are
+separated from the function name by one or more spaces or tabs, and if
+there is more than one argument, then they are separated by commas. 
+Such whitespace and commas are not part of an argument's value.  The
+delimiters which you use to surround the function call, whether
+parentheses or braces, can appear in an argument only in matching pairs;
+the other kind of delimiters may appear singly.  If the arguments
+themselves contain other function calls or variable references, it is
+wisest to use the same kind of delimiters for all the references; write
+&lsquo;<samp><span class="samp">$(subst&nbsp;a,b,$(x))</span></samp>&rsquo;<!-- /@w -->, not &lsquo;<samp><span class="samp">$(subst&nbsp;a,b,${x})</span></samp>&rsquo;<!-- /@w -->.  This
+is because it is clearer, and because only one type of delimiter is
+matched to find the end of the reference.
+
+   <p>The text written for each argument is processed by substitution of
+variables and function calls to produce the argument value, which
+is the text on which the function acts.  The substitution is done in the
+order in which the arguments appear.
+
+   <p>Commas and unmatched parentheses or braces cannot appear in the text of an
+argument as written; leading spaces cannot appear in the text of the first
+argument as written.  These characters can be put into the argument value
+by variable substitution.  First define variables <code>comma</code> and
+<code>space</code> whose values are isolated comma and space characters, then
+substitute these variables where such characters are wanted, like this:
+
+<pre class="example">     comma:= ,
+     empty:=
+     space:= $(empty) $(empty)
+     foo:= a b c
+     bar:= $(subst $(space),$(comma),$(foo))
+     # <span class="roman">bar is now `a,b,c'.</span>
+</pre>
+   <p class="noindent">Here the <code>subst</code> function replaces each space with a comma, through
+the value of <code>foo</code>, and substitutes the result.
+
+   </body></html>
+

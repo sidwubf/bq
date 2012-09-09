@@ -1,0 +1,144 @@
+<html lang="en">
+<head>
+<title>Reading Makefiles - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefiles.html#Makefiles" title="Makefiles">
+<link rel="prev" href="Overriding-Makefiles.html#Overriding-Makefiles" title="Overriding Makefiles">
+<link rel="next" href="Secondary-Expansion.html#Secondary-Expansion" title="Secondary Expansion">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Reading-Makefiles"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Overriding-Makefiles.html#Overriding-Makefiles">Overriding Makefiles</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefiles.html#Makefiles">Makefiles</a>
+<hr>
+</div>
+
+<h3 class="section">3.7 How <code>make</code> Reads a Makefile</h3>
+
+<p><a name="index-reading-makefiles-98"></a><a name="index-makefile_002c-parsing-99"></a>
+GNU <code>make</code> does its work in two distinct phases.  During the first
+phase it reads all the makefiles, included makefiles, etc. and
+internalizes all the variables and their values, implicit and explicit
+rules, and constructs a dependency graph of all the targets and their
+prerequisites.  During the second phase, <code>make</code> uses these internal
+structures to determine what targets will need to be rebuilt and to
+invoke the rules necessary to do so.
+
+   <p>It's important to understand this two-phase approach because it has a
+direct impact on how variable and function expansion happens; this is
+often a source of some confusion when writing makefiles.  Here we will
+present a summary of the phases in which expansion happens for different
+constructs within the makefile.  We say that expansion is
+<dfn>immediate</dfn> if it happens during the first phase: in this case
+<code>make</code> will expand any variables or functions in that section of a
+construct as the makefile is parsed.  We say that expansion is
+<dfn>deferred</dfn> if expansion is not performed immediately.  Expansion of
+a deferred construct is not performed until either the construct appears
+later in an immediate context, or until the second phase.
+
+   <p>You may not be familiar with some of these constructs yet.  You can
+reference this section as you become familiar with them, in later
+chapters.
+
+<h4 class="subheading">Variable Assignment</h4>
+
+<p><a name="index-g_t_002b_003d_002c-expansion-100"></a><a name="index-g_t_003d_002c-expansion-101"></a><a name="index-g_t_003f_003d_002c-expansion-102"></a><a name="index-g_t_002b_003d_002c-expansion-103"></a><a name="index-define_002c-expansion-104"></a>
+Variable definitions are parsed as follows:
+
+<pre class="example">     <var>immediate</var> = <var>deferred</var>
+     <var>immediate</var> ?= <var>deferred</var>
+     <var>immediate</var> := <var>immediate</var>
+     <var>immediate</var> += <var>deferred</var> or <var>immediate</var>
+     
+     define <var>immediate</var>
+       <var>deferred</var>
+     endef
+     
+     define <var>immediate</var> =
+       <var>deferred</var>
+     endef
+     
+     define <var>immediate</var> ?=
+       <var>deferred</var>
+     endef
+     
+     define <var>immediate</var> :=
+       <var>immediate</var>
+     endef
+     
+     define <var>immediate</var> +=
+       <var>deferred</var> or <var>immediate</var>
+     endef
+</pre>
+   <p>For the append operator, &lsquo;<samp><span class="samp">+=</span></samp>&rsquo;, the right-hand side is considered
+immediate if the variable was previously set as a simple variable
+(&lsquo;<samp><span class="samp">:=</span></samp>&rsquo;), and deferred otherwise.
+
+<h4 class="subheading">Conditional Directives</h4>
+
+<p><a name="index-ifdef_002c-expansion-105"></a><a name="index-ifeq_002c-expansion-106"></a><a name="index-ifndef_002c-expansion-107"></a><a name="index-ifneq_002c-expansion-108"></a>
+Conditional directives are parsed immediately.  This means, for
+example, that automatic variables cannot be used in conditional
+directives, as automatic variables are not set until the recipe for
+that rule is invoked.  If you need to use automatic variables in a
+conditional directive you <em>must</em> move the condition into the
+recipe and use shell conditional syntax instead.
+
+<h4 class="subheading">Rule Definition</h4>
+
+<p><a name="index-target_002c-expansion-109"></a><a name="index-prerequisite_002c-expansion-110"></a><a name="index-implicit-rule_002c-expansion-111"></a><a name="index-pattern-rule_002c-expansion-112"></a><a name="index-explicit-rule_002c-expansion-113"></a>
+A rule is always expanded the same way, regardless of the form:
+
+<pre class="example">     <var>immediate</var> : <var>immediate</var> ; <var>deferred</var>
+     	<var>deferred</var>
+</pre>
+   <p>That is, the target and prerequisite sections are expanded immediately,
+and the recipe used to construct the target is always deferred.  This
+general rule is true for explicit rules, pattern rules, suffix rules,
+static pattern rules, and simple prerequisite definitions.
+
+   </body></html>
+

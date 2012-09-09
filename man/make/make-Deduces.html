@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>make Deduces - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Introduction.html#Introduction" title="Introduction">
+<link rel="prev" href="Variables-Simplify.html#Variables-Simplify" title="Variables Simplify">
+<link rel="next" href="Combine-By-Prerequisite.html#Combine-By-Prerequisite" title="Combine By Prerequisite">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="make-Deduces"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Combine-By-Prerequisite.html#Combine-By-Prerequisite">Combine By Prerequisite</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Variables-Simplify.html#Variables-Simplify">Variables Simplify</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Introduction.html#Introduction">Introduction</a>
+<hr>
+</div>
+
+<h3 class="section">2.5 Letting <code>make</code> Deduce the Recipes</h3>
+
+<p><a name="index-deducing-recipes-_0028implicit-rules_0029-41"></a><a name="index-implicit-rule_002c-introduction-to-42"></a><a name="index-rule_002c-implicit_002c-introduction-to-43"></a>
+It is not necessary to spell out the recipes for compiling the individual
+C source files, because <code>make</code> can figure them out: it has an
+<dfn>implicit rule</dfn> for updating a &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; file from a correspondingly
+named &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; file using a &lsquo;<samp><span class="samp">cc -c</span></samp>&rsquo; command.  For example, it will
+use the recipe &lsquo;<samp><span class="samp">cc -c main.c -o main.o</span></samp>&rsquo; to compile <samp><span class="file">main.c</span></samp> into
+<samp><span class="file">main.o</span></samp>.  We can therefore omit the recipes from the rules for the
+object files.  See <a href="Implicit-Rules.html#Implicit-Rules">Using Implicit Rules</a>.
+
+   <p>When a &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; file is used automatically in this way, it is also
+automatically added to the list of prerequisites.  We can therefore omit
+the &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; files from the prerequisites, provided we omit the recipe.
+
+   <p>Here is the entire example, with both of these changes, and a variable
+<code>objects</code> as suggested above:
+
+<pre class="example">     objects = main.o kbd.o command.o display.o \
+               insert.o search.o files.o utils.o
+     
+     edit : $(objects)
+             cc -o edit $(objects)
+     
+     main.o : defs.h
+     kbd.o : defs.h command.h
+     command.o : defs.h command.h
+     display.o : defs.h buffer.h
+     insert.o : defs.h buffer.h
+     search.o : defs.h buffer.h
+     files.o : defs.h buffer.h command.h
+     utils.o : defs.h
+     
+     .PHONY : clean
+     clean :
+             rm edit $(objects)
+</pre>
+   <p class="noindent">This is how we would write the makefile in actual practice.  (The
+complications associated with &lsquo;<samp><span class="samp">clean</span></samp>&rsquo; are described elsewhere. 
+See <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a>, and <a href="Errors.html#Errors">Errors in Recipes</a>.)
+
+   <p>Because implicit rules are so convenient, they are important.  You
+will see them used frequently.
+
+   </body></html>
+

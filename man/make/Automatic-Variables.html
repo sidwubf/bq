@@ -1,0 +1,206 @@
+<html lang="en">
+<head>
+<title>Automatic Variables - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Pattern-Rules.html#Pattern-Rules" title="Pattern Rules">
+<link rel="prev" href="Pattern-Examples.html#Pattern-Examples" title="Pattern Examples">
+<link rel="next" href="Pattern-Match.html#Pattern-Match" title="Pattern Match">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Automatic-Variables"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pattern-Match.html#Pattern-Match">Pattern Match</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pattern-Examples.html#Pattern-Examples">Pattern Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Pattern-Rules.html#Pattern-Rules">Pattern Rules</a>
+<hr>
+</div>
+
+<h4 class="subsection">10.5.3 Automatic Variables</h4>
+
+<p><a name="index-automatic-variables-933"></a><a name="index-variables_002c-automatic-934"></a><a name="index-variables_002c-and-implicit-rule-935"></a>
+Suppose you are writing a pattern rule to compile a &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; file into a
+&lsquo;<samp><span class="samp">.o</span></samp>&rsquo; file: how do you write the &lsquo;<samp><span class="samp">cc</span></samp>&rsquo; command so that it operates
+on the right source file name?  You cannot write the name in the recipe,
+because the name is different each time the implicit rule is applied.
+
+   <p>What you do is use a special feature of <code>make</code>, the <dfn>automatic
+variables</dfn>.  These variables have values computed afresh for each rule that
+is executed, based on the target and prerequisites of the rule.  In this
+example, you would use &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; for the object file name and &lsquo;<samp><span class="samp">$&lt;</span></samp>&rsquo;
+for the source file name.
+
+   <p><a name="index-automatic-variables-in-prerequisites-936"></a><a name="index-prerequisites_002c-and-automatic-variables-937"></a>It's very important that you recognize the limited scope in which
+automatic variable values are available: they only have values within
+the recipe.  In particular, you cannot use them anywhere
+within the target list of a rule; they have no value there and will
+expand to the empty string.  Also, they cannot be accessed directly
+within the prerequisite list of a rule.  A common mistake is
+attempting to use <code>$@</code> within the prerequisites list; this will
+not work.  However, there is a special feature of GNU <code>make</code>,
+secondary expansion (see <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a>), which will allow
+automatic variable values to be used in prerequisite lists.
+
+   <p>Here is a table of automatic variables:
+
+     
+<a name="index-g_t_0024_0040_0040-938"></a>
+<a name="index-g_t_0040_0040-_0040r_007b_0028automatic-variable_0029_007d-939"></a>
+<dl><dt><code>$@</code><dd>The file name of the target of the rule.  If the target is an archive
+member, then &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is the name of the archive file.  In a pattern
+rule that has multiple targets (see <a href="Pattern-Intro.html#Pattern-Intro">Introduction to Pattern Rules</a>), &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is the name of whichever target caused the
+rule's recipe to be run.
+
+     <p><a name="index-g_t_0024_0025-940"></a><a name="index-g_t_0025-_0040r_007b_0028automatic-variable_0029_007d-941"></a><br><dt><code>$%</code><dd>The target member name, when the target is an archive member. 
+See <a href="Archives.html#Archives">Archives</a>.  For example, if the target is <samp><span class="file">foo.a(bar.o)</span></samp> then
+&lsquo;<samp><span class="samp">$%</span></samp>&rsquo; is <samp><span class="file">bar.o</span></samp> and &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is <samp><span class="file">foo.a</span></samp>.  &lsquo;<samp><span class="samp">$%</span></samp>&rsquo; is
+empty when the target is not an archive member.
+
+     <p><a name="index-g_t_0024_003c-942"></a><a name="index-g_t_003c-_0040r_007b_0028automatic-variable_0029_007d-943"></a><br><dt><code>$&lt;</code><dd>The name of the first prerequisite.  If the target got its recipe from
+an implicit rule, this will be the first prerequisite added by the
+implicit rule (see <a href="Implicit-Rules.html#Implicit-Rules">Implicit Rules</a>).
+
+     <p><a name="index-g_t_0024_003f-944"></a><a name="index-g_t_003f-_0040r_007b_0028automatic-variable_0029_007d-945"></a><br><dt><code>$?</code><dd>The names of all the prerequisites that are newer than the target, with
+spaces between them.  For prerequisites which are archive members, only
+the named member is used (see <a href="Archives.html#Archives">Archives</a>). 
+<a name="index-prerequisites_002c-list-of-changed-946"></a><a name="index-list-of-changed-prerequisites-947"></a>
+<a name="index-g_t_0024_005e-948"></a><a name="index-g_t_005e-_0040r_007b_0028automatic-variable_0029_007d-949"></a><br><dt><code>$^</code><dd>The names of all the prerequisites, with spaces between them.  For
+prerequisites which are archive members, only the named member is used
+(see <a href="Archives.html#Archives">Archives</a>).  A target has only one prerequisite on each other file
+it depends on, no matter how many times each file is listed as a
+prerequisite.  So if you list a prerequisite more than once for a target,
+the value of <code>$^</code> contains just one copy of the name.  This list
+does <strong>not</strong> contain any of the order-only prerequisites; for those
+see the &lsquo;<samp><span class="samp">$|</span></samp>&rsquo; variable, below. 
+<a name="index-prerequisites_002c-list-of-all-950"></a><a name="index-list-of-all-prerequisites-951"></a>
+<a name="index-g_t_0024_002b-952"></a><a name="index-g_t_002b-_0040r_007b_0028automatic-variable_0029_007d-953"></a><br><dt><code>$+</code><dd>This is like &lsquo;<samp><span class="samp">$^</span></samp>&rsquo;, but prerequisites listed more than once are
+duplicated in the order they were listed in the makefile.  This is
+primarily useful for use in linking commands where it is meaningful to
+repeat library file names in a particular order.
+
+     <p><a name="index-g_t_0024_007c-954"></a><a name="index-g_t_007c-_0040r_007b_0028automatic-variable_0029_007d-955"></a><br><dt><code>$|</code><dd>The names of all the order-only prerequisites, with spaces between
+them.
+
+     <p><a name="index-g_t_0024_002a-956"></a><a name="index-g_t_002a-_0040r_007b_0028automatic-variable_0029_007d-957"></a><br><dt><code>$*</code><dd>The stem with which an implicit rule matches (see <a href="Pattern-Match.html#Pattern-Match">How Patterns Match</a>).  If the target is <samp><span class="file">dir/a.foo.b</span></samp> and the target
+pattern is <samp><span class="file">a.%.b</span></samp> then the stem is <samp><span class="file">dir/foo</span></samp>.  The stem is
+useful for constructing names of related files. 
+<a name="index-stem_002c-variable-for-958"></a>
+In a static pattern rule, the stem is part of the file name that matched
+the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; in the target pattern.
+
+     <p>In an explicit rule, there is no stem; so &lsquo;<samp><span class="samp">$*</span></samp>&rsquo; cannot be determined
+in that way.  Instead, if the target name ends with a recognized suffix
+(see <a href="Suffix-Rules.html#Suffix-Rules">Old-Fashioned Suffix Rules</a>), &lsquo;<samp><span class="samp">$*</span></samp>&rsquo; is set to
+the target name minus the suffix.  For example, if the target name is
+&lsquo;<samp><span class="samp">foo.c</span></samp>&rsquo;, then &lsquo;<samp><span class="samp">$*</span></samp>&rsquo; is set to &lsquo;<samp><span class="samp">foo</span></samp>&rsquo;, since &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; is a
+suffix.  GNU <code>make</code> does this bizarre thing only for compatibility
+with other implementations of <code>make</code>.  You should generally avoid
+using &lsquo;<samp><span class="samp">$*</span></samp>&rsquo; except in implicit rules or static pattern rules.
+
+     <p>If the target name in an explicit rule does not end with a recognized
+suffix, &lsquo;<samp><span class="samp">$*</span></samp>&rsquo; is set to the empty string for that rule. 
+</dl>
+
+   <p>&lsquo;<samp><span class="samp">$?</span></samp>&rsquo; is useful even in explicit rules when you wish to operate on only
+the prerequisites that have changed.  For example, suppose that an archive
+named <samp><span class="file">lib</span></samp> is supposed to contain copies of several object files. 
+This rule copies just the changed object files into the archive:
+
+<pre class="example">     lib: foo.o bar.o lose.o win.o
+             ar r lib $?
+</pre>
+   <p>Of the variables listed above, four have values that are single file
+names, and three have values that are lists of file names.  These seven
+have variants that get just the file's directory name or just the file
+name within the directory.  The variant variables' names are formed by
+appending &lsquo;<samp><span class="samp">D</span></samp>&rsquo; or &lsquo;<samp><span class="samp">F</span></samp>&rsquo;, respectively.  These variants are
+semi-obsolete in GNU <code>make</code> since the functions <code>dir</code> and
+<code>notdir</code> can be used to get a similar effect (see <a href="File-Name-Functions.html#File-Name-Functions">Functions for File Names</a>).  Note, however, that the
+&lsquo;<samp><span class="samp">D</span></samp>&rsquo; variants all omit the trailing slash which always appears in
+the output of the <code>dir</code> function.  Here is a table of the variants:
+
+     
+<a name="index-g_t_0024_0028_0040_0040D_0029-959"></a>
+<a name="index-g_t_0040_0040D-_0040r_007b_0028automatic-variable_0029_007d-960"></a>
+<dl><dt>&lsquo;<samp><span class="samp">$(@D)</span></samp>&rsquo;<dd>The directory part of the file name of the target, with the trailing
+slash removed.  If the value of &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is <samp><span class="file">dir/foo.o</span></samp> then
+&lsquo;<samp><span class="samp">$(@D)</span></samp>&rsquo; is <samp><span class="file">dir</span></samp>.  This value is <samp><span class="file">.</span></samp> if &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; does
+not contain a slash.
+
+     <p><a name="index-g_t_0024_0028_0040_0040F_0029-961"></a><a name="index-g_t_0040_0040F-_0040r_007b_0028automatic-variable_0029_007d-962"></a><br><dt>&lsquo;<samp><span class="samp">$(@F)</span></samp>&rsquo;<dd>The file-within-directory part of the file name of the target.  If the
+value of &lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is <samp><span class="file">dir/foo.o</span></samp> then &lsquo;<samp><span class="samp">$(@F)</span></samp>&rsquo; is
+<samp><span class="file">foo.o</span></samp>.  &lsquo;<samp><span class="samp">$(@F)</span></samp>&rsquo; is equivalent to &lsquo;<samp><span class="samp">$(notdir $@)</span></samp>&rsquo;.
+
+     <p><a name="index-g_t_0024_0028_002aD_0029-963"></a><a name="index-g_t_002aD-_0040r_007b_0028automatic-variable_0029_007d-964"></a><br><dt>&lsquo;<samp><span class="samp">$(*D)</span></samp>&rsquo;<dd><a name="index-g_t_0024_0028_002aF_0029-965"></a><a name="index-g_t_002aF-_0040r_007b_0028automatic-variable_0029_007d-966"></a><dt>&lsquo;<samp><span class="samp">$(*F)</span></samp>&rsquo;<dd>The directory part and the file-within-directory
+part of the stem; <samp><span class="file">dir</span></samp> and <samp><span class="file">foo</span></samp> in this example.
+
+     <p><a name="index-g_t_0024_0028_0025D_0029-967"></a><a name="index-g_t_0025D-_0040r_007b_0028automatic-variable_0029_007d-968"></a><br><dt>&lsquo;<samp><span class="samp">$(%D)</span></samp>&rsquo;<dd><a name="index-g_t_0024_0028_0025F_0029-969"></a><a name="index-g_t_0025F-_0040r_007b_0028automatic-variable_0029_007d-970"></a><dt>&lsquo;<samp><span class="samp">$(%F)</span></samp>&rsquo;<dd>The directory part and the file-within-directory part of the target
+archive member name.  This makes sense only for archive member targets
+of the form <samp><var>archive</var><span class="file">(</span><var>member</var><span class="file">)</span></samp> and is useful only when
+<var>member</var> may contain a directory name.  (See <a href="Archive-Members.html#Archive-Members">Archive Members as Targets</a>.)
+
+     <p><a name="index-g_t_0024_0028_003cD_0029-971"></a><a name="index-g_t_003cD-_0040r_007b_0028automatic-variable_0029_007d-972"></a><br><dt>&lsquo;<samp><span class="samp">$(&lt;D)</span></samp>&rsquo;<dd><a name="index-g_t_0024_0028_003cF_0029-973"></a><a name="index-g_t_003cF-_0040r_007b_0028automatic-variable_0029_007d-974"></a><dt>&lsquo;<samp><span class="samp">$(&lt;F)</span></samp>&rsquo;<dd>The directory part and the file-within-directory
+part of the first prerequisite.
+
+     <p><a name="index-g_t_0024_0028_005eD_0029-975"></a><a name="index-g_t_005eD-_0040r_007b_0028automatic-variable_0029_007d-976"></a><br><dt>&lsquo;<samp><span class="samp">$(^D)</span></samp>&rsquo;<dd><a name="index-g_t_0024_0028_005eF_0029-977"></a><a name="index-g_t_005eF-_0040r_007b_0028automatic-variable_0029_007d-978"></a><dt>&lsquo;<samp><span class="samp">$(^F)</span></samp>&rsquo;<dd>Lists of the directory parts and the file-within-directory
+parts of all prerequisites.
+
+     <p><a name="index-g_t_0024_0028_002bD_0029-979"></a><a name="index-g_t_002bD-_0040r_007b_0028automatic-variable_0029_007d-980"></a><br><dt>&lsquo;<samp><span class="samp">$(+D)</span></samp>&rsquo;<dd><a name="index-g_t_0024_0028_002bF_0029-981"></a><a name="index-g_t_002bF-_0040r_007b_0028automatic-variable_0029_007d-982"></a><dt>&lsquo;<samp><span class="samp">$(+F)</span></samp>&rsquo;<dd>Lists of the directory parts and the file-within-directory
+parts of all prerequisites, including multiple instances of duplicated
+prerequisites.
+
+     <p><a name="index-g_t_0024_0028_003fD_0029-983"></a><a name="index-g_t_003fD-_0040r_007b_0028automatic-variable_0029_007d-984"></a><br><dt>&lsquo;<samp><span class="samp">$(?D)</span></samp>&rsquo;<dd><a name="index-g_t_0024_0028_003fF_0029-985"></a><a name="index-g_t_003fF-_0040r_007b_0028automatic-variable_0029_007d-986"></a><dt>&lsquo;<samp><span class="samp">$(?F)</span></samp>&rsquo;<dd>Lists of the directory parts and the file-within-directory parts of
+all prerequisites that are newer than the target. 
+</dl>
+
+   <p>Note that we use a special stylistic convention when we talk about these
+automatic variables; we write &ldquo;the value of &lsquo;<samp><span class="samp">$&lt;</span></samp>&rsquo;&rdquo;, rather than
+&ldquo;the&nbsp;variable&nbsp;<code>&lt;</code>&rdquo;<!-- /@w --> as we would write for ordinary variables
+such as <code>objects</code> and <code>CFLAGS</code>.  We think this convention
+looks more natural in this special case.  Please do not assume it has a
+deep significance; &lsquo;<samp><span class="samp">$&lt;</span></samp>&rsquo; refers to the variable named <code>&lt;</code> just
+as &lsquo;<samp><span class="samp">$(CFLAGS)</span></samp>&rsquo; refers to the variable named <code>CFLAGS</code>. 
+You could just as well use &lsquo;<samp><span class="samp">$(&lt;)</span></samp>&rsquo; in place of &lsquo;<samp><span class="samp">$&lt;</span></samp>&rsquo;.
+
+   </body></html>
+

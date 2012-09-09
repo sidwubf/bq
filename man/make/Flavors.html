@@ -1,0 +1,204 @@
+<html lang="en">
+<head>
+<title>Flavors - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-Variables.html#Using-Variables" title="Using Variables">
+<link rel="prev" href="Reference.html#Reference" title="Reference">
+<link rel="next" href="Advanced.html#Advanced" title="Advanced">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Flavors"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Advanced.html#Advanced">Advanced</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Reference.html#Reference">Reference</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-Variables.html#Using-Variables">Using Variables</a>
+<hr>
+</div>
+
+<h3 class="section">6.2 The Two Flavors of Variables</h3>
+
+<p><a name="index-flavors-of-variables-469"></a><a name="index-recursive-variable-expansion-470"></a><a name="index-variables_002c-flavors-471"></a><a name="index-recursively-expanded-variables-472"></a><a name="index-variables_002c-recursively-expanded-473"></a>
+There are two ways that a variable in GNU <code>make</code> can have a value;
+we call them the two <dfn>flavors</dfn> of variables.  The two flavors are
+distinguished in how they are defined and in what they do when expanded.
+
+   <p><a name="index-g_t_003d-474"></a>The first flavor of variable is a <dfn>recursively expanded</dfn> variable. 
+Variables of this sort are defined by lines using &lsquo;<samp><span class="samp">=</span></samp>&rsquo;
+(see <a href="Setting.html#Setting">Setting Variables</a>) or by the <code>define</code> directive
+(see <a href="Multi_002dLine.html#Multi_002dLine">Defining Multi-Line Variables</a>).  The value you specify
+is installed verbatim; if it contains references to other variables,
+these references are expanded whenever this variable is substituted (in
+the course of expanding some other string).  When this happens, it is
+called <dfn>recursive expansion</dfn>.
+
+   <p>For example,
+
+<pre class="example">     foo = $(bar)
+     bar = $(ugh)
+     ugh = Huh?
+     
+     all:;echo $(foo)
+</pre>
+   <p class="noindent">will echo &lsquo;<samp><span class="samp">Huh?</span></samp>&rsquo;: &lsquo;<samp><span class="samp">$(foo)</span></samp>&rsquo; expands to &lsquo;<samp><span class="samp">$(bar)</span></samp>&rsquo; which
+expands to &lsquo;<samp><span class="samp">$(ugh)</span></samp>&rsquo; which finally expands to &lsquo;<samp><span class="samp">Huh?</span></samp>&rsquo;.
+
+   <p>This flavor of variable is the only sort supported by other versions of
+<code>make</code>.  It has its advantages and its disadvantages.  An advantage
+(most would say) is that:
+
+<pre class="example">     CFLAGS = $(include_dirs) -O
+     include_dirs = -Ifoo -Ibar
+</pre>
+   <p class="noindent">will do what was intended: when &lsquo;<samp><span class="samp">CFLAGS</span></samp>&rsquo; is expanded in a recipe,
+it will expand to &lsquo;<samp><span class="samp">-Ifoo -Ibar -O</span></samp>&rsquo;.  A major disadvantage is that you
+cannot append something on the end of a variable, as in
+
+<pre class="example">     CFLAGS = $(CFLAGS) -O
+</pre>
+   <p class="noindent">because it will cause an infinite loop in the variable expansion. 
+(Actually <code>make</code> detects the infinite loop and reports an error.) 
+<a name="index-loops-in-variable-expansion-475"></a><a name="index-variables_002c-loops-in-expansion-476"></a>
+Another disadvantage is that any functions
+(see <a href="Functions.html#Functions">Functions for Transforming Text</a>)
+referenced in the definition will be executed every time the variable is
+expanded.  This makes <code>make</code> run slower; worse, it causes the
+<code>wildcard</code> and <code>shell</code> functions to give unpredictable results
+because you cannot easily control when they are called, or even how many
+times.
+
+   <p>To avoid all the problems and inconveniences of recursively expanded
+variables, there is another flavor: simply expanded variables.
+
+   <p><a name="index-simply-expanded-variables-477"></a><a name="index-variables_002c-simply-expanded-478"></a><a name="index-g_t_003a_003d-479"></a><dfn>Simply expanded variables</dfn> are defined by lines using &lsquo;<samp><span class="samp">:=</span></samp>&rsquo;
+(see <a href="Setting.html#Setting">Setting Variables</a>). 
+The value of a simply expanded variable is scanned
+once and for all, expanding any references to other variables and
+functions, when the variable is defined.  The actual value of the simply
+expanded variable is the result of expanding the text that you write. 
+It does not contain any references to other variables; it contains their
+values <em>as of the time this variable was defined</em>.  Therefore,
+
+<pre class="example">     x := foo
+     y := $(x) bar
+     x := later
+</pre>
+   <p class="noindent">is equivalent to
+
+<pre class="example">     y := foo bar
+     x := later
+</pre>
+   <p>When a simply expanded variable is referenced, its value is substituted
+verbatim.
+
+   <p>Here is a somewhat more complicated example, illustrating the use of
+&lsquo;<samp><span class="samp">:=</span></samp>&rsquo; in conjunction with the <code>shell</code> function. 
+(See <a href="Shell-Function.html#Shell-Function">The <code>shell</code> Function</a>.)  This example
+also shows use of the variable <code>MAKELEVEL</code>, which is changed
+when it is passed down from level to level. 
+(See <a href="Variables_002fRecursion.html#Variables_002fRecursion">Communicating Variables to a Sub-<code>make</code></a>, for information about <code>MAKELEVEL</code>.)
+
+   <p><a name="index-MAKELEVEL-480"></a><a name="index-MAKE-481"></a>
+<pre class="example">     ifeq (0,${MAKELEVEL})
+     whoami    := $(shell whoami)
+     host-type := $(shell arch)
+     MAKE := ${MAKE} host-type=${host-type} whoami=${whoami}
+     endif
+</pre>
+   <p class="noindent">An advantage of this use of &lsquo;<samp><span class="samp">:=</span></samp>&rsquo; is that a typical
+`descend into a directory' recipe then looks like this:
+
+<pre class="example">     ${subdirs}:
+             ${MAKE} -C $@ all
+</pre>
+   <p>Simply expanded variables generally make complicated makefile programming
+more predictable because they work like variables in most programming
+languages.  They allow you to redefine a variable using its own value (or
+its value processed in some way by one of the expansion functions) and to
+use the expansion functions much more efficiently
+(see <a href="Functions.html#Functions">Functions for Transforming Text</a>).
+
+   <p><a name="index-spaces_002c-in-variable-values-482"></a><a name="index-whitespace_002c-in-variable-values-483"></a><a name="index-variables_002c-spaces-in-values-484"></a>You can also use them to introduce controlled leading whitespace into
+variable values.  Leading whitespace characters are discarded from your
+input before substitution of variable references and function calls;
+this means you can include leading spaces in a variable value by
+protecting them with variable references, like this:
+
+<pre class="example">     nullstring :=
+     space := $(nullstring) # end of the line
+</pre>
+   <p class="noindent">Here the value of the variable <code>space</code> is precisely one space.  The
+comment &lsquo;<samp><span class="samp">#&nbsp;end&nbsp;of&nbsp;the&nbsp;line</span></samp>&rsquo;<!-- /@w --> is included here just for clarity. 
+Since trailing space characters are <em>not</em> stripped from variable
+values, just a space at the end of the line would have the same effect
+(but be rather hard to read).  If you put whitespace at the end of a
+variable value, it is a good idea to put a comment like that at the end
+of the line to make your intent clear.  Conversely, if you do <em>not</em>
+want any whitespace characters at the end of your variable value, you
+must remember not to put a random comment on the end of the line after
+some whitespace, such as this:
+
+<pre class="example">     dir := /foo/bar    # directory to put the frobs in
+</pre>
+   <p class="noindent">Here the value of the variable <code>dir</code> is &lsquo;<samp><span class="samp">/foo/bar&nbsp;&nbsp;&nbsp;&nbsp;</span></samp>&rsquo;<!-- /@w -->
+(with four trailing spaces), which was probably not the intention. 
+(Imagine something like &lsquo;<samp><span class="samp">$(dir)/file</span></samp>&rsquo;<!-- /@w --> with this definition!)
+
+   <p><a name="index-conditional-variable-assignment-485"></a><a name="index-variables_002c-conditional-assignment-486"></a><a name="index-g_t_003f_003d-487"></a>There is another assignment operator for variables, &lsquo;<samp><span class="samp">?=</span></samp>&rsquo;.  This
+is called a conditional variable assignment operator, because it only
+has an effect if the variable is not yet defined.  This statement:
+
+<pre class="example">     FOO ?= bar
+</pre>
+   <p class="noindent">is exactly equivalent to this
+(see <a href="Origin-Function.html#Origin-Function">The <code>origin</code> Function</a>):
+
+<pre class="example">     ifeq ($(origin FOO), undefined)
+       FOO = bar
+     endif
+</pre>
+   <p>Note that a variable set to an empty value is still defined, so
+&lsquo;<samp><span class="samp">?=</span></samp>&rsquo; will not set that variable.
+
+   </body></html>
+

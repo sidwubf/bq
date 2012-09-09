@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+<title>Wildcard Function - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Wildcards.html#Wildcards" title="Wildcards">
+<link rel="prev" href="Wildcard-Pitfall.html#Wildcard-Pitfall" title="Wildcard Pitfall">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wildcard-Function"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Wildcards.html#Wildcards">Wildcards</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.4.3 The Function <code>wildcard</code></h4>
+
+<p><a name="index-wildcard-166"></a>
+Wildcard expansion happens automatically in rules.  But wildcard expansion
+does not normally take place when a variable is set, or inside the
+arguments of a function.  If you want to do wildcard expansion in such
+places, you need to use the <code>wildcard</code> function, like this:
+
+<pre class="example">     $(wildcard <var>pattern</var>...)
+</pre>
+   <p class="noindent">This string, used anywhere in a makefile, is replaced by a
+space-separated list of names of existing files that match one of the
+given file name patterns.  If no existing file name matches a pattern,
+then that pattern is omitted from the output of the <code>wildcard</code>
+function.  Note that this is different from how unmatched wildcards
+behave in rules, where they are used verbatim rather than ignored
+(see <a href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a>).
+
+   <p>One use of the <code>wildcard</code> function is to get a list of all the C source
+files in a directory, like this:
+
+<pre class="example">     $(wildcard *.c)
+</pre>
+   <p>We can change the list of C source files into a list of object files by
+replacing the &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; suffix with &lsquo;<samp><span class="samp">.o</span></samp>&rsquo; in the result, like this:
+
+<pre class="example">     $(patsubst %.c,%.o,$(wildcard *.c))
+</pre>
+   <p class="noindent">(Here we have used another function, <code>patsubst</code>. 
+See <a href="Text-Functions.html#Text-Functions">Functions for String Substitution and Analysis</a>.)
+
+   <p>Thus, a makefile to compile all C source files in the directory and then
+link them together could be written as follows:
+
+<pre class="example">     objects := $(patsubst %.c,%.o,$(wildcard *.c))
+     
+     foo : $(objects)
+             cc -o foo $(objects)
+</pre>
+   <p class="noindent">(This takes advantage of the implicit rule for compiling C programs, so
+there is no need to write explicit rules for compiling the files. 
+See <a href="Flavors.html#Flavors">The Two Flavors of Variables</a>, for an explanation of
+&lsquo;<samp><span class="samp">:=</span></samp>&rsquo;, which is a variant of &lsquo;<samp><span class="samp">=</span></samp>&rsquo;.)
+
+   </body></html>
+

@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>Selective Search - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Directory-Search.html#Directory-Search" title="Directory Search">
+<link rel="prev" href="General-Search.html#General-Search" title="General Search">
+<link rel="next" href="Search-Algorithm.html#Search-Algorithm" title="Search Algorithm">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Selective-Search"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Search-Algorithm.html#Search-Algorithm">Search Algorithm</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="General-Search.html#General-Search">General Search</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Directory-Search.html#Directory-Search">Directory Search</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.5.2 The <code>vpath</code> Directive</h4>
+
+<p><a name="index-vpath-173"></a>
+Similar to the <code>VPATH</code> variable, but more selective, is the
+<code>vpath</code> directive (note lower case), which allows you to specify a
+search path for a particular class of file names: those that match a
+particular pattern.  Thus you can supply certain search directories for
+one class of file names and other directories (or none) for other file
+names.
+
+   <p>There are three forms of the <code>vpath</code> directive:
+
+     <dl>
+<dt><code>vpath </code><var>pattern</var> <var>directories</var><dd>Specify the search path <var>directories</var> for file names that match
+<var>pattern</var>.
+
+     <p>The search path, <var>directories</var>, is a list of directories to be
+searched, separated by colons (semi-colons on MS-DOS and MS-Windows) or
+blanks, just like the search path used in the <code>VPATH</code> variable.
+
+     <br><dt><code>vpath </code><var>pattern</var><dd>Clear out the search path associated with <var>pattern</var>.
+
+     <!-- Extra blank line makes sure this gets two lines. -->
+     <br><dt><code>vpath</code><dd>
+Clear all search paths previously specified with <code>vpath</code> directives. 
+</dl>
+
+   <p>A <code>vpath</code> pattern is a string containing a &lsquo;<samp><span class="samp">%</span></samp>&rsquo; character.  The
+string must match the file name of a prerequisite that is being searched
+for, the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; character matching any sequence of zero or more
+characters (as in pattern rules; see <a href="Pattern-Rules.html#Pattern-Rules">Defining and Redefining Pattern Rules</a>).  For example, <code>%.h</code> matches files that
+end in <code>.h</code>.  (If there is no &lsquo;<samp><span class="samp">%</span></samp>&rsquo;, the pattern must match the
+prerequisite exactly, which is not useful very often.)
+
+   <p><a name="index-g_t_0040code_007b_0025_007d_002c-quoting-in-_0040code_007bvpath_007d-174"></a><a name="index-g_t_0040code_007b_0025_007d_002c-quoting-with-_0040code_007b_005c_007d-_0028backslash_0029-175"></a><a name="index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-to-quote-_0040code_007b_0025_007d-176"></a><a name="index-backslash-_0028_0040code_007b_005c_007d_0029_002c-to-quote-_0040code_007b_0025_007d-177"></a><a name="index-quoting-_0040code_007b_0025_007d_002c-in-_0040code_007bvpath_007d-178"></a>&lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters in a <code>vpath</code> directive's pattern can be quoted
+with preceding backslashes (&lsquo;<samp><span class="samp">\</span></samp>&rsquo;).  Backslashes that would otherwise
+quote &lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters can be quoted with more backslashes. 
+Backslashes that quote &lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters or other backslashes are
+removed from the pattern before it is compared to file names.  Backslashes
+that are not in danger of quoting &lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters go unmolested.
+
+   <p>When a prerequisite fails to exist in the current directory, if the
+<var>pattern</var> in a <code>vpath</code> directive matches the name of the
+prerequisite file, then the <var>directories</var> in that directive are searched
+just like (and before) the directories in the <code>VPATH</code> variable.
+
+   <p>For example,
+
+<pre class="example">     vpath %.h ../headers
+</pre>
+   <p class="noindent">tells <code>make</code> to look for any prerequisite whose name ends in <samp><span class="file">.h</span></samp>
+in the directory <samp><span class="file">../headers</span></samp> if the file is not found in the current
+directory.
+
+   <p>If several <code>vpath</code> patterns match the prerequisite file's name, then
+<code>make</code> processes each matching <code>vpath</code> directive one by one,
+searching all the directories mentioned in each directive.  <code>make</code>
+handles multiple <code>vpath</code> directives in the order in which they
+appear in the makefile; multiple directives with the same pattern are
+independent of each other.
+
+   <p>Thus,
+
+<pre class="example">     vpath %.c foo
+     vpath %   blish
+     vpath %.c bar
+</pre>
+   <p class="noindent">will look for a file ending in &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; in <samp><span class="file">foo</span></samp>, then
+<samp><span class="file">blish</span></samp>, then <samp><span class="file">bar</span></samp>, while
+
+<pre class="example">     vpath %.c foo:bar
+     vpath %   blish
+</pre>
+   <p class="noindent">will look for a file ending in &lsquo;<samp><span class="samp">.c</span></samp>&rsquo; in <samp><span class="file">foo</span></samp>, then
+<samp><span class="file">bar</span></samp>, then <samp><span class="file">blish</span></samp>.
+
+   </body></html>
+

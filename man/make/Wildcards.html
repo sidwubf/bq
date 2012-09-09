@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>Wildcards - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Rules.html#Rules" title="Rules">
+<link rel="prev" href="Prerequisite-Types.html#Prerequisite-Types" title="Prerequisite Types">
+<link rel="next" href="Directory-Search.html#Directory-Search" title="Directory Search">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wildcards"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Directory-Search.html#Directory-Search">Directory Search</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Prerequisite-Types.html#Prerequisite-Types">Prerequisite Types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Rules.html#Rules">Rules</a>
+<hr>
+</div>
+
+<h3 class="section">4.4 Using Wildcard Characters in File Names</h3>
+
+<p><a name="index-wildcard-146"></a><a name="index-file-name-with-wildcards-147"></a><a name="index-globbing-_0028wildcards_0029-148"></a>
+<a name="index-g_t_0040code_007b_002a_007d-_0028wildcard-character_0029-149"></a><a name="index-g_t_0040code_007b_003f_007d-_0028wildcard-character_0029-150"></a><a name="index-g_t_0040code_007b_005b_0040dots_007b_007d_005d_007d-_0028wildcard-characters_0029-151"></a>A single file name can specify many files using <dfn>wildcard characters</dfn>. 
+The wildcard characters in <code>make</code> are &lsquo;<samp><span class="samp">*</span></samp>&rsquo;, &lsquo;<samp><span class="samp">?</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">[...]</span></samp>&rsquo;, the same as in the Bourne shell.  For example, <samp><span class="file">*.c</span></samp>
+specifies a list of all the files (in the working directory) whose names
+end in &lsquo;<samp><span class="samp">.c</span></samp>&rsquo;.
+
+   <p><a name="index-g_t_0040code_007b_007e_007d-_0028tilde_0029-152"></a><a name="index-tilde-_0028_0040code_007b_007e_007d_0029-153"></a><a name="index-home-directory-154"></a>The character &lsquo;<samp><span class="samp">~</span></samp>&rsquo; at the beginning of a file name also has special
+significance.  If alone, or followed by a slash, it represents your home
+directory.  For example <samp><span class="file">~/bin</span></samp> expands to <samp><span class="file">/home/you/bin</span></samp>. 
+If the &lsquo;<samp><span class="samp">~</span></samp>&rsquo; is followed by a word, the string represents the home
+directory of the user named by that word.  For example <samp><span class="file">~john/bin</span></samp>
+expands to <samp><span class="file">/home/john/bin</span></samp>.  On systems which don't have a home
+directory for each user (such as MS-DOS or MS-Windows), this
+functionality can be simulated by setting the environment variable
+<var>HOME</var>.
+
+   <p>Wildcard expansion is performed by <code>make</code> automatically in
+targets and in prerequisites.  In recipes, the shell is responsible
+for wildcard expansion.  In other contexts, wildcard expansion happens
+only if you request it explicitly with the <code>wildcard</code> function.
+
+   <p>The special significance of a wildcard character can be turned off by
+preceding it with a backslash.  Thus, <samp><span class="file">foo\*bar</span></samp> would refer to a
+specific file whose name consists of &lsquo;<samp><span class="samp">foo</span></samp>&rsquo;, an asterisk, and
+&lsquo;<samp><span class="samp">bar</span></samp>&rsquo;.
+
+<ul class="menu">
+<li><a accesskey="1" href="Wildcard-Examples.html#Wildcard-Examples">Wildcard Examples</a>:            Several examples
+<li><a accesskey="2" href="Wildcard-Pitfall.html#Wildcard-Pitfall">Wildcard Pitfall</a>:             Problems to avoid. 
+<li><a accesskey="3" href="Wildcard-Function.html#Wildcard-Function">Wildcard Function</a>:            How to cause wildcard expansion where
+                                  it does not normally take place. 
+</ul>
+
+   </body></html>
+

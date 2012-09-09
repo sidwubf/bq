@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+<title>File Name Functions - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Text-Functions.html#Text-Functions" title="Text Functions">
+<link rel="next" href="Conditional-Functions.html#Conditional-Functions" title="Conditional Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="File-Name-Functions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Conditional-Functions.html#Conditional-Functions">Conditional Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text-Functions.html#Text-Functions">Text Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h3 class="section">8.3 Functions for File Names</h3>
+
+<p><a name="index-functions_002c-for-file-names-597"></a><a name="index-file-name-functions-598"></a>
+Several of the built-in expansion functions relate specifically to
+taking apart file names or lists of file names.
+
+   <p>Each of the following functions performs a specific transformation on a
+file name.  The argument of the function is regarded as a series of file
+names, separated by whitespace.  (Leading and trailing whitespace is
+ignored.)  Each file name in the series is transformed in the same way and
+the results are concatenated with single spaces between them.
+
+     <dl>
+<dt><code>$(dir </code><var>names</var><code>...)</code><dd><a name="index-dir-599"></a><a name="index-directory-part-600"></a><a name="index-file-name_002c-directory-part-601"></a>Extracts the directory-part of each file name in <var>names</var>.  The
+directory-part of the file name is everything up through (and
+including) the last slash in it.  If the file name contains no slash,
+the directory part is the string &lsquo;<samp><span class="samp">./</span></samp>&rsquo;.  For example,
+
+     <pre class="example">          $(dir src/foo.c hacks)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">src/ ./</span></samp>&rsquo;.
+
+     <br><dt><code>$(notdir </code><var>names</var><code>...)</code><dd><a name="index-notdir-602"></a><a name="index-file-name_002c-nondirectory-part-603"></a><a name="index-nondirectory-part-604"></a>Extracts all but the directory-part of each file name in <var>names</var>. 
+If the file name contains no slash, it is left unchanged.  Otherwise,
+everything through the last slash is removed from it.
+
+     <p>A file name that ends with a slash becomes an empty string.  This is
+unfortunate, because it means that the result does not always have the
+same number of whitespace-separated file names as the argument had;
+but we do not see any other valid alternative.
+
+     <p>For example,
+
+     <pre class="example">          $(notdir src/foo.c hacks)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">foo.c hacks</span></samp>&rsquo;.
+
+     <br><dt><code>$(suffix </code><var>names</var><code>...)</code><dd><a name="index-suffix-605"></a><a name="index-suffix_002c-function-to-find-606"></a><a name="index-file-name-suffix-607"></a>Extracts the suffix of each file name in <var>names</var>.  If the file name
+contains a period, the suffix is everything starting with the last
+period.  Otherwise, the suffix is the empty string.  This frequently
+means that the result will be empty when <var>names</var> is not, and if
+<var>names</var> contains multiple file names, the result may contain fewer
+file names.
+
+     <p>For example,
+
+     <pre class="example">          $(suffix src/foo.c src-1.0/bar.c hacks)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">.c .c</span></samp>&rsquo;.
+
+     <br><dt><code>$(basename </code><var>names</var><code>...)</code><dd><a name="index-basename-608"></a><a name="index-basename-609"></a><a name="index-file-name_002c-basename-of-610"></a>Extracts all but the suffix of each file name in <var>names</var>.  If the
+file name contains a period, the basename is everything starting up to
+(and not including) the last period.  Periods in the directory part are
+ignored.  If there is no period, the basename is the entire file name. 
+For example,
+
+     <pre class="example">          $(basename src/foo.c src-1.0/bar hacks)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">src/foo src-1.0/bar hacks</span></samp>&rsquo;.
+
+     <!-- plural convention with dots (be consistent) -->
+     <br><dt><code>$(addsuffix </code><var>suffix</var><code>,</code><var>names</var><code>...)</code><dd><a name="index-addsuffix-611"></a><a name="index-suffix_002c-adding-612"></a><a name="index-file-name-suffix_002c-adding-613"></a>The argument <var>names</var> is regarded as a series of names, separated
+by whitespace; <var>suffix</var> is used as a unit.  The value of
+<var>suffix</var> is appended to the end of each individual name and the
+resulting larger names are concatenated with single spaces between
+them.  For example,
+
+     <pre class="example">          $(addsuffix .c,foo bar)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">foo.c bar.c</span></samp>&rsquo;.
+
+     <br><dt><code>$(addprefix </code><var>prefix</var><code>,</code><var>names</var><code>...)</code><dd><a name="index-addprefix-614"></a><a name="index-prefix_002c-adding-615"></a><a name="index-file-name-prefix_002c-adding-616"></a>The argument <var>names</var> is regarded as a series of names, separated
+by whitespace; <var>prefix</var> is used as a unit.  The value of
+<var>prefix</var> is prepended to the front of each individual name and the
+resulting larger names are concatenated with single spaces between
+them.  For example,
+
+     <pre class="example">          $(addprefix src/,foo bar)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">src/foo src/bar</span></samp>&rsquo;.
+
+     <br><dt><code>$(join </code><var>list1</var><code>,</code><var>list2</var><code>)</code><dd><a name="index-join-617"></a><a name="index-joining-lists-of-words-618"></a><a name="index-words_002c-joining-lists-619"></a>Concatenates the two arguments word by word: the two first words (one
+from each argument) concatenated form the first word of the result, the
+two second words form the second word of the result, and so on.  So the
+<var>n</var>th word of the result comes from the <var>n</var>th word of each
+argument.  If one argument has more words that the other, the extra
+words are copied unchanged into the result.
+
+     <p>For example, &lsquo;<samp><span class="samp">$(join a b,.c .o)</span></samp>&rsquo; produces &lsquo;<samp><span class="samp">a.c b.o</span></samp>&rsquo;.
+
+     <p>Whitespace between the words in the lists is not preserved; it is
+replaced with a single space.
+
+     <p>This function can merge the results of the <code>dir</code> and
+<code>notdir</code> functions, to produce the original list of files which
+was given to those two functions.
+
+     <br><dt><code>$(wildcard </code><var>pattern</var><code>)</code><dd><a name="index-wildcard-620"></a><a name="index-wildcard_002c-function-621"></a>The argument <var>pattern</var> is a file name pattern, typically containing
+wildcard characters (as in shell file name patterns).  The result of
+<code>wildcard</code> is a space-separated list of the names of existing files
+that match the pattern. 
+See <a href="Wildcards.html#Wildcards">Using Wildcard Characters in File Names</a>.
+
+     <br><dt><code>$(realpath </code><var>names</var><code>...)</code><dd><a name="index-realpath-622"></a><a name="index-realpath-623"></a><a name="index-file-name_002c-realpath-of-624"></a>For each file name in <var>names</var> return the canonical absolute name. 
+A canonical name does not contain any <code>.</code> or <code>..</code> components,
+nor any repeated path separators (<code>/</code>) or symlinks.  In case of a
+failure the empty string is returned.  Consult the <code>realpath(3)</code>
+documentation for a list of possible failure causes.
+
+     <br><dt><code>$(abspath </code><var>names</var><code>...)</code><dd><a name="index-abspath-625"></a><a name="index-abspath-626"></a><a name="index-file-name_002c-abspath-of-627"></a>For each file name in <var>names</var> return an absolute name that does
+not contain any <code>.</code> or <code>..</code> components, nor any repeated path
+separators (<code>/</code>).  Note that, in contrast to <code>realpath</code>
+function, <code>abspath</code> does not resolve symlinks and does not require
+the file names to refer to an existing file or directory.  Use the
+<code>wildcard</code> function to test for existence. 
+</dl>
+
+   </body></html>
+

@@ -1,0 +1,288 @@
+<html lang="en">
+<head>
+<title>Text Functions - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Syntax-of-Functions.html#Syntax-of-Functions" title="Syntax of Functions">
+<link rel="next" href="File-Name-Functions.html#File-Name-Functions" title="File Name Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Text-Functions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="File-Name-Functions.html#File-Name-Functions">File Name Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Syntax-of-Functions.html#Syntax-of-Functions">Syntax of Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h3 class="section">8.2 Functions for String Substitution and Analysis</h3>
+
+<p><a name="index-functions_002c-for-text-558"></a>
+Here are some functions that operate on strings:
+
+     <dl>
+<dt><code>$(subst </code><var>from</var><code>,</code><var>to</var><code>,</code><var>text</var><code>)</code><dd><a name="index-subst-559"></a>Performs a textual replacement on the text <var>text</var>: each occurrence
+of <var>from</var> is replaced by <var>to</var>.  The result is substituted for
+the function call.  For example,
+
+     <pre class="example">          $(subst ee,EE,feet on the street)
+</pre>
+     <p>substitutes the string &lsquo;<samp><span class="samp">fEEt on the strEEt</span></samp>&rsquo;.
+
+     <br><dt><code>$(patsubst </code><var>pattern</var><code>,</code><var>replacement</var><code>,</code><var>text</var><code>)</code><dd><a name="index-patsubst-560"></a>Finds whitespace-separated words in <var>text</var> that match
+<var>pattern</var> and replaces them with <var>replacement</var>.  Here
+<var>pattern</var> may contain a &lsquo;<samp><span class="samp">%</span></samp>&rsquo; which acts as a wildcard,
+matching any number of any characters within a word.  If
+<var>replacement</var> also contains a &lsquo;<samp><span class="samp">%</span></samp>&rsquo;, the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; is replaced
+by the text that matched the &lsquo;<samp><span class="samp">%</span></samp>&rsquo; in <var>pattern</var>.  Only the first
+&lsquo;<samp><span class="samp">%</span></samp>&rsquo; in the <var>pattern</var> and <var>replacement</var> is treated this
+way; any subsequent &lsquo;<samp><span class="samp">%</span></samp>&rsquo; is unchanged.
+
+     <p><a name="index-g_t_0040code_007b_0025_007d_002c-quoting-in-_0040code_007bpatsubst_007d-561"></a><a name="index-g_t_0040code_007b_0025_007d_002c-quoting-with-_0040code_007b_005c_007d-_0028backslash_0029-562"></a><a name="index-g_t_0040code_007b_005c_007d-_0028backslash_0029_002c-to-quote-_0040code_007b_0025_007d-563"></a><a name="index-backslash-_0028_0040code_007b_005c_007d_0029_002c-to-quote-_0040code_007b_0025_007d-564"></a><a name="index-quoting-_0040code_007b_0025_007d_002c-in-_0040code_007bpatsubst_007d-565"></a>&lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters in <code>patsubst</code> function invocations can be
+quoted with preceding backslashes (&lsquo;<samp><span class="samp">\</span></samp>&rsquo;).  Backslashes that would
+otherwise quote &lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters can be quoted with more backslashes. 
+Backslashes that quote &lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters or other backslashes are
+removed from the pattern before it is compared file names or has a stem
+substituted into it.  Backslashes that are not in danger of quoting
+&lsquo;<samp><span class="samp">%</span></samp>&rsquo; characters go unmolested.  For example, the pattern
+<samp><span class="file">the\%weird\\%pattern\\</span></samp> has &lsquo;<samp><span class="samp">the%weird\</span></samp>&rsquo; preceding the
+operative &lsquo;<samp><span class="samp">%</span></samp>&rsquo; character, and &lsquo;<samp><span class="samp">pattern\\</span></samp>&rsquo; following it.  The
+final two backslashes are left alone because they cannot affect any
+&lsquo;<samp><span class="samp">%</span></samp>&rsquo; character.
+
+     <p>Whitespace between words is folded into single space characters;
+leading and trailing whitespace is discarded.
+
+     <p>For example,
+
+     <pre class="example">          $(patsubst %.c,%.o,x.c.c bar.c)
+</pre>
+     <p class="noindent">produces the value &lsquo;<samp><span class="samp">x.c.o bar.o</span></samp>&rsquo;.
+
+     <p>Substitution references (see <a href="Substitution-Refs.html#Substitution-Refs">Substitution References</a>) are a simpler way to get the effect of the <code>patsubst</code>
+function:
+
+     <pre class="example">          $(<var>var</var>:<var>pattern</var>=<var>replacement</var>)
+</pre>
+     <p class="noindent">is equivalent to
+
+     <pre class="example">          $(patsubst <var>pattern</var>,<var>replacement</var>,$(<var>var</var>))
+</pre>
+     <p>The second shorthand simplifies one of the most common uses of
+<code>patsubst</code>: replacing the suffix at the end of file names.
+
+     <pre class="example">          $(<var>var</var>:<var>suffix</var>=<var>replacement</var>)
+</pre>
+     <p class="noindent">is equivalent to
+
+     <pre class="example">          $(patsubst %<var>suffix</var>,%<var>replacement</var>,$(<var>var</var>))
+</pre>
+     <p class="noindent">For example, you might have a list of object files:
+
+     <pre class="example">          objects = foo.o bar.o baz.o
+</pre>
+     <p class="noindent">To get the list of corresponding source files, you could simply write:
+
+     <pre class="example">          $(objects:.o=.c)
+</pre>
+     <p class="noindent">instead of using the general form:
+
+     <pre class="example">          $(patsubst %.o,%.c,$(objects))
+</pre>
+     <br><dt><code>$(strip </code><var>string</var><code>)</code><dd><a name="index-stripping-whitespace-566"></a><a name="index-whitespace_002c-stripping-567"></a><a name="index-spaces_002c-stripping-568"></a><a name="index-strip-569"></a>Removes leading and trailing whitespace from <var>string</var> and replaces
+each internal sequence of one or more whitespace characters with a
+single space.  Thus, &lsquo;<samp><span class="samp">$(strip a b  c )</span></samp>&rsquo; results in &lsquo;<samp><span class="samp">a&nbsp;b&nbsp;c</span></samp>&rsquo;<!-- /@w -->.
+
+     <p>The function <code>strip</code> can be very useful when used in conjunction
+with conditionals.  When comparing something with the empty string
+&lsquo;<samp></samp>&rsquo; using <code>ifeq</code> or <code>ifneq</code>, you usually want a string of
+just whitespace to match the empty string (see <a href="Conditionals.html#Conditionals">Conditionals</a>).
+
+     <p>Thus, the following may fail to have the desired results:
+
+     <pre class="example">          .PHONY: all
+          ifneq   "$(needs_made)" ""
+          all: $(needs_made)
+          else
+          all:;@echo 'Nothing to make!'
+          endif
+</pre>
+     <p class="noindent">Replacing the variable reference &lsquo;<samp><span class="samp">$(needs_made)</span></samp>&rsquo;<!-- /@w --> with the
+function call &lsquo;<samp><span class="samp">$(strip&nbsp;$(needs_made))</span></samp>&rsquo;<!-- /@w --> in the <code>ifneq</code>
+directive would make it more robust.
+
+     <br><dt><code>$(findstring </code><var>find</var><code>,</code><var>in</var><code>)</code><dd><a name="index-findstring-570"></a><a name="index-searching-for-strings-571"></a><a name="index-finding-strings-572"></a><a name="index-strings_002c-searching-for-573"></a>Searches <var>in</var> for an occurrence of <var>find</var>.  If it occurs, the
+value is <var>find</var>; otherwise, the value is empty.  You can use this
+function in a conditional to test for the presence of a specific
+substring in a given string.  Thus, the two examples,
+
+     <pre class="example">          $(findstring a,a b c)
+          $(findstring a,b c)
+</pre>
+     <p class="noindent">produce the values &lsquo;<samp><span class="samp">a</span></samp>&rsquo; and &lsquo;<samp></samp>&rsquo; (the empty string),
+respectively.  See <a href="Testing-Flags.html#Testing-Flags">Testing Flags</a>, for a practical application of
+<code>findstring</code>.
+
+     <p><a name="index-filter-574"></a><a name="index-filtering-words-575"></a><a name="index-words_002c-filtering-576"></a><br><dt><code>$(filter </code><var>pattern</var><code>...,</code><var>text</var><code>)</code><dd>Returns all whitespace-separated words in <var>text</var> that <em>do</em> match
+any of the <var>pattern</var> words, removing any words that <em>do not</em>
+match.  The patterns are written using &lsquo;<samp><span class="samp">%</span></samp>&rsquo;, just like the patterns
+used in the <code>patsubst</code> function above.
+
+     <p>The <code>filter</code> function can be used to separate out different types
+of strings (such as file names) in a variable.  For example:
+
+     <pre class="example">          sources := foo.c bar.c baz.s ugh.h
+          foo: $(sources)
+                  cc $(filter %.c %.s,$(sources)) -o foo
+</pre>
+     <p class="noindent">says that <samp><span class="file">foo</span></samp> depends of <samp><span class="file">foo.c</span></samp>, <samp><span class="file">bar.c</span></samp>,
+<samp><span class="file">baz.s</span></samp> and <samp><span class="file">ugh.h</span></samp> but only <samp><span class="file">foo.c</span></samp>, <samp><span class="file">bar.c</span></samp> and
+<samp><span class="file">baz.s</span></samp> should be specified in the command to the
+compiler.
+
+     <br><dt><code>$(filter-out </code><var>pattern</var><code>...,</code><var>text</var><code>)</code><dd><a name="index-filter_002dout-577"></a><a name="index-filtering-out-words-578"></a><a name="index-words_002c-filtering-out-579"></a>Returns all whitespace-separated words in <var>text</var> that <em>do not</em>
+match any of the <var>pattern</var> words, removing the words that <em>do</em>
+match one or more.  This is the exact opposite of the <code>filter</code>
+function.
+
+     <p>For example, given:
+
+     <pre class="example">          objects=main1.o foo.o main2.o bar.o
+          mains=main1.o main2.o
+</pre>
+     <p class="noindent">the following generates a list which contains all the object files not
+in &lsquo;<samp><span class="samp">mains</span></samp>&rsquo;:
+
+     <pre class="example">          $(filter-out $(mains),$(objects))
+</pre>
+     <p><a name="index-sort-580"></a><a name="index-sorting-words-581"></a><br><dt><code>$(sort </code><var>list</var><code>)</code><dd>Sorts the words of <var>list</var> in lexical order, removing duplicate
+words.  The output is a list of words separated by single spaces. 
+Thus,
+
+     <pre class="example">          $(sort foo bar lose)
+</pre>
+     <p class="noindent">returns the value &lsquo;<samp><span class="samp">bar foo lose</span></samp>&rsquo;.
+
+     <p><a name="index-removing-duplicate-words-582"></a><a name="index-duplicate-words_002c-removing-583"></a><a name="index-words_002c-removing-duplicates-584"></a>Incidentally, since <code>sort</code> removes duplicate words, you can use
+it for this purpose even if you don't care about the sort order.
+
+     <br><dt><code>$(word </code><var>n</var><code>,</code><var>text</var><code>)</code><dd><a name="index-word-585"></a><a name="index-word_002c-selecting-a-586"></a><a name="index-selecting-a-word-587"></a>Returns the <var>n</var>th word of <var>text</var>.  The legitimate values of
+<var>n</var> start from 1.  If <var>n</var> is bigger than the number of words
+in <var>text</var>, the value is empty.  For example,
+
+     <pre class="example">          $(word 2, foo bar baz)
+</pre>
+     <p class="noindent">returns &lsquo;<samp><span class="samp">bar</span></samp>&rsquo;.
+
+     <br><dt><code>$(wordlist </code><var>s</var><code>,</code><var>e</var><code>,</code><var>text</var><code>)</code><dd><a name="index-wordlist-588"></a><a name="index-words_002c-selecting-lists-of-589"></a><a name="index-selecting-word-lists-590"></a>Returns the list of words in <var>text</var> starting with word <var>s</var> and
+ending with word <var>e</var> (inclusive).  The legitimate values of <var>s</var>
+start from 1; <var>e</var> may start from 0.  If <var>s</var> is bigger than the
+number of words in <var>text</var>, the value is empty.  If <var>e</var> is
+bigger than the number of words in <var>text</var>, words up to the end of
+<var>text</var> are returned.  If <var>s</var> is greater than <var>e</var>, nothing
+is returned.  For example,
+
+     <pre class="example">          $(wordlist 2, 3, foo bar baz)
+</pre>
+     <p class="noindent">returns &lsquo;<samp><span class="samp">bar baz</span></samp>&rsquo;.
+
+     <!-- Following item phrased to prevent overfull hbox.  -RJC 17 Jul 92 -->
+     <br><dt><code>$(words </code><var>text</var><code>)</code><dd><a name="index-words-591"></a><a name="index-words_002c-finding-number-592"></a>Returns the number of words in <var>text</var>. 
+Thus, the last word of <var>text</var> is
+<code>$(word&nbsp;$(words&nbsp;</code><var>text</var><code>),</code><var>text</var><code>)</code><!-- /@w -->.
+
+     <br><dt><code>$(firstword </code><var>names</var><code>...)</code><dd><a name="index-firstword-593"></a><a name="index-words_002c-extracting-first-594"></a>The argument <var>names</var> is regarded as a series of names, separated
+by whitespace.  The value is the first name in the series.  The rest
+of the names are ignored.
+
+     <p>For example,
+
+     <pre class="example">          $(firstword foo bar)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">foo</span></samp>&rsquo;.  Although <code>$(firstword
+</code><var>text</var><code>)</code> is the same as <code>$(word 1,</code><var>text</var><code>)</code>, the
+<code>firstword</code> function is retained for its simplicity.
+
+     <br><dt><code>$(lastword </code><var>names</var><code>...)</code><dd><a name="index-lastword-595"></a><a name="index-words_002c-extracting-last-596"></a>The argument <var>names</var> is regarded as a series of names, separated
+by whitespace.  The value is the last name in the series.
+
+     <p>For example,
+
+     <pre class="example">          $(lastword foo bar)
+</pre>
+     <p class="noindent">produces the result &lsquo;<samp><span class="samp">bar</span></samp>&rsquo;.  Although <code>$(lastword
+</code><var>text</var><code>)</code> is the same as <code>$(word $(words </code><var>text</var><code>),</code><var>text</var><code>)</code>,
+the <code>lastword</code> function was added for its simplicity and better
+performance. 
+</dl>
+
+   <p>Here is a realistic example of the use of <code>subst</code> and
+<code>patsubst</code>.  Suppose that a makefile uses the <code>VPATH</code> variable
+to specify a list of directories that <code>make</code> should search for
+prerequisite files
+(see <a href="General-Search.html#General-Search"><code>VPATH</code> Search Path for All Prerequisites</a>). 
+This example shows how to
+tell the C compiler to search for header files in the same list of
+directories.
+
+   <p>The value of <code>VPATH</code> is a list of directories separated by colons,
+such as &lsquo;<samp><span class="samp">src:../headers</span></samp>&rsquo;.  First, the <code>subst</code> function is used to
+change the colons to spaces:
+
+<pre class="example">     $(subst :, ,$(VPATH))
+</pre>
+   <p class="noindent">This produces &lsquo;<samp><span class="samp">src ../headers</span></samp>&rsquo;.  Then <code>patsubst</code> is used to turn
+each directory name into a &lsquo;<samp><span class="samp">-I</span></samp>&rsquo; flag.  These can be added to the
+value of the variable <code>CFLAGS</code>, which is passed automatically to the C
+compiler, like this:
+
+<pre class="example">     override CFLAGS += $(patsubst %,-I%,$(subst :, ,$(VPATH)))
+</pre>
+   <p class="noindent">The effect is to append the text &lsquo;<samp><span class="samp">-Isrc -I../headers</span></samp>&rsquo; to the
+previously given value of <code>CFLAGS</code>.  The <code>override</code> directive is
+used so that the new value is assigned even if the previous value of
+<code>CFLAGS</code> was specified with a command argument (see <a href="Override-Directive.html#Override-Directive">The <code>override</code> Directive</a>).
+
+   </body></html>
+

@@ -1,0 +1,138 @@
+<html lang="en">
+<head>
+<title>Call Function - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Foreach-Function.html#Foreach-Function" title="Foreach Function">
+<link rel="next" href="Value-Function.html#Value-Function" title="Value Function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Call-Function"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Value-Function.html#Value-Function">Value Function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Foreach-Function.html#Foreach-Function">Foreach Function</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h3 class="section">8.6 The <code>call</code> Function</h3>
+
+<p><a name="index-call-635"></a><a name="index-functions_002c-user-defined-636"></a><a name="index-user-defined-functions-637"></a>
+The <code>call</code> function is unique in that it can be used to create new
+parameterized functions.  You can write a complex expression as the
+value of a variable, then use <code>call</code> to expand it with different
+values.
+
+   <p>The syntax of the <code>call</code> function is:
+
+<pre class="example">     $(call <var>variable</var>,<var>param</var>,<var>param</var>,...)
+</pre>
+   <p>When <code>make</code> expands this function, it assigns each <var>param</var> to
+temporary variables <code>$(1)</code>, <code>$(2)</code>, etc.  The variable
+<code>$(0)</code> will contain <var>variable</var>.  There is no maximum number of
+parameter arguments.  There is no minimum, either, but it doesn't make
+sense to use <code>call</code> with no parameters.
+
+   <p>Then <var>variable</var> is expanded as a <code>make</code> variable in the context
+of these temporary assignments.  Thus, any reference to <code>$(1)</code> in
+the value of <var>variable</var> will resolve to the first <var>param</var> in the
+invocation of <code>call</code>.
+
+   <p>Note that <var>variable</var> is the <em>name</em> of a variable, not a
+<em>reference</em> to that variable.  Therefore you would not normally use
+a &lsquo;<samp><span class="samp">$</span></samp>&rsquo; or parentheses when writing it.  (You can, however, use a
+variable reference in the name if you want the name not to be a
+constant.)
+
+   <p>If <var>variable</var> is the name of a builtin function, the builtin function
+is always invoked (even if a <code>make</code> variable by that name also
+exists).
+
+   <p>The <code>call</code> function expands the <var>param</var> arguments before
+assigning them to temporary variables.  This means that <var>variable</var>
+values containing references to builtin functions that have special
+expansion rules, like <code>foreach</code> or <code>if</code>, may not work as you
+expect.
+
+   <p>Some examples may make this clearer.
+
+   <p>This macro simply reverses its arguments:
+
+<pre class="smallexample">     reverse = $(2) $(1)
+     
+     foo = $(call reverse,a,b)
+</pre>
+   <p class="noindent">Here <var>foo</var> will contain &lsquo;<samp><span class="samp">b a</span></samp>&rsquo;.
+
+   <p>This one is slightly more interesting: it defines a macro to search for
+the first instance of a program in <code>PATH</code>:
+
+<pre class="smallexample">     pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
+     
+     LS := $(call pathsearch,ls)
+</pre>
+   <p class="noindent">Now the variable LS contains <code>/bin/ls</code> or similar.
+
+   <p>The <code>call</code> function can be nested.  Each recursive invocation gets
+its own local values for <code>$(1)</code>, etc. that mask the values of
+higher-level <code>call</code>.  For example, here is an implementation of a
+<dfn>map</dfn> function:
+
+<pre class="smallexample">     map = $(foreach a,$(2),$(call $(1),$(a)))
+</pre>
+   <p>Now you can <var>map</var> a function that normally takes only one argument,
+such as <code>origin</code>, to multiple values in one step:
+
+<pre class="smallexample">     o = $(call map,origin,o map MAKE)
+</pre>
+   <p>and end up with <var>o</var> containing something like &lsquo;<samp><span class="samp">file file default</span></samp>&rsquo;.
+
+   <p>A final caution: be careful when adding whitespace to the arguments to
+<code>call</code>.  As with other functions, any whitespace contained in the
+second and subsequent arguments is kept; this can cause strange
+effects.  It's generally safest to remove all extraneous whitespace when
+providing parameters to <code>call</code>.
+
+   </body></html>
+

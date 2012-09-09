@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>Recipes/Search - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Directory-Search.html#Directory-Search" title="Directory Search">
+<link rel="prev" href="Search-Algorithm.html#Search-Algorithm" title="Search Algorithm">
+<link rel="next" href="Implicit_002fSearch.html#Implicit_002fSearch" title="Implicit/Search">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Recipes%2fSearch"></a>
+<a name="Recipes_002fSearch"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implicit_002fSearch.html#Implicit_002fSearch">Implicit/Search</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Search-Algorithm.html#Search-Algorithm">Search Algorithm</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Directory-Search.html#Directory-Search">Directory Search</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.5.4 Writing Recipes with Directory Search</h4>
+
+<p><a name="index-recipes_002c-and-directory-search-184"></a><a name="index-directory-search-_0028_0040code_007bVPATH_007d_0029_002c-and-recipes-185"></a>
+When a prerequisite is found in another directory through directory search,
+this cannot change the recipe of the rule; they will execute as written. 
+Therefore, you must write the recipe with care so that it will look for
+the prerequisite in the directory where <code>make</code> finds it.
+
+   <p>This is done with the <dfn>automatic variables</dfn> such as &lsquo;<samp><span class="samp">$^</span></samp>&rsquo;
+(see <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>). 
+For instance, the value of &lsquo;<samp><span class="samp">$^</span></samp>&rsquo; is a
+list of all the prerequisites of the rule, including the names of
+the directories in which they were found, and the value of
+&lsquo;<samp><span class="samp">$@</span></samp>&rsquo; is the target.  Thus:
+
+<pre class="example">     foo.o : foo.c
+             cc -c $(CFLAGS) $^ -o $@
+</pre>
+   <p class="noindent">(The variable <code>CFLAGS</code> exists so you can specify flags for C
+compilation by implicit rules; we use it here for consistency so it will
+affect all C compilations uniformly;
+see <a href="Implicit-Variables.html#Implicit-Variables">Variables Used by Implicit Rules</a>.)
+
+   <p>Often the prerequisites include header files as well, which you do not
+want to mention in the recipe.  The automatic variable &lsquo;<samp><span class="samp">$&lt;</span></samp>&rsquo; is
+just the first prerequisite:
+
+<pre class="example">     VPATH = src:../headers
+     foo.o : foo.c defs.h hack.h
+             cc -c $(CFLAGS) $&lt; -o $@
+</pre>
+   </body></html>
+

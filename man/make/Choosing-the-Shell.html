@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+<title>Choosing the Shell - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Execution.html#Execution" title="Execution">
+<link rel="prev" href="One-Shell.html#One-Shell" title="One Shell">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Choosing-the-Shell"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="One-Shell.html#One-Shell">One Shell</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Execution.html#Execution">Execution</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.3.2 Choosing the Shell</h4>
+
+<p><a name="index-shell_002c-choosing-the-325"></a><a name="index-g_t_0040code_007bSHELL_007d_002c-value-of-326"></a><a name="index-g_t_0040code_007b_002eSHELLFLAGS_007d_002c-value-of-327"></a>
+<a name="index-SHELL-328"></a><a name="index-g_t_002eSHELLFLAGS-329"></a>The program used as the shell is taken from the variable <code>SHELL</code>. 
+If this variable is not set in your makefile, the program
+<samp><span class="file">/bin/sh</span></samp> is used as the shell.  The argument(s) passed to the
+shell are taken from the variable <code>.SHELLFLAGS</code>.  The default
+value of <code>.SHELLFLAGS</code> is <code>-c</code> normally, or <code>-ec</code> in
+POSIX-conforming mode.
+
+   <p><a name="index-environment_002c-_0040code_007bSHELL_007d-in-330"></a>Unlike most variables, the variable <code>SHELL</code> is never set from the
+environment.  This is because the <code>SHELL</code> environment variable is
+used to specify your personal choice of shell program for interactive
+use.  It would be very bad for personal choices like this to affect the
+functioning of makefiles.  See <a href="Environment.html#Environment">Variables from the Environment</a>.
+
+   <p>Furthermore, when you do set <code>SHELL</code> in your makefile that value
+is <em>not</em> exported in the environment to recipe lines that
+<code>make</code> invokes.  Instead, the value inherited from the user's
+environment, if any, is exported.  You can override this behavior by
+explicitly exporting <code>SHELL</code> (see <a href="Variables_002fRecursion.html#Variables_002fRecursion">Communicating Variables to a Sub-<code>make</code></a>), forcing it to be
+passed in the environment to recipe lines.
+
+   <p><a name="index-g_t_0040code_007bMAKESHELL_007d-_0040r_007b_0028MS_002dDOS-alternative-to-_0040code_007bSHELL_007d_0029_007d-331"></a>However, on MS-DOS and MS-Windows the value of <code>SHELL</code> in the
+environment <strong>is</strong> used, since on those systems most users do not
+set this variable, and therefore it is most likely set specifically to
+be used by <code>make</code>.  On MS-DOS, if the setting of <code>SHELL</code> is
+not suitable for <code>make</code>, you can set the variable
+<code>MAKESHELL</code> to the shell that <code>make</code> should use; if set it
+will be used as the shell instead of the value of <code>SHELL</code>.
+
+<h5 class="subsubheading">Choosing a Shell in DOS and Windows</h5>
+
+<p><a name="index-shell_002c-in-DOS-and-Windows-332"></a><a name="index-DOS_002c-choosing-a-shell-in-333"></a><a name="index-Windows_002c-choosing-a-shell-in-334"></a>
+Choosing a shell in MS-DOS and MS-Windows is much more complex than on
+other systems.
+
+   <p><a name="index-COMSPEC-335"></a>On MS-DOS, if <code>SHELL</code> is not set, the value of the variable
+<code>COMSPEC</code> (which is always set) is used instead.
+
+   <p><a name="index-g_t_0040code_007bSHELL_007d_002c-MS_002dDOS-specifics-336"></a>The processing of lines that set the variable <code>SHELL</code> in Makefiles
+is different on MS-DOS.  The stock shell, <samp><span class="file">command.com</span></samp>, is
+ridiculously limited in its functionality and many users of <code>make</code>
+tend to install a replacement shell.  Therefore, on MS-DOS, <code>make</code>
+examines the value of <code>SHELL</code>, and changes its behavior based on
+whether it points to a Unix-style or DOS-style shell.  This allows
+reasonable functionality even if <code>SHELL</code> points to
+<samp><span class="file">command.com</span></samp>.
+
+   <p>If <code>SHELL</code> points to a Unix-style shell, <code>make</code> on MS-DOS
+additionally checks whether that shell can indeed be found; if not, it
+ignores the line that sets <code>SHELL</code>.  In MS-DOS, GNU <code>make</code>
+searches for the shell in the following places:
+
+     <ol type=1 start=1>
+<li>In the precise place pointed to by the value of <code>SHELL</code>.  For
+example, if the makefile specifies &lsquo;<samp><span class="samp">SHELL = /bin/sh</span></samp>&rsquo;, <code>make</code>
+will look in the directory <samp><span class="file">/bin</span></samp> on the current drive.
+
+     <li>In the current directory.
+
+     <li>In each of the directories in the <code>PATH</code> variable, in order.
+
+        </ol>
+
+   <p>In every directory it examines, <code>make</code> will first look for the
+specific file (<samp><span class="file">sh</span></samp> in the example above).  If this is not found,
+it will also look in that directory for that file with one of the known
+extensions which identify executable files.  For example <samp><span class="file">.exe</span></samp>,
+<samp><span class="file">.com</span></samp>, <samp><span class="file">.bat</span></samp>, <samp><span class="file">.btm</span></samp>, <samp><span class="file">.sh</span></samp>, and some others.
+
+   <p>If any of these attempts is successful, the value of <code>SHELL</code> will
+be set to the full pathname of the shell as found.  However, if none of
+these is found, the value of <code>SHELL</code> will not be changed, and thus
+the line that sets it will be effectively ignored.  This is so
+<code>make</code> will only support features specific to a Unix-style shell if
+such a shell is actually installed on the system where <code>make</code> runs.
+
+   <p>Note that this extended search for the shell is limited to the cases
+where <code>SHELL</code> is set from the Makefile; if it is set in the
+environment or command line, you are expected to set it to the full
+pathname of the shell, exactly as things are on Unix.
+
+   <p>The effect of the above DOS-specific processing is that a Makefile that
+contains &lsquo;<samp><span class="samp">SHELL = /bin/sh</span></samp>&rsquo; (as many Unix makefiles do), will work
+on MS-DOS unaltered if you have e.g. <samp><span class="file">sh.exe</span></samp> installed in some
+directory along your <code>PATH</code>.
+
+   <p><a name="index-SHELL-337"></a><a name="index-g_t_002eSHELLFLAGS-338"></a>
+
+   </body></html>
+

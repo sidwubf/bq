@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Execution - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Recipes.html#Recipes" title="Recipes">
+<link rel="prev" href="Echoing.html#Echoing" title="Echoing">
+<link rel="next" href="Parallel.html#Parallel" title="Parallel">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Execution"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Parallel.html#Parallel">Parallel</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Echoing.html#Echoing">Echoing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Recipes.html#Recipes">Recipes</a>
+<hr>
+</div>
+
+<h3 class="section">5.3 Recipe Execution</h3>
+
+<p><a name="index-recipe_002c-execution-316"></a><a name="index-execution_002c-of-recipes-317"></a><a name="index-g_t_0040code_007bSHELL_007d-_0040r_007b_0028recipe-execution_0029_007d-318"></a>
+When it is time to execute recipes to update a target, they are
+executed by invoking a new subshell for each line of the recipe,
+unless the <code>.ONESHELL</code> special target is in effect
+(see <a href="One-Shell.html#One-Shell">Using One Shell</a>)  (In practice, <code>make</code> may
+take shortcuts that do not affect the results.)
+
+   <p><a name="index-g_t_0040code_007bcd_007d-_0028shell-command_0029-319"></a><a name="index-shell-variables_002c-setting-in-recipes-320"></a><a name="index-recipes-setting-shell-variables-321"></a><strong>Please note:</strong> this implies that setting shell variables and
+invoking shell commands such as <code>cd</code> that set a context local to
+each process will not affect the following lines in the recipe.<a rel="footnote" href="#fn-1" name="fnd-1"><sup>1</sup></a>  If you want to use <code>cd</code> to affect the next statement,
+put both statements in a single recipe line.  Then <code>make</code> will
+invoke one shell to run the entire line, and the shell will execute
+the statements in sequence.  For example:
+
+<pre class="example">     foo : bar/lose
+             cd $(@D) &amp;&amp; gobble $(@F) &gt; ../$@
+</pre>
+   <p class="noindent">Here we use the shell AND operator (<code>&amp;&amp;</code>) so that if the
+<code>cd</code> command fails, the script will fail without trying to invoke
+the <code>gobble</code> command in the wrong directory, which could cause
+problems (in this case it would certainly cause <samp><span class="file">../foo</span></samp> to be
+truncated, at least).
+
+<ul class="menu">
+<li><a accesskey="1" href="One-Shell.html#One-Shell">One Shell</a>:                    One shell for all lines in a recipe
+<li><a accesskey="2" href="Choosing-the-Shell.html#Choosing-the-Shell">Choosing the Shell</a>:           How <code>make</code> chooses the shell used
+                                  to run recipes. 
+</ul>
+
+   <div class="footnote">
+<hr>
+<h4>Footnotes</h4><p class="footnote"><small>[<a name="fn-1" href="#fnd-1">1</a>]</small> On
+MS-DOS, the value of current working directory is <strong>global</strong>, so
+changing it <em>will</em> affect the following recipe lines on those
+systems.</p>
+
+   <hr></div>
+
+   </body></html>
+

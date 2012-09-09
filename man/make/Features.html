@@ -1,0 +1,258 @@
+<html lang="en">
+<head>
+<title>Features - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Archives.html#Archives" title="Archives">
+<link rel="next" href="Missing.html#Missing" title="Missing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Features"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Missing.html#Missing">Missing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Archives.html#Archives">Archives</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">12 Features of GNU <code>make</code></h2>
+
+<p><a name="index-features-of-GNU-_0040code_007bmake_007d-1018"></a><a name="index-portability-1019"></a><a name="index-compatibility-1020"></a>
+Here is a summary of the features of GNU <code>make</code>, for comparison
+with and credit to other versions of <code>make</code>.  We consider the
+features of <code>make</code> in 4.2 BSD systems as a baseline.  If you are
+concerned with writing portable makefiles, you should not use the
+features of <code>make</code> listed here, nor the ones in <a href="Missing.html#Missing">Missing</a>.
+
+   <p>Many features come from the version of <code>make</code> in System V.
+
+     <ul>
+<li>The <code>VPATH</code> variable and its special meaning. 
+See <a href="Directory-Search.html#Directory-Search">Searching Directories for Prerequisites</a>. 
+This feature exists in System V <code>make</code>, but is undocumented. 
+It is documented in 4.3 BSD <code>make</code> (which says it mimics System V's
+<code>VPATH</code> feature).
+
+     <li>Included makefiles.  See <a href="Include.html#Include">Including Other Makefiles</a>. 
+Allowing multiple files to be included with a single directive is a GNU
+extension.
+
+     <li>Variables are read from and communicated via the environment. 
+See <a href="Environment.html#Environment">Variables from the Environment</a>.
+
+     <li>Options passed through the variable <code>MAKEFLAGS</code> to recursive
+invocations of <code>make</code>. 
+See <a href="Options_002fRecursion.html#Options_002fRecursion">Communicating Options to a Sub-<code>make</code></a>.
+
+     <li>The automatic variable <code>$%</code> is set to the member name
+in an archive reference.  See <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>.
+
+     <li>The automatic variables <code>$@</code>, <code>$*</code>, <code>$&lt;</code>, <code>$%</code>,
+and <code>$?</code> have corresponding forms like <code>$(@F)</code> and
+<code>$(@D)</code>.  We have generalized this to <code>$^</code> as an obvious
+extension.  See <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>.
+
+     <li>Substitution variable references. 
+See <a href="Reference.html#Reference">Basics of Variable References</a>.
+
+     <li>The command line options &lsquo;<samp><span class="samp">-b</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-m</span></samp>&rsquo;, accepted and
+ignored.  In System V <code>make</code>, these options actually do something.
+
+     <li>Execution of recursive commands to run <code>make</code> via the variable
+<code>MAKE</code> even if &lsquo;<samp><span class="samp">-n</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; is specified. 
+See <a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>.
+
+     <li>Support for suffix &lsquo;<samp><span class="samp">.a</span></samp>&rsquo; in suffix rules.  See <a href="Archive-Suffix-Rules.html#Archive-Suffix-Rules">Archive Suffix Rules</a>.  This feature is obsolete in GNU <code>make</code>, because the
+general feature of rule chaining (see <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>) allows one pattern rule for installing members in an
+archive (see <a href="Archive-Update.html#Archive-Update">Archive Update</a>) to be sufficient.
+
+     <li>The arrangement of lines and backslash-newline combinations in
+recipes is retained when the recipes are printed, so they appear as
+they do in the makefile, except for the stripping of initial
+whitespace. 
+</ul>
+
+   <p>The following features were inspired by various other versions of
+<code>make</code>.  In some cases it is unclear exactly which versions inspired
+which others.
+
+     <ul>
+<li>Pattern rules using &lsquo;<samp><span class="samp">%</span></samp>&rsquo;. 
+This has been implemented in several versions of <code>make</code>. 
+We're not sure who invented it first, but it's been spread around a bit. 
+See <a href="Pattern-Rules.html#Pattern-Rules">Defining and Redefining Pattern Rules</a>.
+
+     <li>Rule chaining and implicit intermediate files. 
+This was implemented by Stu Feldman in his version of <code>make</code>
+for AT&amp;T Eighth Edition Research Unix, and later by Andrew Hume of
+AT&amp;T Bell Labs in his <code>mk</code> program (where he terms it
+&ldquo;transitive closure&rdquo;).  We do not really know if
+we got this from either of them or thought it up ourselves at the
+same time.  See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.
+
+     <li>The automatic variable <code>$^</code> containing a list of all prerequisites
+of the current target.  We did not invent this, but we have no idea who
+did.  See <a href="Automatic-Variables.html#Automatic-Variables">Automatic Variables</a>.  The automatic variable
+<code>$+</code> is a simple extension of <code>$^</code>.
+
+     <li>The &ldquo;what if&rdquo; flag (&lsquo;<samp><span class="samp">-W</span></samp>&rsquo; in GNU <code>make</code>) was (as far as we know)
+invented by Andrew Hume in <code>mk</code>. 
+See <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Executing Recipes</a>.
+
+     <li>The concept of doing several things at once (parallelism) exists in
+many incarnations of <code>make</code> and similar programs, though not in the
+System V or BSD implementations.  See <a href="Execution.html#Execution">Recipe Execution</a>.
+
+     <li>Modified variable references using pattern substitution come from
+SunOS 4.  See <a href="Reference.html#Reference">Basics of Variable References</a>. 
+This functionality was provided in GNU <code>make</code> by the
+<code>patsubst</code> function before the alternate syntax was implemented
+for compatibility with SunOS 4.  It is not altogether clear who
+inspired whom, since GNU <code>make</code> had <code>patsubst</code> before SunOS
+4 was released.
+
+     <li>The special significance of &lsquo;<samp><span class="samp">+</span></samp>&rsquo; characters preceding recipe lines
+(see <a href="Instead-of-Execution.html#Instead-of-Execution">Instead of Executing Recipes</a>) is
+mandated by <cite>IEEE Standard 1003.2-1992</cite> (POSIX.2).
+
+     <li>The &lsquo;<samp><span class="samp">+=</span></samp>&rsquo; syntax to append to the value of a variable comes from SunOS
+4 <code>make</code>.  See <a href="Appending.html#Appending">Appending More Text to Variables</a>.
+
+     <li>The syntax &lsquo;<samp><var>archive</var><span class="samp">(</span><var>mem1</var><span class="samp">&nbsp;</span><var>mem2</var><span class="samp">...)</span></samp>&rsquo;<!-- /@w --> to list
+multiple members in a single archive file comes from SunOS 4 <code>make</code>. 
+See <a href="Archive-Members.html#Archive-Members">Archive Members</a>.
+
+     <li>The <code>-include</code> directive to include makefiles with no error for a
+nonexistent file comes from SunOS 4 <code>make</code>.  (But note that SunOS 4
+<code>make</code> does not allow multiple makefiles to be specified in one
+<code>-include</code> directive.)  The same feature appears with the name
+<code>sinclude</code> in SGI <code>make</code> and perhaps others. 
+</ul>
+
+   <p>The remaining features are inventions new in GNU <code>make</code>:
+
+     <ul>
+<li>Use the &lsquo;<samp><span class="samp">-v</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--version</span></samp>&rsquo; option to print version and
+copyright information.
+
+     <li>Use the &lsquo;<samp><span class="samp">-h</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--help</span></samp>&rsquo; option to summarize the options to
+<code>make</code>.
+
+     <li>Simply-expanded variables.  See <a href="Flavors.html#Flavors">The Two Flavors of Variables</a>.
+
+     <li>Pass command line variable assignments automatically through the
+variable <code>MAKE</code> to recursive <code>make</code> invocations. 
+See <a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>.
+
+     <li>Use the &lsquo;<samp><span class="samp">-C</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--directory</span></samp>&rsquo; command option to change
+directory.  See <a href="Options-Summary.html#Options-Summary">Summary of Options</a>.
+
+     <li>Make verbatim variable definitions with <code>define</code>. 
+See <a href="Multi_002dLine.html#Multi_002dLine">Defining Multi-Line Variables</a>.
+
+     <li>Declare phony targets with the special target <code>.PHONY</code>.
+
+     <p>Andrew Hume of AT&amp;T Bell Labs implemented a similar feature with a
+different syntax in his <code>mk</code> program.  This seems to be a case of
+parallel discovery.  See <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a>.
+
+     <li>Manipulate text by calling functions. 
+See <a href="Functions.html#Functions">Functions for Transforming Text</a>.
+
+     <li>Use the &lsquo;<samp><span class="samp">-o</span></samp>&rsquo; or &lsquo;<samp><span class="samp">--old-file</span></samp>&rsquo;
+option to pretend a file's modification-time is old. 
+See <a href="Avoiding-Compilation.html#Avoiding-Compilation">Avoiding Recompilation of Some Files</a>.
+
+     <li>Conditional execution.
+
+     <p>This feature has been implemented numerous times in various versions
+of <code>make</code>; it seems a natural extension derived from the features
+of the C preprocessor and similar macro languages and is not a
+revolutionary concept.  See <a href="Conditionals.html#Conditionals">Conditional Parts of Makefiles</a>.
+
+     <li>Specify a search path for included makefiles. 
+See <a href="Include.html#Include">Including Other Makefiles</a>.
+
+     <li>Specify extra makefiles to read with an environment variable. 
+See <a href="MAKEFILES-Variable.html#MAKEFILES-Variable">The Variable <code>MAKEFILES</code></a>.
+
+     <li>Strip leading sequences of &lsquo;<samp><span class="samp">./</span></samp>&rsquo; from file names, so that
+<samp><span class="file">./</span><var>file</var></samp> and <samp><var>file</var></samp> are considered to be the
+same file.
+
+     <li>Use a special search method for library prerequisites written in the
+form &lsquo;<samp><span class="samp">-l</span><var>name</var></samp>&rsquo;. 
+See <a href="Libraries_002fSearch.html#Libraries_002fSearch">Directory Search for Link Libraries</a>.
+
+     <li>Allow suffixes for suffix rules
+(see <a href="Suffix-Rules.html#Suffix-Rules">Old-Fashioned Suffix Rules</a>) to contain any
+characters.  In other versions of <code>make</code>, they must begin with
+&lsquo;<samp><span class="samp">.</span></samp>&rsquo; and not contain any &lsquo;<samp><span class="samp">/</span></samp>&rsquo; characters.
+
+     <li>Keep track of the current level of <code>make</code> recursion using the
+variable <code>MAKELEVEL</code>.  See <a href="Recursion.html#Recursion">Recursive Use of <code>make</code></a>.
+
+     <li>Provide any goals given on the command line in the variable
+<code>MAKECMDGOALS</code>.  See <a href="Goals.html#Goals">Arguments to Specify the Goals</a>.
+
+     <li>Specify static pattern rules.  See <a href="Static-Pattern.html#Static-Pattern">Static Pattern Rules</a>.
+
+     <li>Provide selective <code>vpath</code> search. 
+See <a href="Directory-Search.html#Directory-Search">Searching Directories for Prerequisites</a>.
+
+     <li>Provide computed variable references. 
+See <a href="Reference.html#Reference">Basics of Variable References</a>.
+
+     <li>Update makefiles.  See <a href="Remaking-Makefiles.html#Remaking-Makefiles">How Makefiles Are Remade</a>. 
+System V <code>make</code> has a very, very limited form of this
+functionality in that it will check out SCCS files for makefiles.
+
+     <li>Various new built-in implicit rules. 
+See <a href="Catalogue-of-Rules.html#Catalogue-of-Rules">Catalogue of Implicit Rules</a>.
+
+     <li>The built-in variable &lsquo;<samp><span class="samp">MAKE_VERSION</span></samp>&rsquo; gives the version number of
+<code>make</code>. 
+<a name="index-MAKE_005fVERSION-1021"></a></ul>
+
+   </body></html>
+

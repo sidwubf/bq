@@ -1,0 +1,222 @@
+<html lang="en">
+<head>
+<title>Special Targets - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Rules.html#Rules" title="Rules">
+<link rel="prev" href="Empty-Targets.html#Empty-Targets" title="Empty Targets">
+<link rel="next" href="Multiple-Targets.html#Multiple-Targets" title="Multiple Targets">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Special-Targets"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Multiple-Targets.html#Multiple-Targets">Multiple Targets</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Empty-Targets.html#Empty-Targets">Empty Targets</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Rules.html#Rules">Rules</a>
+<hr>
+</div>
+
+<h3 class="section">4.9 Special Built-in Target Names</h3>
+
+<p><a name="index-special-targets-217"></a><a name="index-built_002din-special-targets-218"></a><a name="index-targets_002c-built_002din-special-219"></a>
+Certain names have special meanings if they appear as targets.
+
+     
+<a name="index-g_t_002ePHONY-220"></a>
+<dl><dt><code>.PHONY</code><dd>
+The prerequisites of the special target <code>.PHONY</code> are considered to
+be phony targets.  When it is time to consider such a target,
+<code>make</code> will run its recipe unconditionally, regardless of
+whether a file with that name exists or what its last-modification
+time is.  See <a href="Phony-Targets.html#Phony-Targets">Phony Targets</a>.
+
+     <p><a name="index-g_t_002eSUFFIXES-221"></a><br><dt><code>.SUFFIXES</code><dd>
+The prerequisites of the special target <code>.SUFFIXES</code> are the list
+of suffixes to be used in checking for suffix rules. 
+See <a href="Suffix-Rules.html#Suffix-Rules">Old-Fashioned Suffix Rules</a>.
+
+     <p><a name="index-g_t_002eDEFAULT-222"></a><br><dt><code>.DEFAULT</code><dd>
+The recipe specified for <code>.DEFAULT</code> is used for any target for
+which no rules are found (either explicit rules or implicit rules). 
+See <a href="Last-Resort.html#Last-Resort">Last Resort</a>.  If a <code>.DEFAULT</code> recipe is specified, every
+file mentioned as a prerequisite, but not as a target in a rule, will have
+that recipe executed on its behalf.  See <a href="Implicit-Rule-Search.html#Implicit-Rule-Search">Implicit Rule Search Algorithm</a>.
+
+     <p><a name="index-g_t_002ePRECIOUS-223"></a><br><dt><code>.PRECIOUS</code><dd><a name="index-precious-targets-224"></a><a name="index-preserving-with-_0040code_007b_002ePRECIOUS_007d-225"></a>
+The targets which <code>.PRECIOUS</code> depends on are given the following
+special treatment: if <code>make</code> is killed or interrupted during the
+execution of their recipes, the target is not deleted. 
+See <a href="Interrupts.html#Interrupts">Interrupting or Killing <code>make</code></a>.  Also, if the
+target is an intermediate file, it will not be deleted after it is no
+longer needed, as is normally done.  See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.  In this latter respect it overlaps with the
+<code>.SECONDARY</code> special target.
+
+     <p>You can also list the target pattern of an implicit rule (such as
+&lsquo;<samp><span class="samp">%.o</span></samp>&rsquo;) as a prerequisite file of the special target <code>.PRECIOUS</code>
+to preserve intermediate files created by rules whose target patterns
+match that file's name.
+
+     <p><a name="index-g_t_002eINTERMEDIATE-226"></a><br><dt><code>.INTERMEDIATE</code><dd><a name="index-intermediate-targets_002c-explicit-227"></a>
+The targets which <code>.INTERMEDIATE</code> depends on are treated as
+intermediate files.  See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>. 
+<code>.INTERMEDIATE</code> with no prerequisites has no effect.
+
+     <p><a name="index-g_t_002eSECONDARY-228"></a><br><dt><code>.SECONDARY</code><dd><a name="index-secondary-targets-229"></a><a name="index-preserving-with-_0040code_007b_002eSECONDARY_007d-230"></a>
+The targets which <code>.SECONDARY</code> depends on are treated as
+intermediate files, except that they are never automatically deleted. 
+See <a href="Chained-Rules.html#Chained-Rules">Chains of Implicit Rules</a>.
+
+     <p><code>.SECONDARY</code> with no prerequisites causes all targets to be treated
+as secondary (i.e., no target is removed because it is considered
+intermediate).
+
+     <p><a name="index-g_t_002eSECONDEXPANSION-231"></a><br><dt><code>.SECONDEXPANSION</code><dd>
+If <code>.SECONDEXPANSION</code> is mentioned as a target anywhere in the
+makefile, then all prerequisite lists defined <em>after</em> it appears
+will be expanded a second time after all makefiles have been read in. 
+See <a href="Secondary-Expansion.html#Secondary-Expansion">Secondary Expansion</a>.
+
+     <p><a name="index-g_t_002eDELETE_005fON_005fERROR-232"></a><br><dt><code>.DELETE_ON_ERROR</code><dd><a name="index-removing-targets-on-failure-233"></a>
+If <code>.DELETE_ON_ERROR</code> is mentioned as a target anywhere in the
+makefile, then <code>make</code> will delete the target of a rule if it has
+changed and its recipe exits with a nonzero exit status, just as it
+does when it receives a signal.  See <a href="Errors.html#Errors">Errors in Recipes</a>.
+
+     <p><a name="index-g_t_002eIGNORE-234"></a><br><dt><code>.IGNORE</code><dd>
+If you specify prerequisites for <code>.IGNORE</code>, then <code>make</code> will
+ignore errors in execution of the recipe for those particular files. 
+The recipe for <code>.IGNORE</code> (if any) is ignored.
+
+     <p>If mentioned as a target with no prerequisites, <code>.IGNORE</code> says to
+ignore errors in execution of recipes for all files.  This usage of
+&lsquo;<samp><span class="samp">.IGNORE</span></samp>&rsquo; is supported only for historical compatibility.  Since
+this affects every recipe in the makefile, it is not very useful; we
+recommend you use the more selective ways to ignore errors in specific
+recipes.  See <a href="Errors.html#Errors">Errors in Recipes</a>.
+
+     <p><a name="index-g_t_002eLOW_005fRESOLUTION_005fTIME-235"></a><br><dt><code>.LOW_RESOLUTION_TIME</code><dd>
+If you specify prerequisites for <code>.LOW_RESOLUTION_TIME</code>,
+<samp><span class="command">make</span></samp> assumes that these files are created by commands that
+generate low resolution time stamps.  The recipe for the
+<code>.LOW_RESOLUTION_TIME</code> target are ignored.
+
+     <p>The high resolution file time stamps of many modern file systems
+lessen the chance of <samp><span class="command">make</span></samp> incorrectly concluding that a file
+is up to date.  Unfortunately, some hosts do not provide a way to set a
+high resolution file time stamp, so commands like &lsquo;<samp><span class="samp">cp -p</span></samp>&rsquo; that
+explicitly set a file's time stamp must discard its subsecond part. 
+If a file is created by such a command, you should list it as a
+prerequisite of <code>.LOW_RESOLUTION_TIME</code> so that <samp><span class="command">make</span></samp>
+does not mistakenly conclude that the file is out of date.  For
+example:
+
+     <pre class="example">          .LOW_RESOLUTION_TIME: dst
+          dst: src
+                  cp -p src dst
+</pre>
+     <p>Since &lsquo;<samp><span class="samp">cp -p</span></samp>&rsquo; discards the subsecond part of <samp><span class="file">src</span></samp>'s time
+stamp, <samp><span class="file">dst</span></samp> is typically slightly older than <samp><span class="file">src</span></samp> even when
+it is up to date.  The <code>.LOW_RESOLUTION_TIME</code> line causes
+<samp><span class="command">make</span></samp> to consider <samp><span class="file">dst</span></samp> to be up to date if its time stamp
+is at the start of the same second that <samp><span class="file">src</span></samp>'s time stamp is in.
+
+     <p>Due to a limitation of the archive format, archive member time stamps
+are always low resolution.  You need not list archive members as
+prerequisites of <code>.LOW_RESOLUTION_TIME</code>, as <samp><span class="command">make</span></samp> does this
+automatically.
+
+     <p><a name="index-g_t_002eSILENT-236"></a><br><dt><code>.SILENT</code><dd>
+If you specify prerequisites for <code>.SILENT</code>, then <code>make</code> will
+not print the recipe used to remake those particular files before
+executing them.  The recipe for <code>.SILENT</code> is ignored.
+
+     <p>If mentioned as a target with no prerequisites, <code>.SILENT</code> says not
+to print any recipes before executing them.  This usage of
+&lsquo;<samp><span class="samp">.SILENT</span></samp>&rsquo; is supported only for historical compatibility.  We
+recommend you use the more selective ways to silence specific recipes. 
+See <a href="Echoing.html#Echoing">Recipe Echoing</a>.  If you want to silence all recipes
+for a particular run of <code>make</code>, use the &lsquo;<samp><span class="samp">-s</span></samp>&rsquo; or
+&lsquo;<samp><span class="samp">--silent</span></samp>&rsquo;<!-- /@w --> option (see <a href="Options-Summary.html#Options-Summary">Options Summary</a>).
+
+     <p><a name="index-g_t_002eEXPORT_005fALL_005fVARIABLES-237"></a><br><dt><code>.EXPORT_ALL_VARIABLES</code><dd>
+Simply by being mentioned as a target, this tells <code>make</code> to
+export all variables to child processes by default. 
+See <a href="Variables_002fRecursion.html#Variables_002fRecursion">Communicating Variables to a Sub-<code>make</code></a>.
+
+     <p><a name="index-g_t_002eNOTPARALLEL-238"></a><br><dt><code>.NOTPARALLEL</code><dd><a name="index-parallel-execution_002c-overriding-239"></a>
+If <code>.NOTPARALLEL</code> is mentioned as a target, then this invocation
+of <code>make</code> will be run serially, even if the &lsquo;<samp><span class="samp">-j</span></samp>&rsquo; option is
+given.  Any recursively invoked <code>make</code> command will still run
+recipes in parallel (unless its makefile also contains this target). 
+Any prerequisites on this target are ignored.
+
+     <p><a name="index-g_t_002eONESHELL-240"></a><br><dt><code>.ONESHELL</code><dd><a name="index-recipe-execution_002c-single-invocation-241"></a>
+If <code>.ONESHELL</code> is mentioned as a target, then when a target is
+built all lines of the recipe will be given to a single invocation of
+the shell rather than each line being invoked separately
+(see <a href="Execution.html#Execution">Recipe Execution</a>).
+
+     <p><a name="index-g_t_002ePOSIX-242"></a><br><dt><code>.POSIX</code><dd><a name="index-POSIX_002dconforming-mode_002c-setting-243"></a>
+If <code>.POSIX</code> is mentioned as a target, then the makefile will be
+parsed and run in POSIX-conforming mode.  This does <em>not</em> mean
+that only POSIX-conforming makefiles will be accepted: all advanced
+GNU <code>make</code> features are still available.  Rather, this target
+causes <code>make</code> to behave as required by POSIX in those areas
+where <code>make</code>'s default behavior differs.
+
+     <p>In particular, if this target is mentioned then recipes will be
+invoked as if the shell had been passed the <code>-e</code> flag: the first
+failing command in a recipe will cause the recipe to fail immediately. 
+</dl>
+
+   <p>Any defined implicit rule suffix also counts as a special target if it
+appears as a target, and so does the concatenation of two suffixes, such
+as &lsquo;<samp><span class="samp">.c.o</span></samp>&rsquo;.  These targets are suffix rules, an obsolete way of
+defining implicit rules (but a way still widely used).  In principle, any
+target name could be special in this way if you break it in two and add
+both pieces to the suffix list.  In practice, suffixes normally begin with
+&lsquo;<samp><span class="samp">.</span></samp>&rsquo;, so these special target names also begin with &lsquo;<samp><span class="samp">.</span></samp>&rsquo;. 
+See <a href="Suffix-Rules.html#Suffix-Rules">Old-Fashioned Suffix Rules</a>.
+
+   </body></html>
+

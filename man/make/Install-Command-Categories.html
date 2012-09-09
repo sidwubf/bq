@@ -1,0 +1,158 @@
+<html lang="en">
+<head>
+<title>Install Command Categories - GNU `make'</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU `make'">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Makefile-Conventions.html#Makefile-Conventions" title="Makefile Conventions">
+<link rel="prev" href="Standard-Targets.html#Standard-Targets" title="Standard Targets">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents the GNU `make' utility, which determines
+automatically which pieces of a large program need to be recompiled,
+and issues the commands to recompile them.
+
+This is Edition 0.71, last updated 19 July 2010,
+of `The GNU Make Manual', for GNU `make' version 3.82.
+
+Copyright (C) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007,
+2008, 2009, 2010 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover Texts
+     being ``A GNU Manual,'' and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     ``GNU Free Documentation License.''
+
+     (a) The FSF's Back-Cover Text is: ``You have the freedom to copy
+     and modify this GNU manual.  Buying copies from the FSF supports
+     it in developing GNU and promoting software freedom.''
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Install-Command-Categories"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Standard-Targets.html#Standard-Targets">Standard Targets</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>
+<hr>
+</div>
+
+<h3 class="section">14.7 Install Command Categories</h3>
+
+<p><a name="index-pre_002dinstallation-commands-1039"></a><a name="index-post_002dinstallation-commands-1040"></a>When writing the <code>install</code> target, you must classify all the
+commands into three categories: normal ones, <dfn>pre-installation</dfn>
+commands and <dfn>post-installation</dfn> commands.
+
+   <p>Normal commands move files into their proper places, and set their
+modes.  They may not alter any files except the ones that come entirely
+from the package they belong to.
+
+   <p>Pre-installation and post-installation commands may alter other files;
+in particular, they can edit global configuration files or data bases.
+
+   <p>Pre-installation commands are typically executed before the normal
+commands, and post-installation commands are typically run after the
+normal commands.
+
+   <p>The most common use for a post-installation command is to run
+<code>install-info</code>.  This cannot be done with a normal command, since
+it alters a file (the Info directory) which does not come entirely and
+solely from the package being installed.  It is a post-installation
+command because it needs to be done after the normal command which
+installs the package's Info files.
+
+   <p>Most programs don't need any pre-installation commands, but we have the
+feature just in case it is needed.
+
+   <p>To classify the commands in the <code>install</code> rule into these three
+categories, insert <dfn>category lines</dfn> among them.  A category line
+specifies the category for the commands that follow.
+
+   <p>A category line consists of a tab and a reference to a special Make
+variable, plus an optional comment at the end.  There are three
+variables you can use, one for each category; the variable name
+specifies the category.  Category lines are no-ops in ordinary execution
+because these three Make variables are normally undefined (and you
+<em>should not</em> define them in the makefile).
+
+   <p>Here are the three possible category lines, each with a comment that
+explains what it means:
+
+<pre class="smallexample">             $(PRE_INSTALL)     # <span class="roman">Pre-install commands follow.</span>
+             $(POST_INSTALL)    # <span class="roman">Post-install commands follow.</span>
+             $(NORMAL_INSTALL)  # <span class="roman">Normal commands follow.</span>
+</pre>
+   <p>If you don't use a category line at the beginning of the <code>install</code>
+rule, all the commands are classified as normal until the first category
+line.  If you don't use any category lines, all the commands are
+classified as normal.
+
+   <p>These are the category lines for <code>uninstall</code>:
+
+<pre class="smallexample">             $(PRE_UNINSTALL)     # <span class="roman">Pre-uninstall commands follow.</span>
+             $(POST_UNINSTALL)    # <span class="roman">Post-uninstall commands follow.</span>
+             $(NORMAL_UNINSTALL)  # <span class="roman">Normal commands follow.</span>
+</pre>
+   <p>Typically, a pre-uninstall command would be used for deleting entries
+from the Info directory.
+
+   <p>If the <code>install</code> or <code>uninstall</code> target has any dependencies
+which act as subroutines of installation, then you should start
+<em>each</em> dependency's commands with a category line, and start the
+main target's commands with a category line also.  This way, you can
+ensure that each command is placed in the right category regardless of
+which of the dependencies actually run.
+
+   <p>Pre-installation and post-installation commands should not run any
+programs except for these:
+
+<pre class="example">     [ basename bash cat chgrp chmod chown cmp cp dd diff echo
+     egrep expand expr false fgrep find getopt grep gunzip gzip
+     hostname install install-info kill ldconfig ln ls md5sum
+     mkdir mkfifo mknod mv printenv pwd rm rmdir sed sort tee
+     test touch true uname xargs yes
+</pre>
+   <p><a name="index-binary-packages-1041"></a>The reason for distinguishing the commands in this way is for the sake
+of making binary packages.  Typically a binary package contains all the
+executables and other files that need to be installed, and has its own
+method of installing them&mdash;so it does not need to run the normal
+installation commands.  But installing the binary package does need to
+execute the pre-installation and post-installation commands.
+
+   <p>Programs to build binary packages work by extracting the
+pre-installation and post-installation commands.  Here is one way of
+extracting the pre-installation commands (the <samp><span class="option">-s</span></samp> option to
+<samp><span class="command">make</span></samp> is needed to silence messages about entering
+subdirectories):
+
+<pre class="smallexample">     make -s -n install -o all \
+           PRE_INSTALL=pre-install \
+           POST_INSTALL=post-install \
+           NORMAL_INSTALL=normal-install \
+       | gawk -f pre-install.awk
+</pre>
+   <p class="noindent">where the file <samp><span class="file">pre-install.awk</span></samp> could contain this:
+
+<pre class="smallexample">     $0 ~ /^(normal-install|post-install)[ \t]*$/ {on = 0}
+     on {print $0}
+     $0 ~ /^pre-install[ \t]*$/ {on = 1}
+</pre>
+   </body></html>
+
